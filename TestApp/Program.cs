@@ -22,4 +22,6 @@ foreach (var leverancier in c.Leveranciers)
 }
 
 
+
 Console.WriteLine("Dit is Merijn");
+Console.WriteLine("Dit is Laurens");
