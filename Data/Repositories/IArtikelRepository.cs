@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Data.Repositories
+namespace Data.Repositories;
+
+public interface IArtikelRepository
 {
-    internal interface IArtikelRepository
-    {
-        Task<IEnumerable<Artikel>> GetArtikels();
+    Task<IEnumerable<Artikel>> GetArtikelsAsync();
 
-        Task<Artikel?> GetArtikelById(int  id);
+    Task<Artikel?> GetArtikelByIdAsync(int  id);
 
-        Task<Artikel> AddArtikel(Artikel artikel);
+    Task<Artikel> AddArtikelAsync(Artikel artikel);
 
-        Task<Artikel> UpdateArtikel(Artikel artikel);
-    }
+    Task<Artikel> UpdateArtikelAsync(Artikel artikel);
 }
