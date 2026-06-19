@@ -10,5 +10,9 @@ namespace Data.Repositories
         Task<IEnumerable<Artikel>> GetArtikels();
 
         Task<Artikel?> GetArtikelById(int  id);
+
+        Task<Artikel> AddArtikel(Artikel artikel);
+
+        Task<Artikel> UpdateArtikel(Artikel artikel);
     }
 }
