@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Data.Repositories;
 
-public class SQLArtikelRepository : IArtikelRepository
+public class ArtikelRepository : IArtikelRepository
 {
     private readonly PrulariacomContext _context;
 
-    public SQLArtikelRepository(PrulariacomContext context)
+    public ArtikelRepository(PrulariacomContext context)
     {
         _context = context;
     }
