@@ -7,10 +7,10 @@ namespace Data.Repositories
 {
     public interface ILeverancierRepository
     {
-        Task<Leverancier?> GetLeverancierById(int id);
+        Task<Leverancier?> GetLeverancierByIdAsync(int id);
 
-        Task<IEnumerable<Leverancier>> GetLeveranciers();
-        Task AddLeverancier(Leverancier leverancier);
-        Task UpdateLeverancier(Leverancier leverancier);
+        Task<IEnumerable<Leverancier>> GetLeveranciersAsync();
+        Task AddLeverancierAsync(Leverancier leverancier);
+        Task UpdateLeverancierAsync(Leverancier leverancier);
     }
 }
