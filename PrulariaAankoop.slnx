@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Data/Data.csproj" />
+  <Project Path="TestApp/TestApp.csproj" Id="4d3b4296-b779-47fa-b855-8d7ca2a3881e" />
+  <Project Path="Web/Web.csproj" Id="396e3351-6fb3-4ad3-a278-87f20890a3ce" />
+</Solution>
