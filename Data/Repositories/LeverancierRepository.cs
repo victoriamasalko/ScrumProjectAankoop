@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
@@ -26,7 +27,9 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<Leverancier>> GetLeveranciersAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Leveranciers
+                .Include(l => l.Artikels)
+                .ToListAsync();
         }
 
         public async Task<Leverancier> UpdateLeverancierAsync(Leverancier leverancier)
