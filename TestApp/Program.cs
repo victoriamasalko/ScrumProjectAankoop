@@ -20,3 +20,8 @@ foreach (var leverancier in c.Leveranciers)
 {
     Console.WriteLine($"LeveranciersId: {leverancier.LeveranciersId}, Naam: {leverancier.Naam}, BtwNummer: {leverancier.BtwNummer}, Straat: {leverancier.Straat}, HuisNummer: {leverancier.HuisNummer}, Bus: {leverancier.Bus}, PlaatsId: {leverancier.PlaatsId}, FamilienaamContactpersoon: {leverancier.FamilienaamContactpersoon}, VoornaamContactpersoon: {leverancier.VoornaamContactpersoon}");
 }
+
+
+
+Console.WriteLine("Dit is Merijn");
+Console.WriteLine("Dit is Laurens");

@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  color: #222222 !important;
 }
 
 @media (min-width: 768px) {
@@ -28,4 +29,22 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.navbar{
+  background-color: #ABD7A8 !important;
+}
+
+.navbar a{
+  font-size: 15px;
+}
+
+.logo{
+  height: 40px;
+}
+
+.vr{
+  height: 20px;
+  background-color: #222222;
+  margin-top: 9px;
 }
