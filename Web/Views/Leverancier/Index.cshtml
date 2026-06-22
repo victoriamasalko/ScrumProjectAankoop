@@ -7,6 +7,7 @@
 	<thead>
 		<tr>
 			<th>Leverancier</th>
+			<th>Btw-nummer</th>
 			<th>Contactpersoon</th>
 			<th>Artikelen</th>
 			<th></th>
@@ -17,15 +18,22 @@
 		{
 			<tr>
 				<td>@leverancier.Naam</td>
+				<td>@leverancier.BtwNummer</td>
 				<td>@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
 				<td>
-					@foreach(var artikel in leverancier.Artikels)
+					@if(leverancier.Artikels != null && leverancier.Artikels.Any())
 					{
-						<span>@artikel.Naam</span>
+						@foreach (var artikelNaam in leverancier.Artikels.Select(a=>a.Naam).Distinct())
+							{
+								<span>@artikelNaam</span>
+							}
 					}
+					
 				</td>
-				<td><a asp-action="Details">Details</a></td>
+				<td><a asp-action="Details" asp-route-id="@leverancier.LeveranciersId">Details</a></td>
 			</tr>
 		}
 	</tbody>
 </table>
+
+
