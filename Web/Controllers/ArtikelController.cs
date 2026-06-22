@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Models;
+using Microsoft.AspNetCore.Mvc;
 using Service;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -12,9 +14,20 @@ namespace Web.Controllers
             this.artikelService = artikelService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var artikelen = await artikelService.GetArtikelsAsync();
+            return View(artikelen.Select(artikel => new ArtikelOverviewViewModel()
+            {
+                ArtikelId = artikel.ArtikelId,
+                Ean = artikel.Ean,
+                AantalBesteldLeverancier = artikel.AantalBesteldLeverancier,
+                Naam = artikel.Naam,
+                Voorraad = artikel.Voorraad,
+                Prijs = artikel.Prijs,
+                Leverancier = artikel.Leveranciers.Naam,
+                Categories = artikel.Categories.Select(c => c.Naam).ToList()
+            }));
         }
     }
 }
