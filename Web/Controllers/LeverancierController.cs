@@ -16,7 +16,7 @@ namespace Web.Controllers
         //Deze wordt in de Leveranciers property van het ViewModel gestoken.
         public async Task<IActionResult> Index()
         {
-            var leveranciers = await leverancierService.GetLeveranciers();
+            var leveranciers = await leverancierService.GetLeveranciersAsync();
 
             var viewModel = new LeverancierOverviewViewModel
             {
