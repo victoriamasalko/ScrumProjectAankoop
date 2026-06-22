@@ -6,8 +6,6 @@ namespace Web.Models.ViewModels
     { 
         //Navigatie naar Leverancier voor de properties Naam, VoornaamContactpersoon en FamilienaamContactpersoon.
         public IEnumerable<Leverancier> Leveranciers { get; set; }
-        //Navigatie naar Artikel voor de artikelnaam.
-        public IEnumerable<Artikel> Artikelen { get; set; }
         public string FilterOpArtikel { get; set; }
     }
 }

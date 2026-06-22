@@ -11,22 +11,20 @@ namespace Web.Controllers
         {
             this.leverancierService = leverancierService;
         }
-        //Overzicht van de leveranciers tonen
+        //Overzicht van leveranciers tonen.
+        //Je neem de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
+        //Deze worden in de Leveranciers property van het ViewModel gestoken.
         public async Task<IActionResult> Index()
         {
-            LeverancierOverviewViewModel viewModel = await GetLeveranciers();
-            return View(viewModel);
-        }
-        //Methode GetLeveranciers met lijst van Leveranciers
-        public async Task <LeverancierOverviewViewModel> GetLeveranciers()
-        {
-            IEnumerable<Leverancier> leveranciers = await leverancierService.GetLeveranciers();
+            var leveranciers = await leverancierService.GetLeveranciers();
 
-            return new LeverancierOverviewViewModel
+            var viewModel = new LeverancierOverviewViewModel
             {
                 Leveranciers = leveranciers
             };
-        }
 
+            return View(viewModel);
+
+        }
     }
 }
