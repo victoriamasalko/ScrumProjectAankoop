@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Web.Models.ViewModels.LeverancierOverviewViewModel
 @{
+	ViewData["Title"] = "Leveranciers";
 }
+<h2>Lijst van Leveranciers</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Naam</th>
+			<th>Voornaam Contactpersoon</th>
+			<th>Familienaam Contactpersoon</th>
+			<th>Artikelen</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var leverancier in Model.Leveranciers)
+		{
+			<tr>
+				<td>@leverancier.Naam</td>
+				<td>@leverancier.VoornaamContactpersoon</td>
+				<td>@leverancier.FamilienaamContactpersoon</td>
+				<td>
+					@foreach(var artikel in leverancier.Artikels)
+					{
+						<span>@artikel.Naam</span>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
