@@ -7,5 +7,5 @@ namespace Data.Repositories;
 
 public interface ICategorieRepository
 {
-    Task<IEnumerable<Categorie>> GetCategorieen(); 
+    Task<IEnumerable<Categorie>> GetCategorieenAsync(); 
 }

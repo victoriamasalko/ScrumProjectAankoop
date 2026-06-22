@@ -1,11 +1,16 @@
 using Data.Models;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IArtikelRepository, ArtikelRepository>();
 builder.Services.AddTransient<ILeverancierRepository, LeverancierRepository>();
+builder.Services.AddTransient<ICategorieRepository, CategorieRepository>();
+builder.Services.AddTransient<CategorieService>();
+builder.Services.AddTransient<ArtikelService>();
+builder.Services.AddTransient<LeverancierService>();
 builder.Services.AddDbContext<PrulariacomContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("PrulariaComConnection"),
