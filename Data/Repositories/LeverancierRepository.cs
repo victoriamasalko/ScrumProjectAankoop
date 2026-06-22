@@ -14,14 +14,14 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public async Task AddLeverancierAsync(Leverancier leverancier)
+        public async Task<Leverancier> AddLeverancierAsync(Leverancier leverancier)
         {
-            _context.Leveranciers.Add(leverancier);
+            throw new NotImplementedException();
         }
 
         public async Task<Leverancier?> GetLeverancierByIdAsync(int id)
         {
-            return _context.Leveranciers.Find(id);
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Leverancier>> GetLeveranciersAsync()
@@ -29,9 +29,9 @@ namespace Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task UpdateLeverancierAsync(Leverancier leverancier)
+        public async Task<Leverancier> UpdateLeverancierAsync(Leverancier leverancier)
         {
-            _context.Leveranciers.Update(leverancier);
+            throw new NotImplementedException();
         }
     }
 }

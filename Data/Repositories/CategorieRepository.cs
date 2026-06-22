@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Data.Repositories;
 
-public class SQLCategorieRepository : ICategorieRepository
+public class CategorieRepository : ICategorieRepository
 {
     private readonly PrulariacomContext context;
 
-    public SQLCategorieRepository(PrulariacomContext context)
+    public CategorieRepository(PrulariacomContext context)
     {
         this.context = context;
     }
 
-    public Task<IEnumerable<Categorie>> GetCategorieen()
+    public Task<IEnumerable<Categorie>> GetCategorieenAsync()
     {
         throw new NotImplementedException();
     }
