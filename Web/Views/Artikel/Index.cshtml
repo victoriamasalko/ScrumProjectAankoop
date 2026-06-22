@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ArtikelOverviewViewModel>
+@{
+    ViewData["Title"] = "Overzicht artikelen";
+}
+
+<h1>Artikelen op de plant</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>EAN</th>
+            <th>Leverancier</th>
+            <th>Voorraad</th>
+            <th>Aantal in bestelling</th>
+            <th>Prijs</th>
+            <th>Voorraad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artikel in Model)
+        {
+            <tr>
+                <td>@artikel.Naam</td>
+                <td>@artikel.Ean</td>
+                <td>@artikel.Leverancier</td>
+                <td>@artikel.Voorraad</td>
+                <td>@artikel.AantalBesteldLeverancier</td>
+                <td>@artikel.Prijs</td>
+                <td>@artikel.Voorraad</td>
+            </tr>
+        }
+    </tbody>
+</table>
