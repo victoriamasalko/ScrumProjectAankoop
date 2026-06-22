@@ -5,30 +5,45 @@
 
 <h1>Artikelen op de plant</h1>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>Naam</th>
-            <th>EAN</th>
-            <th>Leverancier</th>
-            <th>Voorraad</th>
-            <th>Aantal in bestelling</th>
-            <th>Prijs</th>
-            <th>Voorraad</th>
+            <th class="p-2">Naam</th>
+            <th class="p-2">Categorieen</th>
+            <th class="p-2">EAN</th>
+            <th class="p-2">Leverancier</th>
+            <th class="p-2">Aantal in bestelling</th>
+            <th class ="p-2">Prijs</th>
+            <th class="p-2">Voorraad</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var artikel in Model)
         {
             <tr>
-                <td>@artikel.Naam</td>
-                <td>@artikel.Ean</td>
-                <td>@artikel.Leverancier</td>
-                <td>@artikel.Voorraad</td>
-                <td>@artikel.AantalBesteldLeverancier</td>
-                <td>@artikel.Prijs</td>
-                <td>@artikel.Voorraad</td>
+                <td class="p-2">@artikel.Naam</td>
+                <td class="p-2">
+                    @foreach (var categorie in artikel.Categories)
+                    {
+                        <span>@categorie - </span>                        
+                    }
+                </td>
+                <td class="p-2">@artikel.Ean</td>
+                <td class="p-2">@artikel.Leverancier</td>
+                <td class="p-2">@artikel.AantalBesteldLeverancier</td>
+                <td class="p-2">@artikel.Prijs</td>
+                <td class="p-2">@artikel.Voorraad</td>
+                <td class="p-2">
+                    <a asp-action="Detail" asp-route-id="@artikel.ArtikelId" class="btn">Details</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@* Toon een melding of zoiets wanneer er nog geen artikelen zijn. *@
+@if (Model.Count() == 0)
+{
+    <div>Er zijn nog geen artikelen.</div>
+}
