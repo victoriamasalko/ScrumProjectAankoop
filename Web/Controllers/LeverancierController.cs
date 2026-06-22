@@ -12,8 +12,8 @@ namespace Web.Controllers
             this.leverancierService = leverancierService;
         }
         //Overzicht van leveranciers tonen.
-        //Je neem de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
-        //Deze worden in de Leveranciers property van het ViewModel gestoken.
+        //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
+        //Deze wordt in de Leveranciers property van het ViewModel gestoken.
         public async Task<IActionResult> Index()
         {
             var leveranciers = await leverancierService.GetLeveranciers();
