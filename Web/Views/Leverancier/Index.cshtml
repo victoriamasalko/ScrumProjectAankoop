@@ -2,14 +2,14 @@
 @{
 	ViewData["Title"] = "Leveranciers";
 }
-<h2>Lijst van Leveranciers</h2>
+<h2>Adresboek van Leveranciers</h2>
 <table>
 	<thead>
 		<tr>
-			<th>Naam</th>
-			<th>Voornaam Contactpersoon</th>
-			<th>Familienaam Contactpersoon</th>
+			<th>Leverancier</th>
+			<th>Contactpersoon</th>
 			<th>Artikelen</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,14 +17,14 @@
 		{
 			<tr>
 				<td>@leverancier.Naam</td>
-				<td>@leverancier.VoornaamContactpersoon</td>
-				<td>@leverancier.FamilienaamContactpersoon</td>
+				<td>@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
 				<td>
 					@foreach(var artikel in leverancier.Artikels)
 					{
 						<span>@artikel.Naam</span>
 					}
 				</td>
+				<td><a asp-action="Details">Details</a></td>
 			</tr>
 		}
 	</tbody>
