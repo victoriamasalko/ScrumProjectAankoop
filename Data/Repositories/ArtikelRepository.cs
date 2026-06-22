@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +27,10 @@ public class ArtikelRepository : IArtikelRepository
 
     public async Task<IEnumerable<Artikel>> GetArtikelsAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Artikels
+            .Include(artikel => artikel.Leveranciers)
+            .Include(artikel => artikel.Categories)
+            .ToListAsync();
     }
 
     public async Task<Artikel> UpdateArtikelAsync(Artikel artikel)
