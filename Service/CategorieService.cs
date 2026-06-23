@@ -17,4 +17,7 @@ public class CategorieService
     }
 
     public async Task<IEnumerable<Categorie>> GetCategorieenAsync() => await categorieRepository.GetCategorieenAsync();
+
+    public async Task<Categorie?> GetHoofdcategorieByCategorieIdAsync(int id)
+        => await categorieRepository.GetHoofdcategorieByCategorieIdAsync(id);
 }
