@@ -27,5 +27,21 @@ namespace Web.Controllers
             return View(viewModel);
 
         }
+
+        //Details van een leverancier tonen.
+        //Je neemt de leverancier uit de database via de service en sla het op in de variabele leverancier.
+        //Als de leverancier niet wordt gevonden, word je doorgestuurd naar een 'Not Found'-pagina.
+        //Als de leverancier wordt gevonden, wordt je doorgestuurd naar de bijbehorende view.
+        public async Task<IActionResult> Details(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
+
+            if (leverancier is null)
+            {
+                return NotFound();
+            }
+
+            return View(leverancier);
+        }
     }
 }
