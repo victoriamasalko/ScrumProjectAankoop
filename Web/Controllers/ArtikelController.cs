@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Web.Models;
+using System.Linq;
+using Web.Models.ViewModels;
 
 namespace Web.Controllers
 {
@@ -16,18 +18,18 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var artikelen = await artikelService.GetArtikelsAsync();
-            return View(artikelen.Select(artikel => new ArtikelOverviewViewModel()
+            var artikels = await artikelService.GetArtikelsAsync();
+
+            var viewModel = artikels.Select(a => new ArtikelOverviewViewModel
             {
-                ArtikelId = artikel.ArtikelId,
-                Ean = artikel.Ean,
-                AantalBesteldLeverancier = artikel.AantalBesteldLeverancier,
-                Naam = artikel.Naam,
-                Voorraad = artikel.Voorraad,
-                Prijs = artikel.Prijs,
-                Leverancier = artikel.Leveranciers.Naam,
-                Categories = artikel.Categories.Select(c => c.Naam).ToList()
-            }));
+                Naam = a.Naam,
+                Ean = a.Ean,
+                Categorieen = a.Categorieen.Select(c => c.Naam).ToList(), 
+                Prijs = a.Prijs,
+                Voorraad = a.Voorraad
+            }).ToList();
+
+            return View("Index", viewModel);
         }
     }
 }

@@ -3,7 +3,7 @@
     ViewData["Title"] = "Overzicht artikelen";
 }
 
-<h1>Artikelen op de plant</h1>
+<h1>Artikelen op de plank</h1>
 
 <table class="table">
     <thead>
@@ -11,8 +11,6 @@
             <th class="p-2">Naam</th>
             <th class="p-2">Categorieen</th>
             <th class="p-2">EAN</th>
-            <th class="p-2">Leverancier</th>
-            <th class="p-2">Aantal in bestelling</th>
             <th class ="p-2">Prijs</th>
             <th class="p-2">Voorraad</th>
             <th></th>
@@ -23,20 +21,10 @@
         {
             <tr>
                 <td class="p-2">@artikel.Naam</td>
-                <td class="p-2">
-                    @foreach (var categorie in artikel.Categories)
-                    {
-                        <span>@categorie - </span>                        
-                    }
-                </td>
+                <td class="p-2">@string.Join(" - ",  artikel.Categorieen)</td>
                 <td class="p-2">@artikel.Ean</td>
-                <td class="p-2">@artikel.Leverancier</td>
-                <td class="p-2">@artikel.AantalBesteldLeverancier</td>
                 <td class="p-2">@artikel.Prijs</td>
                 <td class="p-2">@artikel.Voorraad</td>
-                <td class="p-2">
-                    <a asp-action="Detail" asp-route-id="@artikel.ArtikelId" class="btn">Details</a>
-                </td>
             </tr>
         }
     </tbody>

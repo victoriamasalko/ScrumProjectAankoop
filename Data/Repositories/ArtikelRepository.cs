@@ -28,8 +28,8 @@ public class ArtikelRepository : IArtikelRepository
     public async Task<IEnumerable<Artikel>> GetArtikelsAsync()
     {
         return await _context.Artikels
-            .Include(artikel => artikel.Leveranciers)
-            .Include(artikel => artikel.Categories)
+            .Include(artikel => artikel.Leverancier)
+            .Include(artikel => artikel.Categorieen)
             .ToListAsync();
     }
 

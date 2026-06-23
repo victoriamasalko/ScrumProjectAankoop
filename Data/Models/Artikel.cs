@@ -33,7 +33,12 @@ public partial class Artikel
 
     public int LeveranciersId { get; set; }
 
-    public virtual Leverancier Leveranciers { get; set; } = null!;
+    public virtual Leverancier Leverancier { get; set; } = null!;
 
-    public virtual ICollection<Categorie> Categories { get; set; } = new List<Categorie>();
+    public virtual IEnumerable<Categorie> Categorieen { get; set; } = new List<Categorie>();
+
+    public bool IsActief()
+    {
+        return (MinimumVoorraad == 0 && MaximumVoorraad == 0 && Bestelpeil == 0 && AantalBesteldLeverancier == 0);
+    }
 }

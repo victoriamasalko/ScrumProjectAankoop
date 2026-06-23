@@ -89,7 +89,7 @@ public partial class PrulariacomContext : DbContext
             entity.Property(e => e.Prijs).HasColumnName("prijs");
             entity.Property(e => e.Voorraad).HasColumnName("voorraad");
 
-            entity.HasOne(d => d.Leveranciers).WithMany(p => p.Artikels)
+            entity.HasOne(d => d.Leverancier).WithMany(p => p.Artikels)
                 .HasForeignKey(d => d.LeveranciersId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Artikelen_Leveranciers");
@@ -113,7 +113,7 @@ public partial class PrulariacomContext : DbContext
                 .HasForeignKey(d => d.HoofdCategorieId)
                 .HasConstraintName("fk_Categorieen_Categorieen1");
 
-            entity.HasMany(d => d.Artikels).WithMany(p => p.Categories)
+            entity.HasMany(d => d.Artikels).WithMany(p => p.Categorieen)
                 .UsingEntity<Dictionary<string, object>>(
                     "Artikelcategorieen",
                     r => r.HasOne<Artikel>().WithMany()
