@@ -32,6 +32,7 @@ namespace Web.Controllers
         }
 
         // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
+        [NonAction]
         public async Task<List<SelectListItem>> GetPlaatsenAsync()
         {
             var plaatsen = await plaatsService.GetPlaatsenAsync();
