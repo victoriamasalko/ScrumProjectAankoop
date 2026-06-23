@@ -22,7 +22,10 @@ namespace Data.Repositories
 
         public async Task<Leverancier?> GetLeverancierByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Leveranciers
+                .Include(l => l.Plaats)
+                .Include(l => l.Artikels)
+                .FirstOrDefaultAsync(l => l.LeveranciersId == id);
         }
 
         public async Task<IEnumerable<Leverancier>> GetLeveranciersAsync()

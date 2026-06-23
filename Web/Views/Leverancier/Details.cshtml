@@ -1,0 +1,22 @@
+﻿@model Leverancier
+@{
+    ViewData["Title"] = "Leverancier Details";
+}
+
+@if (Model is not null)
+{
+    <h2>Naam: @Model.Naam</h2>
+    <h4>BTW Nr.: @Model.BtwNummer</h4>
+    <p>Straat: @Model.Straat</p>
+    <p>Huis Nr.: @Model.HuisNummer</p>
+    <p>Bus: @Model.Bus</p>
+    <p>Postcode: @Model.Plaats.Postcode</p>
+    <p>Plaats: @Model.Plaats.Naam</p>
+    <p>Contactpersoon Familienaam: @Model.FamilienaamContactpersoon</p>
+    <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
+    <p>Artikels: </p>
+    @foreach (var artikel in Model.Artikels.OrderBy(a => a.Naam))
+    {
+        <span>@artikel.Naam</span>
+    }
+}

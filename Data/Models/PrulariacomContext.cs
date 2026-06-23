@@ -181,7 +181,7 @@ public partial class PrulariacomContext : DbContext
             entity.Property(e => e.PlaatsId).HasColumnName("plaatsId");
             entity.Property(e => e.Naam)
                 .HasMaxLength(150)
-                .HasColumnName("naam");
+                .HasColumnName("plaats");
             entity.Property(e => e.Postcode)
                 .HasMaxLength(4)
                 .HasColumnName("postcode");
