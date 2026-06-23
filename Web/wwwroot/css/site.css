@@ -1,6 +1,17 @@
+:root {
+  --primary-light: #ABD7A8;
+  --primary-dark: #3D6B47;
+  --sand-color: #D0C1B4;
+  --textcolor: #222222;
+  --backgroundcolor: #FFFFFF;
+  --font-heading: "Fraunces", Georgia, serif;
+  --font-body: "Inter", Arial, sans-serif;
+}
+
 html {
   font-size: 14px;
-  color: #222222 !important;
+  color: var(--textcolor) !important;
+  font-family: var(--font-body), serif;
 }
 
 @media (min-width: 768px) {
@@ -10,7 +21,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem var(--backgroundcolor), 0 0 0 0.25rem var(--primary-dark);
 }
 
 html {
@@ -20,6 +31,56 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: var(--backgroundcolor);
+  color: var(--textcolor);
+  font-family: var(--font-body), serif;
+}
+
+.btn {
+  border-radius: 0;
+  font-family: var(--font-body), serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.btn-primary {
+  --bs-btn-color: var(--primary-dark);
+  --bs-btn-bg: var(--primary-light);
+  --bs-btn-border-color: var(--primary-light);
+  --bs-btn-hover-color: var(--backgroundcolor);
+  --bs-btn-hover-bg: var(--primary-dark);
+  --bs-btn-hover-border-color: var(--primary-dark);
+  --bs-btn-focus-shadow-rgb: 61, 107, 71;
+  --bs-btn-active-color: var(--backgroundcolor);
+  --bs-btn-active-bg: var(--primary-dark);
+  --bs-btn-active-border-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  --bs-btn-color: var(--backgroundcolor);
+  --bs-btn-bg: var(--primary-dark);
+  --bs-btn-border-color: var(--primary-dark);
+  --bs-btn-hover-color: var(--primary-dark);
+  --bs-btn-hover-bg: var(--primary-light);
+  --bs-btn-hover-border-color: var(--primary-light);
+  --bs-btn-focus-shadow-rgb: 61, 107, 71;
+  --bs-btn-active-color: var(--primary-dark);
+  --bs-btn-active-bg: var(--primary-light);
+  --bs-btn-active-border-color: var(--primary-light);
+}
+
+.btn-tertiary {
+  --bs-btn-color: var(--textcolor);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--sand-color);
+  --bs-btn-hover-color: var(--backgroundcolor);
+  --bs-btn-hover-bg: var(--primary-dark);
+  --bs-btn-hover-border-color: var(--primary-dark);
+  --bs-btn-focus-shadow-rgb: 208, 193, 180;
+  --bs-btn-active-color: var(--backgroundcolor);
+  --bs-btn-active-bg: var(--primary-dark);
+  --bs-btn-active-border-color: var(--primary-dark);
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -32,7 +93,7 @@ body {
 }
 
 .navbar{
-  background-color: #ABD7A8 !important;
+  background-color: var(--primary-light) !important;
 }
 
 .navbar a{
@@ -45,6 +106,7 @@ body {
 
 .vr{
   height: 20px;
-  background-color: #222222;
+  background-color: var(--textcolor);
   margin-top: 9px;
 }
+
