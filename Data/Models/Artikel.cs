@@ -39,6 +39,6 @@ public partial class Artikel
 
     public bool IsActief()
     {
-        return (MinimumVoorraad == 0 && MaximumVoorraad == 0 && Bestelpeil == 0 && AantalBesteldLeverancier == 0);
+        return !(MinimumVoorraad == 0 && MaximumVoorraad == 0 && Bestelpeil == 0 && AantalBesteldLeverancier == 0);
     }
 }

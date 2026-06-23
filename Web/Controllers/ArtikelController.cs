@@ -29,7 +29,7 @@ namespace Web.Controllers
                 Voorraad = a.Voorraad
             }).ToList();
 
-            return View("Index", viewModel);
+            return View(nameof(Index), viewModel);
         }
     }
 }
