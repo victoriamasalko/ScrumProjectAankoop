@@ -1,29 +1,46 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Data.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.ViewModels
 {
     public class AddLeverancierViewModel
     {
         [Required]
-        [MaxLength(45)]
-        public string Naam { get; set; }
+        public string Naam { get; set; } = null!;
+
         [Required]
-        [MaxLength(45)]
-        public string BtwNummer { get; set; }
+        [StringLength(45)]
+
+        public string BtwNummer { get; set; } = null!;
+
         [Required]
-        [MaxLength(45)]
-        public string VoornaamContactpersoon { get; set; }
+        [StringLength(45)]
+        public string Straat { get; set; } = null!;
+
         [Required]
-        [MaxLength(45)]
-        public string FamilienaamContactperoon { get; set; }
+        [StringLength(5)]
+
+        public string HuisNummer { get; set; } = null!;
+
         [Required]
-        [MaxLength(45)]
-        public string Straat {  get; set; }
+        [StringLength(5)]
+        public string Bus { get; set; } = null!;
+
         [Required]
-        [MaxLength(5)]
-        public string HuisNummer { get; set; }
-        [MaxLength(5)]
-        public string Bus {  get; set; }
+        public string Plaats { get; set; } = null!;
+
+        public List<SelectListItem> Plaatsen = new List<SelectListItem>();
+
+
+        [Required]
+        [StringLength(45)]
+        public string VoornaamContactpersoon { get; set; } = null!;
+        [Required]
+        [StringLength(45)]
+        public string FamilienaamContactperoon { get; set; } = null!;
+
+       
 
     }
 }
