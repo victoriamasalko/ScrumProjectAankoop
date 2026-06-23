@@ -23,7 +23,7 @@
                 <td class="p-2">@artikel.Naam</td>
                 <td class="p-2">@string.Join(" - ",  artikel.Categorieen)</td>
                 <td class="p-2">@artikel.Ean</td>
-                <td class="p-2">@artikel.Prijs</td>
+                <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
                 <td class="p-2">@artikel.Voorraad</td>
             </tr>
         }
