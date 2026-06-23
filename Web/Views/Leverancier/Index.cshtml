@@ -9,7 +9,6 @@
 			<th>Leverancier</th>
 			<th>Btw-nummer</th>
 			<th>Contactpersoon</th>
-			<th>Artikelen</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -20,16 +19,6 @@
 				<td>@leverancier.Naam</td>
 				<td>@leverancier.BtwNummer</td>
 				<td>@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
-				<td>
-					@if(leverancier.Artikels != null && leverancier.Artikels.Any())
-					{
-						@foreach (var artikelNaam in leverancier.Artikels.Select(a=>a.Naam).Distinct())
-							{
-								<span>@artikelNaam</span>
-							}
-					}
-					
-				</td>
 				<td><a asp-action="Details" asp-route-id="@leverancier.LeveranciersId">Details</a></td>
 			</tr>
 		}

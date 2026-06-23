@@ -28,7 +28,7 @@ namespace Data.Repositories
         public async Task<IEnumerable<Leverancier>> GetLeveranciersAsync()
         {
             return await _context.Leveranciers
-                .Include(l => l.Artikels)
+                .Include(l =>l.Artikels)
                 .ToListAsync();
         }
 
