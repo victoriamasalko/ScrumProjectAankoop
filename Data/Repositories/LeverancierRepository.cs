@@ -17,7 +17,9 @@ namespace Data.Repositories
 
         public async Task<Leverancier> AddLeverancierAsync(Leverancier leverancier)
         {
-            throw new NotImplementedException();
+            await _context.Leveranciers.AddAsync(leverancier);
+            await _context.SaveChangesAsync();
+            return leverancier;
         }
 
         public async Task<Leverancier?> GetLeverancierByIdAsync(int id)
