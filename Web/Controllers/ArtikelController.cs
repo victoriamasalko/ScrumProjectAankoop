@@ -27,6 +27,8 @@ namespace Web.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var artikel = await artikelService.GetArtikelAsync(id);
+            if (artikel is null) return View();
+            
             var viewmodel = new ArtikelDetailsViewModel
             {
                 ArtikelId = artikel.ArtikelId,
@@ -45,7 +47,7 @@ namespace Web.Controllers
                 LeveranciersId = artikel.LeveranciersId,
                 Leveranciers = artikel.Leveranciers
             };
-            
+
             foreach (var categorie in artikel.Categories)
             {
                 var hoofdCategorieMetSubCategorie = new HoofdCategorieMetSubCategorie
@@ -55,7 +57,8 @@ namespace Web.Controllers
                 };
                 viewmodel.CategorieStructuren.Add(hoofdCategorieMetSubCategorie);
             }
-            
+
+
             return View(viewmodel);
         }
     }
