@@ -28,7 +28,7 @@ namespace Web.Models.ViewModels
         public string Bus { get; set; } = null!;
 
         [Required]
-        public string Plaats { get; set; } = null!;
+        public int PlaatsId { get; set; }
 
         public List<SelectListItem> Plaatsen = new List<SelectListItem>();
 
