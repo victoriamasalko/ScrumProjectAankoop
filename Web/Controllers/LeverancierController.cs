@@ -1,5 +1,6 @@
 ﻿using Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Service;
 using Web.Models.ViewModels;
 
 namespace Web.Controllers
@@ -25,6 +26,22 @@ namespace Web.Controllers
 
             return View(viewModel);
 
+        }
+        public IActionResult AddLeverancier()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddLeverancierAsync(AddLeverancierViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Leverancier leverancier = new Leverancier
+                {
+                    Naam = model.Naam,
+                    BtwNummer = model.BtwNummer,
+                
+            }
         }
     }
 }
