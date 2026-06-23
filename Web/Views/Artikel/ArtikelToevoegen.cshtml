@@ -1,0 +1,61 @@
+﻿@model ArtikelToevoegenViewModel
+
+@{
+    ViewData["Title"] = "Artikel Toevoegen";
+}
+
+@* Formulier om een ​​artikel toe te voegen *@
+<form asp-action="ArtikelToevoegen" method="post">
+    <div class="mb-3">
+        <label asp-for="Ean" class="form-label"></label>
+        <input asp-for="Ean" class="form-control" />
+        <span asp-validation-for="Ean" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control" />
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Beschrijving" class="form-label"></label>
+        <input asp-for="Beschrijving" class="form-control" />
+        <span asp-validation-for="Beschrijving" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Prijs" class="form-label"></label>
+        <input asp-for="Prijs" class="form-control" />
+        <span asp-validation-for="Prijs" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GewichtInGram" class="form-label"></label>
+        <input asp-for="GewichtInGram" class="form-control" />
+        <span asp-validation-for="GewichtInGram" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Levertijd" class="form-label"></label>
+        <input asp-for="Levertijd" class="form-control" />
+        <span asp-validation-for="Levertijd" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaxAantalInMagazijnPlaats" class="form-label"></label>
+        <input asp-for="MaxAantalInMagazijnPlaats" class="form-control" />
+        <span asp-validation-for="MaxAantalInMagazijnPlaats" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LeverancierId" class="form-label"></label>
+        <select asp-for="LeverancierId" asp-items="Model.Leveranciers" class="form-select">
+            <option value="">-- Kies een leverancier --</option>
+        </select>
+        <span asp-validation-for="Ean" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <button type="reset" class="btn btn-warning">Reset</button>
+</form>

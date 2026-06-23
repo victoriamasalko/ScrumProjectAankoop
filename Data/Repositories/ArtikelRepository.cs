@@ -17,7 +17,10 @@ public class ArtikelRepository : IArtikelRepository
 
     public async Task<Artikel> AddArtikelAsync(Artikel artikel)
     {
-        throw new NotImplementedException();
+        _context.Artikels.Add(artikel);
+        await _context.SaveChangesAsync();
+
+        return artikel;
     }
 
     public async Task<Artikel?> GetArtikelByIdAsync(int id)
