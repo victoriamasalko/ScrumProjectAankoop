@@ -6,15 +6,8 @@ using System.Text;
 
 namespace Service
 {
-    public class PlaatsService
+    public class PlaatsService(IPlaatsRepository plaatsRepository)
     {
-        private readonly IPlaatsRepository plaatsRepository;
-
-        public PlaatsService(IPlaatsRepository plaatsRepository)
-        {
-            this.plaatsRepository = plaatsRepository;
-        }
-
         public async Task<IEnumerable<Plaats>> GetPlaatsenAsync() => await plaatsRepository.GetPlaatsenAsync();
     }
 }
