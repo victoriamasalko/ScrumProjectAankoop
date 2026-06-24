@@ -5,13 +5,7 @@
 }
 
 @* Formulier om een ​​artikel toe te voegen *@
-<form asp-action="ArtikelToevoegen" method="post">
-    <div class="mb-3">
-        <label asp-for="Ean" class="form-label"></label>
-        <input asp-for="Ean" class="form-control" />
-        <span asp-validation-for="Ean" class="text-danger"></span>
-    </div>
-
+<form asp-action="ArtikelToevoegenUitvoeren" method="post">
     <div class="mb-3">
         <label asp-for="Naam" class="form-label"></label>
         <input asp-for="Naam" class="form-control" />
@@ -53,9 +47,23 @@
         <select asp-for="LeverancierId" asp-items="Model.Leveranciers" class="form-select">
             <option value="">-- Kies een leverancier --</option>
         </select>
-        <span asp-validation-for="Ean" class="text-danger"></span>
+        <span asp-validation-for="LeverancierId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3>
+        <label class="form-label">Categorieën</label>
+
+        @foreach(var categorie in Model.Categorieen)
+            {
+                <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="SelectedCategorieIds" value="@categorie.Value"
+
+                @(Model.SelectedCategorieIds.Contains(int.Parse(categorie.Value)) ? "checked" : null) />
+                <label class="form-check-label">@categorie.Text</label>
+                </div>
+            }
     </div>
 
     <button type="submit" class="btn btn-primary">Opslaan</button>
-    <button type="reset" class="btn btn-warning">Reset</button>
+    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
 </form>
