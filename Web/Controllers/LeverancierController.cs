@@ -48,7 +48,7 @@ namespace Web.Controllers
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
         public async Task<IActionResult> AddLeverancierAsync()
         {
-            return View(new AddLeverancierViewModel()
+            return View("AddLeverancierModal", new AddLeverancierViewModel()
             {
                 Plaatsen = await GetPlaatsenAsync()
             });
@@ -58,7 +58,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLeverancierAsync(AddLeverancierViewModel addLeverancierViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 // Maak een Leverancier object op basis van de form.
                 Leverancier leverancier = new Leverancier()
@@ -82,7 +82,7 @@ namespace Web.Controllers
             else
             {
                 addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
-                return View(addLeverancierViewModel);
+                return View("AddLeverancierModal",addLeverancierViewModel);
             }
         }
     }
