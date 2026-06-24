@@ -2,6 +2,7 @@
 {
     public class LeverancierOverviewViewModel
     {
+        public int LeveranciersId { get; set; }
         public string Naam { get; set; }
         public string BtwNummer { get; set; }
         public string FamilienaamContactpersoon { get; set; }

@@ -22,6 +22,7 @@ namespace Web.Controllers
 
             var viewModel = leveranciers.Select(l => new LeverancierOverviewViewModel
             {
+                LeveranciersId = l.LeveranciersId,
                 Naam = l.Naam,
                 BtwNummer = l.BtwNummer,
                 VoornaamContactpersoon = l.VoornaamContactpersoon,

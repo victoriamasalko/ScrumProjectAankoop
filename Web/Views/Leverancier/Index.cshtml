@@ -1,4 +1,4 @@
-@model Web.Models.ViewModels.LeverancierOverviewViewModel
+@model IEnumerable<LeverancierOverviewViewModel>
 @{
     ViewData["Title"] = "Leveranciers";
 }
@@ -46,20 +46,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var leverancier in Model.Leveranciers)
+                @foreach (var leverancier in Model)
                 {
                     <tr>
                         <td data-label="Leverancier" class="overview-name">@leverancier.Naam</td>
                         <td data-label="Btw-nummer">@leverancier.BtwNummer</td>
                         <td data-label="Contactpersoon">@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
                         <td data-label="Acties" class="overview-actions">
-                            <a class="btn btn-tertiary overview-details-button" asp-action="Details" asp-route-id="@leverancier.LeveranciersId">Details</a>
+                            <a class="btn btn-tertiary overview-details-button" asp-action="Details" data-id="@leverancier.LeveranciersId" asp-route-id="@leverancier.LeveranciersId">Details</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <div id="modalContainer"></div>
 </section>
 
 
@@ -103,7 +105,7 @@
 
 <script>
 
-	document.querySelectorAll('.supplier-details-button')
+	document.querySelectorAll('.overview-details-button')
 		.forEach(button => {
 
 			button.addEventListener('click', function (e) {
