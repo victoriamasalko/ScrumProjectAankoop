@@ -45,10 +45,8 @@ namespace Web.Controllers
             var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
 
             if (leverancier is null)
-            {
                 return View(nameof(Details));
-            }
-
+            
             var model = new EditLeverancierViewModel
             {
                 LeverancierId = leverancier.LeveranciersId,
@@ -62,27 +60,28 @@ namespace Web.Controllers
                 VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
                 FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
             };
+            
             return View(model);
         }
 
         public async Task<IActionResult> SaveChanges(EditLeverancierViewModel editLeverancierViewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
+
+            Leverancier leverancier = new Leverancier()
             {
-                Leverancier leverancier = new Leverancier()
-                {
-                    LeveranciersId = editLeverancierViewModel.LeverancierId,
-                    Naam = editLeverancierViewModel.Naam,
-                    BtwNummer = editLeverancierViewModel.BtwNummer,
-                    Straat = editLeverancierViewModel.Straat,
-                    HuisNummer = editLeverancierViewModel.HuisNummer,
-                    Bus = editLeverancierViewModel.Bus,
-                    PlaatsId = editLeverancierViewModel.PlaatsId,
-                    VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
-                    FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
-                };
-                await leverancierService.UpdateLeverancierAsync(leverancier);
-            }
+                LeveranciersId = editLeverancierViewModel.LeverancierId,
+                Naam = editLeverancierViewModel.Naam,
+                BtwNummer = editLeverancierViewModel.BtwNummer,
+                Straat = editLeverancierViewModel.Straat,
+                HuisNummer = editLeverancierViewModel.HuisNummer,
+                Bus = editLeverancierViewModel.Bus,
+                PlaatsId = editLeverancierViewModel.PlaatsId,
+                VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
+                FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
+            };
+            await leverancierService.UpdateLeverancierAsync(leverancier);
 
             return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
         }
@@ -90,7 +89,7 @@ namespace Web.Controllers
 
         // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
         [NonAction]
-        public async Task<List<SelectListItem>> GetPlaatsenAsync()
+        private async Task<List<SelectListItem>> GetPlaatsenAsync()
         {
             var plaatsen = await plaatsService.GetPlaatsenAsync();
 
