@@ -23,9 +23,8 @@ namespace Web.Models.ViewModels
 
         public string HuisNummer { get; set; } = null!;
 
-        [Required]
         [StringLength(5)]
-        public string Bus { get; set; } = null!;
+        public string? Bus { get; set; }
 
         [Required]
         public int PlaatsId { get; set; }
