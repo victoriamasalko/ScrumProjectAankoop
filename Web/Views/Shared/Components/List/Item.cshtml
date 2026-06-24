@@ -1,0 +1,16 @@
+﻿@using Data.Models
+@model object
+
+@if (Model is Artikel artikel)
+{
+    <li class="list__item">
+        <p>@artikel.Naam</p>
+        <p>@artikel.Beschrijving</p>
+    </li>
+}
+else if (Model is Leverancier leverancier)
+{
+    <li class="list__item">
+        <p>@leverancier.Naam</p>
+    </li>
+}

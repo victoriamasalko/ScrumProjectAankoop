@@ -42,7 +42,7 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            return View(leverancier);
+            return PartialView(leverancier);
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<object>
+
+@{
+    const int pageSize = 6;
+
+    var items = (Model ?? Enumerable.Empty<object>()).ToList();
+     //De aantal pagina's worden berekend via de lengte van de item list / het aantal items die je per page wilt hebben (hier 6)
+    var pageCount = (int)Math.Ceiling(items.Count / (double)pageSize);
+}
+@* List met pagination zodat we makkelijker de items kunnen zien zonder dat er een scrollable view is :) *@
+<div class="list" data-page-count="@pageCount">
+
+    <div class="list__pagination">
+        <button type="button" class="list__prev">←</button>
+
+        <span class="list__page-indicator">
+            1 / @pageCount
+        </span>
+
+        <button type="button" class="list__next">→</button>
+    </div>
+
+    @for (int pageIndex = 0; pageIndex < pageCount; pageIndex++)
+    {
+        <ul class="list__items @(pageIndex == 0 ? "active" : "")"
+            data-page="@pageIndex">
+            @*Hier worde de item getoond per page dus hier toont ie het per 6 items door iedere keer een aantal items te skippen (pagesize(6) * welke tab je zit(bv. 2) dus worden er 12 items geskipped) in de lijst en dan de eerste 6 te nemen/tonen*@
+            @foreach (var item in items.Skip(pageIndex * pageSize).Take(pageSize))
+            {
+                <partial name="~/Views/Shared/Components/List/Item.cshtml"
+                         model="item" />
+            }
+
+        </ul>
+    }
+
+</div>
+

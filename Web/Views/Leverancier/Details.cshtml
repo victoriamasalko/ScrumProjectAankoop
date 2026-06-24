@@ -5,18 +5,49 @@
 
 @if (Model is not null)
 {
-    <h2>Naam: @Model.Naam</h2>
-    <h4>BTW Nr.: @Model.BtwNummer</h4>
-    <p>Straat: @Model.Straat</p>
-    <p>Huis Nr.: @Model.HuisNummer</p>
-    <p>Bus: @Model.Bus</p>
-    <p>Postcode: @Model.Plaats.Postcode</p>
-    <p>Plaats: @Model.Plaats.Naam</p>
-    <p>Contactpersoon Familienaam: @Model.FamilienaamContactpersoon</p>
-    <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
-    <p>Artikels: </p>
-    @foreach (var artikel in Model.Artikels.OrderBy(a => a.Naam))
-    {
-        <span>@artikel.Naam</span>
-    }
+    <div class="modal fade" id="detailsModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @Model.Naam
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <h4>BTW Nr.: @Model.BtwNummer</h4>
+                    <p>Straat: @Model.Straat</p>
+                    <p>Huis Nr.: @Model.HuisNummer</p>
+                    <p>Bus: @Model.Bus</p>
+                    <p>Postcode: @Model.Plaats.Postcode</p>
+                    <p>Plaats: @Model.Plaats.Naam</p>
+                    <p>Contactpersoon Familienaam: @Model.FamilienaamContactpersoon</p>
+                    <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
+                    <p>Artikels: </p>
+                    @* @foreach (var artikel in Model.Artikels.OrderBy(a => a.Naam))
+                    {
+                        <span>@artikel.Naam</span>
+                    } *@
+                    @await Component.InvokeAsync(
+                        "List",
+                        Model.Artikels.OrderBy(a => a.Naam).Cast<object>()
+                    )                    
+                    <button class="btn btn-primary"
+                            id="openCreateBtn"
+                            data-product-id="@Model.LeveranciersId">
+                        Update Leverancier
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 }

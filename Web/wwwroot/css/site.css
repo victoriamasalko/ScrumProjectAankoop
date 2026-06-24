@@ -294,3 +294,26 @@ body {
   }
 }
 
+.list__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.list__prev,
+.list__next {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.list__items {
+    display: none;
+}
+
+    .list__items.active {
+        display: block;
+    }
