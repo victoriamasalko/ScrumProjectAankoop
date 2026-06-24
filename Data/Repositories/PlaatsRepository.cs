@@ -8,8 +8,8 @@ public class PlaatsRepository(PrulariacomContext context) : IPlaatsRepository
     public async Task<IEnumerable<Plaats>> GetPlaatsenAsync()
         => await context.Plaatsen.ToListAsync();
 
-    public async Task<Plaats?> GetPlaatsByIdAsync(int id)
+    /*public async Task<Plaats?> GetPlaatsByIdAsync(int id)
         => await context.Plaatsen
             .Where(p => p.PlaatsId == id)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();*/
 }

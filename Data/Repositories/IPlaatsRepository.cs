@@ -8,6 +8,6 @@ namespace Data.Repositories
     public interface IPlaatsRepository
     {
         Task<IEnumerable<Plaats>> GetPlaatsenAsync();
-        Task<Plaats?> GetPlaatsByIdAsync(int id);
+        // Task<Plaats?> GetPlaatsByIdAsync(int id);
     }
 }

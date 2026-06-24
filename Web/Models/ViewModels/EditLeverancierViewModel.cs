@@ -29,7 +29,7 @@ namespace Web.Models.ViewModels
         [Required]
         public int PlaatsId { get; set; }
 
-        public List<SelectListItem> Plaatsen = [];
+        public List<SelectListItem> Plaats = [];
         
         [Required]
         [StringLength(45)]

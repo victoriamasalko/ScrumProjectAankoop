@@ -11,7 +11,7 @@ namespace Service
         public async Task<IEnumerable<Plaats>> GetPlaatsenAsync()
             => await plaatsRepository.GetPlaatsenAsync();
         
-        public async Task<Plaats?> GetPlaatsByIdAsync(int id)
-            => await plaatsRepository.GetPlaatsByIdAsync(id);
+        /*public async Task<Plaats?> GetPlaatsByIdAsync(int id)
+            => await plaatsRepository.GetPlaatsByIdAsync(id);*/
     }
 }

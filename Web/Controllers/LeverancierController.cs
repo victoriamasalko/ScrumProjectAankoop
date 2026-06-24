@@ -27,6 +27,7 @@ namespace Web.Controllers
         //Je neemt de leverancier uit de database via de service en sla het op in de variabele leverancier.
         //Als de leverancier niet wordt gevonden, word je doorgestuurd naar een 'Not Found'-pagina.
         //Als de leverancier wordt gevonden, wordt je doorgestuurd naar de bijbehorende view.
+        //[HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
@@ -48,17 +49,16 @@ namespace Web.Controllers
                 return View(nameof(Details));
             }
 
-            var plaatsId = leverancier.PlaatsId;
-
             var model = new EditLeverancierViewModel
             {
+                LeverancierId = leverancier.LeveranciersId,
                 Naam = leverancier.Naam,
                 BtwNummer = leverancier.BtwNummer,
                 Straat = leverancier.Straat,
                 HuisNummer = leverancier.HuisNummer,
                 Bus = leverancier.Bus,
                 PlaatsId = leverancier.PlaatsId,
-                Plaatsen = await GetPlaatsenAsync(),
+                Plaats = await GetPlaatsenAsync(),
                 VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
                 FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
             };
@@ -69,26 +69,23 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Maak een Leverancier object op basis van de form.
                 Leverancier leverancier = new Leverancier()
                 {
+                    LeveranciersId = editLeverancierViewModel.LeverancierId,
                     Naam = editLeverancierViewModel.Naam,
                     BtwNummer = editLeverancierViewModel.BtwNummer,
                     Straat = editLeverancierViewModel.Straat,
                     HuisNummer = editLeverancierViewModel.HuisNummer,
                     Bus = editLeverancierViewModel.Bus,
+                    PlaatsId = editLeverancierViewModel.PlaatsId,
                     VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
                     FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
-                    PlaatsId = editLeverancierViewModel.PlaatsId
                 };
                 await leverancierService.UpdateLeverancierAsync(leverancier);
-                return RedirectToAction(nameof(Details), editLeverancierViewModel.LeverancierId);
             }
 
-            return RedirectToAction(nameof(Edit), editLeverancierViewModel.LeverancierId);
+            return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
         }
-
-
 
 
         // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
