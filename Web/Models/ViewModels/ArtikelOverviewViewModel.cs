@@ -9,6 +9,8 @@ public class ArtikelOverviewViewModel
 
     public string Naam { get; set; }
 
+    public string Beschrijving { get; set; }
+
     public string Ean { get; set; }
 
     public IEnumerable<String> Categorieen { get; set; } = [];

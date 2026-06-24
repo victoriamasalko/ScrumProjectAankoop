@@ -13,7 +13,7 @@ public partial class Categorie
 
     public virtual Categorie? HoofdCategorie { get; set; }
 
-    public virtual ICollection<Categorie> InverseHoofdCategorie { get; set; } = new List<Categorie>();
+    public virtual ICollection<Categorie>? SubCategorieen { get; set; } = new List<Categorie>();
 
     public virtual ICollection<Artikel> Artikels { get; set; } = new List<Artikel>();
 }

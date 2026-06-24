@@ -25,9 +25,11 @@ namespace Web.Controllers
 
             var viewModel = artikels.Select(a => new ArtikelOverviewViewModel
             {
+                ArtikelId = a.ArtikelId,
                 Naam = a.Naam,
+                Beschrijving = a.Beschrijving,
                 Ean = a.Ean,
-                Categorieen = a.Categorieen.Select(c => c.Naam).ToList(), 
+                Categorieen = a.Categorieen.Select(c => c.Naam).ToList(),
                 Prijs = a.Prijs,
                 Voorraad = a.Voorraad
             }).ToList();
