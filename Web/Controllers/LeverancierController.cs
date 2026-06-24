@@ -60,7 +60,7 @@ namespace Web.Controllers
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
         public async Task<IActionResult> AddLeverancierAsync()
         {
-            return View("AddLeverancierModal", new AddLeverancierViewModel()
+            return PartialView("AddLeverancierModal", new AddLeverancierViewModel()
             {
                 Plaatsen = await GetPlaatsenAsync()
             });
@@ -94,7 +94,7 @@ namespace Web.Controllers
             else
             {
                 addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
-                return View("AddLeverancierModal", addLeverancierViewModel);
+                return PartialView("AddLeverancierModal", addLeverancierViewModel);
             }
         }
     }
