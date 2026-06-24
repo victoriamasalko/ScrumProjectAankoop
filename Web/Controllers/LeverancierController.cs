@@ -6,15 +6,8 @@ using Web.Models.ViewModels;
 
 namespace Web.Controllers
 {
-    public class LeverancierController : Controller
+    public class LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService) : Controller
     {
-        private readonly LeverancierService leverancierService;
-        private readonly PlaatsService plaatsService;
-        public LeverancierController(LeverancierService leverancierService,PlaatsService plaatsService)
-        {
-            this.leverancierService = leverancierService;
-            this.plaatsService = plaatsService;
-        }
         //Overzicht van leveranciers tonen.
         //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
         //Deze wordt in de Leveranciers property van het ViewModel gestoken.
@@ -28,8 +21,46 @@ namespace Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        //Details van een leverancier tonen.
+        //Je neemt de leverancier uit de database via de service en sla het op in de variabele leverancier.
+        //Als de leverancier niet wordt gevonden, word je doorgestuurd naar een 'Not Found'-pagina.
+        //Als de leverancier wordt gevonden, wordt je doorgestuurd naar de bijbehorende view.
+        public async Task<IActionResult> Details(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
+
+            if (leverancier is null)
+            {
+                return NotFound();
+            }
+
+            return View(leverancier);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
+
+            var model = new EditLeverancierViewModel
+            {
+                Naam = leverancier.Naam,
+                BtwNummer = leverancier.BtwNummer,
+                Straat = leverancier.Straat,
+                HuisNummer = leverancier.HuisNummer,
+                Bus = leverancier.Bus,
+                PlaatsId = leverancier.PlaatsId,
+                // Plaatsen = GetPlaatsenAsync(id)
+                VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
+                FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
+            };
+
+            return View(leverancier);
 
         }
+        
+        
 
         // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
         [NonAction]
@@ -42,7 +73,6 @@ namespace Web.Controllers
                 Text = plaats.Naam,
                 Value = plaats.PlaatsId.ToString()
             }).ToList();
-
         }
 
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
@@ -82,8 +112,10 @@ namespace Web.Controllers
             else
             {
                 addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
-                return View("AddLeverancierModal",addLeverancierViewModel);
+                return View("AddLeverancierModal", addLeverancierViewModel);
             }
         }
+
+        // public async Task<IActionResult> V
     }
 }
