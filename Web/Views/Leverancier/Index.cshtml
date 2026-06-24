@@ -60,3 +60,54 @@
 		</table>
 	</div>
 </section>
+@section Scripts {
+	<script>
+
+		function wireAddLeverancierEvents() {
+
+			document.getElementById('saveLeverancierBtn')
+				.addEventListener('click', function () {
+
+					const formData = new FormData();
+					formData.append('Naam', document.querySelector('[name="Naam"]').value);
+					formData.append('BtwNummer', document.querySelector('[name="BtwNummer"]').value);
+					formData.append('Straat', document.querySelector('[name="Straat"]').value);
+					formData.append('HuisNummer', document.querySelector('[name="HuisNummer"]').value);
+					formData.append('Bus', document.querySelector('[name="Bus"]').value);
+					formData.append('PlaatsId', document.querySelector('[name="PlaatsId"]').value);
+					formData.append('FamilienaamContactperoon', document.querySelector('[name="FamilienaamContactperoon"]').value);
+					formData.append('VoornaamContactpersoon', document.querySelector('[name="VoornaamContactpersoon"]').value);
+
+					fetch('/Leverancier/AddLeverancierAsync', {
+						method: 'POST',
+						body: formData
+					})
+						.then(r => {
+							if (r.redirected) {
+								window.location.href = r.url;
+							}
+						});
+				});
+		}
+
+		document.getElementById('openAddLeverancierBtn')
+			.addEventListener('click', function () {
+
+				fetch('/Leverancier/AddLeverancier')
+					.then(r => r.text())
+					.then(html => {
+
+						document.getElementById('modalContainer').innerHTML = html;
+
+						bootstrap.Modal
+							.getOrCreateInstance(
+								document.getElementById('addLeverancierModal')
+							)
+							.show();
+
+						wireAddLeverancierEvents();
+					});
+			});
+
+	</script>
+}
