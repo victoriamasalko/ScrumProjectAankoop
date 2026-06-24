@@ -1,0 +1,10 @@
+@beginURL=http://localhost:5043
+
+### getleverancier
+GET {{beginURL}}/leverancier/
+
+### addleveranciermetdata
+POST http://localhost:5043/leverancier/addLeverancier
+Content-Type: application/x-www-form-urlencoded
+
+Naam=TestBedrijf&BtwNummer=BE0123456789&Straat=Teststraat&HuisNummer=1&VoornaamContactpersoon=Jan&FamilienaamContactperoon=Janssens&PlaatsId=1

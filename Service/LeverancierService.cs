@@ -6,13 +6,8 @@ using System.Text;
 
 namespace Service
 {
-    public class LeverancierService
+    public class LeverancierService(ILeverancierRepository leverancierRepository)
     {
-        private readonly ILeverancierRepository leverancierRepository;
-        public LeverancierService(ILeverancierRepository leverancierRepository)
-        {
-            this.leverancierRepository = leverancierRepository;
-        }
         public async Task<Leverancier> AddLeverancierAsync(Leverancier leverancier) => await leverancierRepository.AddLeverancierAsync(leverancier);
 
         public async Task<Leverancier?> GetLeverancierByIdAsync(int id) => await leverancierRepository.GetLeverancierByIdAsync(id);

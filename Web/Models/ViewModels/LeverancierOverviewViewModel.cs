@@ -1,11 +1,11 @@
-﻿using Data.Models;
-
-namespace Web.Models.ViewModels
+﻿namespace Web.Models.ViewModels
 {
     public class LeverancierOverviewViewModel
-    { 
-        //Navigatie naar Leverancier voor de properties Naam, VoornaamContactpersoon en FamilienaamContactpersoon, Artikel.
-        public IEnumerable<Leverancier> Leveranciers { get; set; }
+    {
+        public string Naam { get; set; }
+        public string BtwNummer { get; set; }
+        public string FamilienaamContactpersoon { get; set; }
+        public string VoornaamContactpersoon { get; set; }
         public string FilterOpArtikel { get; set; }
     }
 }
