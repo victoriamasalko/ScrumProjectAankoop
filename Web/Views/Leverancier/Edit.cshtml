@@ -49,6 +49,9 @@
 
         <div asp-validation-summary="All"></div>
         <input type="submit" value="Save changes" class="btn btn-primary"/>
+        <a asp-action="Details" asp-route-id="@Model.LeverancierId" class="btn btn-secondary">
+            Annuleer
+        </a>
 
     </form>
 }
