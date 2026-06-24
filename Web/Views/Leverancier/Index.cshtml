@@ -71,7 +71,7 @@
             const searchValue = searchbar.value.trim().toLowerCase();
             //Selecter alle rows 
             const rows = document.querySelectorAll('.overview-table tbody tr');
-            //
+            // de naam en btwnummer selecteren voor elke leverancier
             rows.forEach(row => {
                 const leverancierNaam = row.querySelector('.overview-name')
                     .textContent
@@ -82,7 +82,7 @@
                     .textContent
                     .trim()
                     .toLowerCase();
-
+                    // als de searchvalue langer is dan 3 characters en leveranciernaam of btwnummer begint met deze 3 letters toon dan de list item anders zet je de display value op none
                 if (
                     searchValue.length < 3 ||
                     leverancierNaam.startsWith(searchValue) ||
