@@ -34,7 +34,11 @@ public class ArtikelRepository : IArtikelRepository
 
     public async Task<Artikel?> GetArtikelByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _context.Artikels
+            .Where(x => x.ArtikelId == id)
+            .Include(x => x.Categories)
+            .Include(x => x.Leveranciers)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Artikel>> GetArtikelsAsync()
