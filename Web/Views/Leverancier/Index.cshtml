@@ -99,3 +99,90 @@
         
     
 </script>
+
+
+<script>
+
+	document.querySelectorAll('.supplier-details-button')
+		.forEach(button => {
+
+			button.addEventListener('click', function (e) {
+
+				e.preventDefault();
+
+				const id = this.dataset.id;
+
+				fetch(`/Leverancier/Details?id=${id}`)
+					.then(r => r.text())
+					.then(html => {
+
+						document.getElementById('modalContainer').innerHTML = html;
+
+						bootstrap.Modal
+							.getOrCreateInstance(
+								document.getElementById('detailsModal')
+							)
+							.show();
+
+					});
+			});
+		});
+
+
+
+</script>
+
+	
+<script>
+
+	// listeners voor de item list in details, dit moet hier omdat script niet geladen worden in partial views enkel en volledige views.
+	document.addEventListener('click', function (e) {
+
+		const list = e.target.closest('.list');
+
+		if (!list)
+			return;
+
+		const pages = list.querySelectorAll('.list__items');
+		const indicator = list.querySelector('.list__page-indicator');
+
+	let currentPage =
+		[...pages].findIndex(p => p.classList.contains('active'));
+
+	if (currentPage === -1)
+		currentPage = 0;
+
+		const pageCount =
+			parseInt(list.dataset.pageCount);
+
+		if (e.target.classList.contains('list__next')) {
+
+			if (currentPage < pageCount - 1) {
+
+				pages[currentPage].classList.remove('active');
+
+				currentPage++;
+
+				pages[currentPage].classList.add('active');
+
+				indicator.textContent =
+					`${currentPage + 1} / ${pageCount}`;
+			}
+		}
+
+		if (e.target.classList.contains('list__prev')) {
+
+			if (currentPage > 0) {
+
+				pages[currentPage].classList.remove('active');
+
+				currentPage--;
+
+				pages[currentPage].classList.add('active');
+
+				indicator.textContent =
+					`${currentPage + 1} / ${pageCount}`;
+			}
+		}
+	});
+</script>

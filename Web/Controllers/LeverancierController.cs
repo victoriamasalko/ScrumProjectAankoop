@@ -54,8 +54,18 @@ namespace Web.Controllers
                 Plaatsen = await GetPlaatsenAsync()
             });
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
 
-        // Deze action method voegt een nieuwe leverancier toe.
+            if (leverancier is null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(leverancier);
+        }
+            // Deze action method voegt een nieuwe leverancier toe.
         [HttpPost]
         public async Task<IActionResult> AddLeverancierAsync(AddLeverancierViewModel addLeverancierViewModel)
         {
