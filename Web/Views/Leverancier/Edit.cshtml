@@ -1,26 +1,63 @@
-@model Leverancier
+@model EditLeverancierViewModel
 @{
     ViewData["Title"] = "Leverancier Details";
 }
 
+<h1>EDIT!!!</h1>
+
 @if (Model is not null)
 {
-    <h2>Naam: @Model.Naam</h2>
-    <h4>BTW Nr.: @Model.BtwNummer</h4>
-    <p>Straat: @Model.Straat</p>
-    <p>Huis Nr.: @Model.HuisNummer</p>
-    <p>Bus: @Model.Bus</p>
-    <p>Postcode: @Model.Plaats.Postcode</p>
-    <p>Plaats: @Model.Plaats.Naam</p>
-    <p>Contactpersoon Familienaam: @Model.FamilienaamContactpersoon</p>
-    <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
-    <p>Artikels: </p>
-    @foreach (var artikel in Model.Artikels.OrderBy(a => a.Naam))
-    {
-        <span>@artikel.Naam</span>
-    }
-}
+    <form asp-action="SaveChanges" method="post">
 
-<a asp-action="Wijzigen" asp-route-Id="@Model.LeveranciersId">
-    <img src="~/images/plus.png" alt="huren" id="plus">
-</a>
+        <input type="hidden" asp-for="@Model.LeverancierId"/>
+        
+        <label asp-for="@Model.Naam"></label>
+        <span asp-validation-for="Naam"></span>
+        <input asp-for="Naam"/>
+        
+        <label asp-for="@Model.BtwNummer"></label>
+        <span asp-validation-for="BtwNummer"></span>
+        <input asp-for="BtwNummer"/>
+        
+        <label asp-for="@Model.Straat"></label>
+        <span asp-validation-for="Straat"></span>
+        <input asp-for="Straat"/>
+        
+        <label asp-for="@Model.HuisNummer"></label>
+        <span asp-validation-for="HuisNummer"></span>
+        <input asp-for="HuisNummer"/>
+        
+        <label asp-for="@Model.Bus"></label>
+        <span asp-validation-for="Bus"></span>
+        <input asp-for="Bus"/>
+        
+        <label asp-for="@Model.FamilienaamContactperoon"></label>
+        <span asp-validation-for="FamilienaamContactperoon"></span>
+        <input asp-for="FamilienaamContactperoon"/>
+        
+        <label asp-for="@Model.VoornaamContactpersoon"></label>
+        <span asp-validation-for="VoornaamContactpersoon"></span>
+        <input asp-for="VoornaamContactpersoon"/>
+
+
+        @*
+        <h2>Naam: @Model.Naam</h2>
+        <h4>BTW Nr.: @Model.BtwNummer</h4>
+        <p>Straat: @Model.Straat</p>
+        <p>Huis Nr.: @Model.HuisNummer</p>
+        <p>Bus: @Model.Bus</p>
+        $1$<p>Postcode: @Model.Plaats.Postcode</p>
+<p>Plaats: @Model.Plaats.Naam</p>#1#
+        <p>Contactpersoon Familienaam: @Model.FamilienaamContactperoon</p>
+        <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
+        }
+        *@
+        <div asp-validation-summary="All"></div>
+        <input type="submit" value="Save changes" class="btn btn-primary"/>
+
+    </form>
+}
+else
+{
+<p>Leverancier niet gevonden.</p>
+}

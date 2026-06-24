@@ -39,7 +39,9 @@ namespace Data.Repositories
 
         public async Task<Leverancier> UpdateLeverancierAsync(Leverancier leverancier)
         {
-            throw new NotImplementedException();
+            _context.Leveranciers.Update(leverancier);
+            await _context.SaveChangesAsync();
+            return leverancier;
         }
     }
 }

@@ -3,14 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
-public class PlaatsRepository : IPlaatsRepository
+public class PlaatsRepository(PrulariacomContext context) : IPlaatsRepository
 {
-    private readonly PrulariacomContext _context;
+    public async Task<IEnumerable<Plaats>> GetPlaatsenAsync()
+        => await context.Plaatsen.ToListAsync();
 
-    public PlaatsRepository(PrulariacomContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<IEnumerable<Plaats>> GetPlaatsenAsync() => await _context.Plaatsen.ToListAsync();
+    public async Task<Plaats?> GetPlaatsByIdAsync(int id)
+        => await context.Plaatsen
+            .Where(p => p.PlaatsId == id)
+            .FirstOrDefaultAsync();
 }

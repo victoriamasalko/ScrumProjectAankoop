@@ -5,6 +5,8 @@
 
 @if (Model is not null)
 {
+    <h1>Leverancier detail</h1>
+    
     <h2>Naam: @Model.Naam</h2>
     <h4>BTW Nr.: @Model.BtwNummer</h4>
     <p>Straat: @Model.Straat</p>
@@ -21,6 +23,6 @@
     }
 }
 
-<a asp-action="Wijzigen" asp-route-Id="@Model.LeveranciersId">
-    <img src="~/images/plus.png" alt="huren" id="plus">
+<a asp-action="Edit" asp-route-Id="@Model!.LeveranciersId">
+    Wijzigen
 </a>

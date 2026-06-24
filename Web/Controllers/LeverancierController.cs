@@ -43,6 +43,13 @@ namespace Web.Controllers
         {
             var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
 
+            if (leverancier is null)
+            {
+                return View(nameof(Details));
+            }
+
+            var plaatsId = leverancier.PlaatsId;
+
             var model = new EditLeverancierViewModel
             {
                 Naam = leverancier.Naam,
@@ -51,16 +58,38 @@ namespace Web.Controllers
                 HuisNummer = leverancier.HuisNummer,
                 Bus = leverancier.Bus,
                 PlaatsId = leverancier.PlaatsId,
-                // Plaatsen = GetPlaatsenAsync(id)
+                Plaatsen = await GetPlaatsenAsync(),
                 VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
                 FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
             };
-
-            return View(leverancier);
-
+            return View(model);
         }
-        
-        
+
+        public async Task<IActionResult> SaveChanges(EditLeverancierViewModel editLeverancierViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Maak een Leverancier object op basis van de form.
+                Leverancier leverancier = new Leverancier()
+                {
+                    Naam = editLeverancierViewModel.Naam,
+                    BtwNummer = editLeverancierViewModel.BtwNummer,
+                    Straat = editLeverancierViewModel.Straat,
+                    HuisNummer = editLeverancierViewModel.HuisNummer,
+                    Bus = editLeverancierViewModel.Bus,
+                    VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
+                    FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
+                    PlaatsId = editLeverancierViewModel.PlaatsId
+                };
+                await leverancierService.UpdateLeverancierAsync(leverancier);
+                return RedirectToAction(nameof(Details), editLeverancierViewModel.LeverancierId);
+            }
+
+            return RedirectToAction(nameof(Edit), editLeverancierViewModel.LeverancierId);
+        }
+
+
+
 
         // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
         [NonAction]
@@ -115,7 +144,5 @@ namespace Web.Controllers
                 return View("AddLeverancierModal", addLeverancierViewModel);
             }
         }
-
-        // public async Task<IActionResult> V
     }
 }
