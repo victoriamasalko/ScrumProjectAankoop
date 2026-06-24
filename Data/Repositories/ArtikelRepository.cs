@@ -36,8 +36,8 @@ public class ArtikelRepository : IArtikelRepository
     {
         return await _context.Artikels
             .Where(x => x.ArtikelId == id)
-            .Include(x => x.Categories)
-            .Include(x => x.Leveranciers)
+            .Include(x => x.Categorieen)
+            .Include(x => x.Leverancier)
             .FirstOrDefaultAsync();
     }
 
@@ -49,8 +49,37 @@ public class ArtikelRepository : IArtikelRepository
             .ToListAsync();
     }
 
-    public async Task<Artikel> UpdateArtikelAsync(Artikel artikel)
+    public async Task<Artikel> UpdateArtikelAsync(Artikel artikel, List<int> selectedCategorieIds)
     {
-        throw new NotImplementedException();
+        var existingArtikel = await _context.Artikels
+            .Include(a => a.Categorieen)
+            .FirstOrDefaultAsync(a => a.ArtikelId == artikel.ArtikelId);
+
+        if(existingArtikel == null)
+        {
+            throw new InvalidOperationException("Artikel niet gevonden");
+        }
+
+        existingArtikel.Naam = artikel.Naam;
+        existingArtikel.Beschrijving = artikel.Beschrijving;
+        existingArtikel.Prijs = artikel.Prijs;
+        existingArtikel.GewichtInGram = existingArtikel.GewichtInGram;
+        existingArtikel.Bestelpeil = artikel.Bestelpeil;
+        existingArtikel.MinimumVoorraad = artikel.MinimumVoorraad;
+        existingArtikel.MaximumVoorraad = artikel.MaximumVoorraad;
+        existingArtikel.Levertijd = artikel.Levertijd;
+        existingArtikel.AantalBesteldLeverancier = artikel.AantalBesteldLeverancier;
+        existingArtikel.MaxAantalInMagazijnPlaats = artikel.MaxAantalInMagazijnPlaats;
+        existingArtikel.LeveranciersId = artikel.LeveranciersId;
+
+        var geselecteerdeCategorieen = await _context.Categorieen
+            .Where(c => selectedCategorieIds.Contains(c.CategorieId))
+            .ToListAsync();
+
+        existingArtikel.Categorieen = geselecteerdeCategorieen;
+
+        await _context.SaveChangesAsync();
+
+        return existingArtikel;
     }
 }

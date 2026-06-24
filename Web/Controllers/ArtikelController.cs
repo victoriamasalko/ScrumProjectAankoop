@@ -39,6 +39,7 @@ namespace Web.Controllers
             return View(nameof(Index), viewModel);
         }
 
+        // Toont het formulier om een artikel toe te voegen.
         [HttpGet]
         public async Task<IActionResult> ArtikelToevoegen()
         {
@@ -52,6 +53,7 @@ namespace Web.Controllers
             return View(nameof(ArtikelToevoegen), viewModel);
         }
 
+        // Voegt een nieuw artikel toe.
         [HttpPost]
         public async Task<IActionResult> ArtikelToevoegenUitvoeren(ArtikelToevoegenViewModel model)
         {
@@ -85,6 +87,7 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Toont het formulier om een artikel te wijzigen.
         [HttpGet]
         public async Task<IActionResult> ArtikelWijzigen(int id)
         {
@@ -119,6 +122,40 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
+        // Wijzigt een bestaand artikel.
+        [HttpPost]
+        public async Task<IActionResult> ArtikelWijzigenUitvoeren(ArtikelWijzigenViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Leveranciers = await GetLeveranciersSelectListAsync();
+                model.Categorieen = await GetCategorieenSelectLystAsync();
+
+                return View(nameof(ArtikelWijzigen), model);
+            }
+
+            var artikel = new Artikel
+            {
+                ArtikelId = model.ArtikelId,
+                Naam = model.Naam,
+                Beschrijving = model.Beschrijving,
+                Prijs = model.Prijs,
+                GewichtInGram = model.GewichtInGram,
+                Bestelpeil = model.Bestelpeil,
+                MinimumVoorraad = model.MinimumVoorraad,
+                MaximumVoorraad = model.MaximumVoorraad,
+                Levertijd = model.Levertijd,
+                AantalBesteldLeverancier = model.AantalBesteldLeverancier,
+                MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
+                LeveranciersId = model.LeverancierId!.Value
+            };
+
+            await artikelService.UpdateArtikelAsync(artikel, model.SelectedCategorieIds);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Haalt de leveranciers op voor de dropdownlijst.
         public async Task<IEnumerable<SelectListItem>> GetLeveranciersSelectListAsync()
         {
             var leveranciers = await leverancierService.GetLeveranciersAsync();
@@ -131,6 +168,7 @@ namespace Web.Controllers
 
         }
 
+        // Haalt de categorieën op voor de keuzelijst.
         public async Task<IEnumerable<SelectListItem>> GetCategorieenSelectLystAsync()
         {
             var categorieen = await categorieService.GetCategorieenAsync();

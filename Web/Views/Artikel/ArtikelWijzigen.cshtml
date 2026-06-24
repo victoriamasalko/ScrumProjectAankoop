@@ -5,14 +5,8 @@
 }
 
 @* Formulier om een ​​artikel toe te voegen *@
-<form asp-action="ArtikelToevoegenUitvoeren" method="post">
+<form asp-action="ArtikelWijzigenUitvoeren" method="post">
     <input type="hidden" asp-for="ArtikelId" />
-
-    <div class="mb-3">
-        <label asp-for="Naam" class="form-label"></label>
-        <input asp-for="Naam" class="form-control" />
-        <span asp-validation-for="Naam" class="text-danger"></span>
-    </div>
 
     <div class="mb-3">
         <label asp-for="Naam" class="form-label"></label>
@@ -63,9 +57,9 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="MaximumVoorraad" class="form-label"></label>
-        <input asp-for="MaximumVoorraad" class="form-control" />
-        <span asp-validation-for="MaximumVoorraad" class="text-danger"></span>
+        <label asp-for="MaxAantalInMagazijnPlaats" class="form-label"></label>
+        <input asp-for="MaxAantalInMagazijnPlaats" class="form-control" />
+        <span asp-validation-for="MaxAantalInMagazijnPlaats" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -82,7 +76,7 @@
         <span asp-validation-for="LeverancierId" class="text-danger"></span>
     </div>
 
-    <div class="mb-3>
+    <div class="mb-3">
         <label class="form-label">Categorieën</label>
 
         @foreach (var categorie in Model.Categorieen)
