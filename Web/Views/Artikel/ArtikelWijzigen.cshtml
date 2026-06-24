@@ -1,0 +1,100 @@
+﻿@model ArtikelWijzigenViewModel
+
+@{
+    ViewData["Title"] = "Artikel Wijzigen";
+}
+
+@* Formulier om een ​​artikel toe te voegen *@
+<form asp-action="ArtikelToevoegenUitvoeren" method="post">
+    <input type="hidden" asp-for="ArtikelId" />
+
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control" />
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control" />
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Beschrijving" class="form-label"></label>
+        <input asp-for="Beschrijving" class="form-control" />
+        <span asp-validation-for="Beschrijving" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Prijs" class="form-label"></label>
+        <input asp-for="Prijs" class="form-control" />
+        <span asp-validation-for="Prijs" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GewichtInGram" class="form-label"></label>
+        <input asp-for="GewichtInGram" class="form-control" />
+        <span asp-validation-for="GewichtInGram" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Bestelpeil" class="form-label"></label>
+        <input asp-for="Bestelpeil" class="form-control" />
+        <span asp-validation-for="Bestelpeil" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MinimumVoorraad" class="form-label"></label>
+        <input asp-for="MinimumVoorraad" class="form-control" />
+        <span asp-validation-for="MinimumVoorraad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaximumVoorraad" class="form-label"></label>
+        <input asp-for="MaximumVoorraad" class="form-control" />
+        <span asp-validation-for="MaximumVoorraad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Levertijd" class="form-label"></label>
+        <input asp-for="Levertijd" class="form-control" />
+        <span asp-validation-for="Levertijd" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaximumVoorraad" class="form-label"></label>
+        <input asp-for="MaximumVoorraad" class="form-control" />
+        <span asp-validation-for="MaximumVoorraad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AantalBesteldLeverancier" class="form-label"></label>
+        <input asp-for="AantalBesteldLeverancier" class="form-control" />
+        <span asp-validation-for="AantalBesteldLeverancier" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LeverancierId" class="form-label"></label>
+        <select asp-for="LeverancierId" asp-items="Model.Leveranciers" class="form-select">
+            <option value="">-- Kies een leverancier --</option>
+        </select>
+        <span asp-validation-for="LeverancierId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3>
+        <label class="form-label">Categorieën</label>
+
+        @foreach (var categorie in Model.Categorieen)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="SelectedCategorieIds" value="@categorie.Value"
+                @(Model.SelectedCategorieIds.Contains(int.Parse(categorie.Value)) ? "checked" : null) />
+                <label class="form-check-label">@categorie.Text</label>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
+</form>

@@ -15,7 +15,7 @@ namespace Service
             this.artikelRepository = artikelRepository;
         }
 
-        public async Task AddArtikelAsync(Artikel artikel) => await artikelRepository.AddArtikelAsync(artikel);
+        public async Task AddArtikelAsync(Artikel artikel, List<int> selectedCategorieIds) => await artikelRepository.AddArtikelAsync(artikel, selectedCategorieIds);
 
         public async Task<Artikel?> GetArtikelAsync(int id) => await artikelRepository.GetArtikelByIdAsync(id);
 

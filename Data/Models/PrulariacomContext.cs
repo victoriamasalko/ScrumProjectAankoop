@@ -109,7 +109,7 @@ public partial class PrulariacomContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("naam");
 
-            entity.HasOne(d => d.HoofdCategorie).WithMany(p => p.InverseHoofdCategorie)
+            entity.HasOne(d => d.HoofdCategorie).WithMany(p => p.SubCategorieen)
                 .HasForeignKey(d => d.HoofdCategorieId)
                 .HasConstraintName("fk_Categorieen_Categorieen1");
 

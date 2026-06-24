@@ -15,9 +15,21 @@ public class ArtikelRepository : IArtikelRepository
         _context = context;
     }
 
-    public async Task<Artikel> AddArtikelAsync(Artikel artikel)
+    public async Task<Artikel> AddArtikelAsync(Artikel artikel, List<int> selectedCategorieIds)
     {
-        throw new NotImplementedException();
+        if(selectedCategorieIds != null && selectedCategorieIds.Any())
+        {
+            var categorieen = await _context.Categorieen
+                .Where(c => selectedCategorieIds.Contains(c.CategorieId))
+                .ToArrayAsync();
+
+            artikel.Categorieen = categorieen;
+        }
+
+        _context.Artikels.Add(artikel);
+        await _context.SaveChangesAsync();
+
+        return artikel;
     }
 
     public async Task<Artikel?> GetArtikelByIdAsync(int id)
