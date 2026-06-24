@@ -22,15 +22,41 @@
                 </div>
 
                 <div class="modal-body">
-                    <h4>BTW Nr.: @Model.BtwNummer</h4>
-                    <p>Straat: @Model.Straat</p>
-                    <p>Huis Nr.: @Model.HuisNummer</p>
-                    <p>Bus: @Model.Bus</p>
-                    <p>Postcode: @Model.Plaats.Postcode</p>
-                    <p>Plaats: @Model.Plaats.Naam</p>
-                    <p>Contactpersoon Familienaam: @Model.FamilienaamContactpersoon</p>
-                    <p>Contactpersoon Voornaam: @Model.VoornaamContactpersoon</p>
-                    <p>Artikels: </p>
+                    <h6 class="detail-subtitle">Leverancier</h6>
+                    <p>
+                        <strong>BTW-nummer:</strong>
+                        <span>@Model.BtwNummer</span>
+                    </p>
+                    <p>
+                        <strong>Straat:</strong>
+                        <span>@Model.Straat</span>
+                    </p>
+                    <p>
+                        <strong>Huis Nr.:</strong>
+                        <span>@Model.HuisNummer</span>
+                    </p>
+                    <p>
+                        <strong>Bus:</strong>
+                        <span>@Model.Bus</span>
+                    </p>
+                    <p>
+                        <strong>Postcode:</strong>
+                        <span>@Model.Plaats.Postcode</span>
+                    </p>
+                    <p>
+                        <strong>Plaats:</strong>
+                        <span>@Model.Plaats.Naam</span>
+                    </p>
+                    <h6 class="detail-subtitle">Contactpersoon</h6>
+                    <p>
+                        <strong>Familienaam:</strong>
+                        <span>@Model.FamilienaamContactpersoon</span>
+                    </p>
+                    <p>
+                        <strong>Voornaam:</strong>
+                        <span>@Model.VoornaamContactpersoon</span>
+                    </p>
+                    <h6 class="detail-subtitle">Artikels</h6>
                     @* @foreach (var artikel in Model.Artikels.OrderBy(a => a.Naam))
                     {
                         <span>@artikel.Naam</span>
@@ -42,7 +68,7 @@
                     <button class="btn btn-primary"
                             id="openCreateBtn"
                             data-product-id="@Model.LeveranciersId">
-                        Update Leverancier
+                        wijzigen
                     </button>
 
                 </div>

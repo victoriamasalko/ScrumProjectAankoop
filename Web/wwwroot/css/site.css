@@ -40,7 +40,6 @@ body {
   border-radius: 0;
   font-family: var(--font-body), serif;
   font-weight: 400;
-  letter-spacing: 0.01em;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
@@ -51,7 +50,7 @@ body {
   --bs-btn-hover-color: var(--backgroundcolor);
   --bs-btn-hover-bg: var(--primary-dark);
   --bs-btn-hover-border-color: var(--primary-dark);
-  --bs-btn-focus-shadow-rgb: 61, 107, 71;
+  --bs-btn-focus-shadow-rgb: 60, 100, 70;
   --bs-btn-active-color: var(--backgroundcolor);
   --bs-btn-active-bg: var(--primary-dark);
   --bs-btn-active-border-color: var(--primary-dark);
@@ -64,7 +63,7 @@ body {
   --bs-btn-hover-color: var(--primary-dark);
   --bs-btn-hover-bg: var(--primary-light);
   --bs-btn-hover-border-color: var(--primary-light);
-  --bs-btn-focus-shadow-rgb: 61, 107, 71;
+  --bs-btn-focus-shadow-rgb: 60, 100, 70;
   --bs-btn-active-color: var(--primary-dark);
   --bs-btn-active-bg: var(--primary-light);
   --bs-btn-active-border-color: var(--primary-light);
@@ -77,7 +76,7 @@ body {
   --bs-btn-hover-color: var(--backgroundcolor);
   --bs-btn-hover-bg: var(--primary-dark);
   --bs-btn-hover-border-color: var(--primary-dark);
-  --bs-btn-focus-shadow-rgb: 208, 193, 180;
+  --bs-btn-focus-shadow-rgb: 200, 200, 180;
   --bs-btn-active-color: var(--backgroundcolor);
   --bs-btn-active-bg: var(--primary-dark);
   --bs-btn-active-border-color: var(--primary-dark);
@@ -128,7 +127,7 @@ body {
   font-size: clamp(3.25rem, 7vw, 6.6667rem);
   font-variation-settings: "opsz" 144, "wght" 620, "SOFT" 0, "WONK" 1;
   font-weight: 620;
-  line-height: 0.94;
+  line-height: 1;
   letter-spacing: -0.045em;
 }
 
@@ -170,7 +169,7 @@ body {
 }
 
 .supplier-control::placeholder {
-  color: color-mix(in srgb, var(--sand-color) 82%, var(--backgroundcolor));
+  color: color-mix(in srgb, var(--sand-color) 80%, var(--backgroundcolor));
   opacity: 1;
 }
 
@@ -200,7 +199,7 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
   color: var(--textcolor);
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 600;
 }
 
@@ -220,9 +219,157 @@ body {
 
 .supplier-details-button {
   min-width: 6.7rem;
-  padding: 0.42rem 1rem;
-  font-size: 0.78rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
+}
+
+/* Leverancier details */
+
+#detailsModal {
+  --detail-muted: color-mix(in srgb, var(--textcolor) 60%, var(--backgroundcolor));
+  --detail-line: color-mix(in srgb, var(--sand-color) 70%, var(--backgroundcolor));
+}
+
+.modal-backdrop.show {
+  background-color: var(--textcolor);
+  opacity: 0.9;
+}
+
+#detailsModal .modal-dialog {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - var(--bs-modal-margin) * 2);
+  max-width: min(28rem, calc(100vw - 2rem));
+}
+
+#detailsModal .modal-content {
+  position: relative;
+  overflow: hidden;
+  max-height: calc(100vh - 3rem);
+  border: 0;
+  border-radius: 0.22rem;
+  background-color: var(--backgroundcolor);
+  box-shadow: 0 1.6rem 2.4rem rgb(0 0 0 / 40%);
+}
+
+#detailsModal .modal-header {
+  min-height: 3.25rem;
+  padding: 1.05rem 3.1rem 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--detail-line);
+}
+
+#detailsModal .modal-title {
+  margin: 0;
+  color: var(--textcolor);
+  font-family: var(--font-heading), serif;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-variation-settings: "opsz" 72, "wght" 560, "SOFT" 0, "WONK" 1;
+  font-weight: 560;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+#detailsModal .btn-close {
+  position: absolute;
+  top: 1.05rem;
+  right: 1.15rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  padding: 0.15rem;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--sand-color) 40%, var(--backgroundcolor));
+  background-size: 0.55rem;
+  opacity: 0.75;
+  outline: 0;
+  transition: background-color 160ms ease, opacity 160ms ease;
+}
+
+#detailsModal .btn-close:hover,
+#detailsModal .btn-close:focus {
+  background-color: var(--sand-color);
+  box-shadow: none;
+  opacity: 1;
+}
+
+#detailsModal .modal-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 0.8rem 1.35rem;
+  padding: 1rem 1.5rem 1.5rem;
+  color: var(--detail-muted);
+  font-family: var(--font-body), serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  overflow-y: auto;
+}
+
+#detailsModal .detail-subtitle {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--detail-line);
+  color: var(--textcolor);
+  font-family: var(--font-body), serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.25;
+  padding-top: 10px;
+}
+
+#detailsModal .detail-subtitle:not(:first-child) {
+  margin-top: 0.45rem;
+}
+
+#detailsModal .modal-body p {
+  margin: 0;
+  color: var(--detail-muted);
+  line-height: 1.35;
+}
+
+#detailsModal .modal-body p strong,
+#detailsModal .modal-body p span {
+  display: block;
+}
+
+#detailsModal .modal-body p strong {
+  color: var(--textcolor);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+#detailsModal .modal-body p span {
+  margin-top: 0.2rem;
+  color: var(--detail-muted);
+  font-weight: 300;
+}
+
+#detailsModal .list {
+  grid-column: 1 / -1;
+  margin-top: -0.25rem;
+}
+
+#detailsModal #openCreateBtn {
+  grid-column: 1 / -1;
+  justify-self: end;
+  align-self: end;
+  min-width: 7rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1.2rem;
+  border-color: var(--detail-line);
+  background-color: transparent;
+  color: var(--textcolor);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+#detailsModal #openCreateBtn:hover,
+#detailsModal #openCreateBtn:focus {
+  border-color: var(--primary-dark);
+  background-color: var(--primary-dark);
+  color: var(--backgroundcolor);
 }
 
 @media (max-width: 768px) {
@@ -267,7 +414,7 @@ body {
   .supplier-table > tbody > tr > td {
     display: grid;
     grid-template-columns: minmax(7.5rem, 40%) 1fr;
-    gap: 0.75rem;
+    gap: 0.7rem;
     padding: 0.5rem 0;
     border: 0;
     text-align: left;
@@ -276,13 +423,13 @@ body {
   .supplier-table td::before {
     content: attr(data-label);
     color: var(--textcolor);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
   }
 
   .supplier-table .supplier-name {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .supplier-actions {
@@ -298,22 +445,150 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 0.5rem;
+    margin: 0 0 0.8rem;
+    color: var(--detail-muted, var(--textcolor));
+    font-size: 0.75rem;
 }
 
 .list__prev,
 .list__next {
-    border: none;
-    background: none;
+    display: inline-grid;
+    place-items: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--textcolor);
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.list__prev:hover,
+.list__next:hover,
+.list__prev:focus,
+.list__next:focus {
+    background-color: transparent;
+    color: var(--primary-dark);
 }
 
 .list__items {
     display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
     .list__items.active {
-        display: block;
+        display: grid;
+        gap: 0.6rem;
     }
+
+.list__item {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--detail-line, var(--sand-color));
+    background-color: color-mix(in srgb, var(--sand-color) 10%, var(--backgroundcolor));
+}
+
+.list__item p {
+    margin: 0;
+}
+
+.list__item p:first-child {
+    color: var(--primary-dark);
+    font-family: var(--font-heading), serif;
+    font-size: 1rem;
+    font-variation-settings: "opsz" 24, "wght" 500, "SOFT" 0, "WONK" 1;
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.list__item p + p {
+    margin-top: 0.3rem;
+    color: var(--detail-muted, color-mix(in srgb, var(--textcolor) 62%, var(--backgroundcolor)));
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.35;
+}
+
+main > h1 {
+  max-width: 11ch;
+  margin: clamp(2.5rem, 6vw, 5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+  font-family: var(--font-heading), serif;
+  font-size: clamp(3.1rem, 7vw, 6rem);
+  font-variation-settings: "opsz" 144, "wght" 620, "SOFT" 0, "WONK" 1;
+  font-weight: 620;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+main > .table:not(.supplier-table) {
+  --bs-table-bg: transparent;
+  --bs-table-color: color-mix(in srgb, var(--primary-dark) 68%, var(--backgroundcolor));
+  margin-top: 1rem;
+  border-top: 1px solid var(--sand-color);
+  font-family: var(--font-body), serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+main > .table:not(.supplier-table) > :not(caption) > * > * {
+  padding: 0.85rem 1rem;
+  border-bottom-color: var(--sand-color);
+}
+
+main > .table:not(.supplier-table) thead th {
+  color: var(--textcolor);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+main > .table:not(.supplier-table) tbody td:first-child {
+  color: var(--primary-dark);
+  font-family: var(--font-heading), serif;
+  font-size: 1rem;
+  font-variation-settings: "opsz" 24, "wght" 460, "SOFT" 0, "WONK" 1;
+  font-weight: 460;
+}
+
+@media (max-width: 768px) {
+  #detailsModal .modal-dialog {
+    align-items: flex-start;
+    max-width: calc(100vw - 1rem);
+  }
+
+  #detailsModal .modal-content {
+    min-height: auto;
+  }
+
+  #detailsModal .modal-header {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  #detailsModal .modal-body {
+    grid-template-columns: 1fr;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  #detailsModal .modal-body > p,
+  #detailsModal .list,
+  #detailsModal #openCreateBtn {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  #detailsModal #openCreateBtn {
+    justify-self: stretch;
+  }
+
+  main > .table:not(.supplier-table) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
