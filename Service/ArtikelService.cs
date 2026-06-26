@@ -6,9 +6,16 @@ using System.Text;
 
 namespace Service
 {
-    public class ArtikelService(IArtikelRepository artikelRepository)
+    public class ArtikelService
     {
-        public async Task AddArtikelAsync(Artikel artikel) => await artikelRepository.AddArtikelAsync(artikel);
+        private readonly IArtikelRepository artikelRepository;
+
+        public ArtikelService(IArtikelRepository artikelRepository)
+        {
+            this.artikelRepository = artikelRepository;
+        }
+
+        public async Task AddArtikelAsync(Artikel artikel, List<int> selectedCategorieIds) => await artikelRepository.AddArtikelAsync(artikel, selectedCategorieIds);
 
         public async Task<Artikel?> GetArtikelAsync(int id) => await artikelRepository.GetArtikelByIdAsync(id);
 
