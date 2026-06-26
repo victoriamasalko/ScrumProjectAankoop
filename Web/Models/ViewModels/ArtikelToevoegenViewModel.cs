@@ -6,6 +6,11 @@ namespace Web.Models.ViewModels
     public class ArtikelToevoegenViewModel
     {
         [Required(ErrorMessage = "Het veld mag niet leeg zijn.")]
+        [StringLength(13)]
+        [Display(Name = "EAN")]
+        public string Ean { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Het veld mag niet leeg zijn.")]
         [StringLength(45)]
         [Display(Name = "Naam")]
         public string Naam { get; set; } = string.Empty;
