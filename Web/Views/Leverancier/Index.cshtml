@@ -1,5 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model Web.Models.ViewModels.LeverancierOverviewViewModel
 @{
+	ViewData["Title"] = "Leveranciers";
 }
+
+<section class="overview-page">
+	<header class="overview-header">
+		<h1 class="overview-title">
+			Adresboek van <em>leveranciers</em>
+		</h1>
+
+		<button class="btn btn-primary overview-create-button" type="button">
+			<span aria-hidden="true">+</span>
+			Nieuwe leverancier
+		</button>
+	</header>
+
+	<div class="overview-toolbar row gx-3 align-items-end">
+		<div class="col-12 col-md-4">
+			<label class="visually-hidden" for="overview-category">Categorie</label>
+			<select class="form-select overview-control" id="overview-category">
+				<option selected>Alle categorieën</option>
+			</select>
+		</div>
+		<div class="col-12 col-md-4">
+			<label class="visually-hidden" for="overview-status">Status</label>
+			<select class="form-select overview-control" id="overview-status">
+				<option selected>Alle statussen</option>
+			</select>
+		</div>
+		<div class="col-12 col-md-4">
+			<label class="visually-hidden" for="overview-search">Zoeken</label>
+			<input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op naam of EAN..." />
+		</div>
+	</div>
+	
+
+	<div class="table-responsive overview-table-wrapper">
+		<table class="table overview-table align-middle mb-0">
+			<thead>
+				<tr>
+					<th scope="col">Leverancier</th>
+					<th scope="col">Btw-nummer</th>
+					<th scope="col">Contactpersoon</th>
+					<th scope="col"><span class="visually-hidden">Acties</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var leverancier in Model.Leveranciers)
+				{
+					<tr>
+						<td data-label="Leverancier" class="overview-name">@leverancier.Naam</td>
+						<td data-label="Btw-nummer">@leverancier.BtwNummer</td>
+						<td data-label="Contactpersoon">@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
+						<td data-label="Acties" class="overview-actions">
+							<a class="btn btn-tertiary overview-details-button" asp-action="Details" asp-route-id="@leverancier.LeveranciersId">Details</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</section>

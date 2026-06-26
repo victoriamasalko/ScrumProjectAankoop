@@ -8,9 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IArtikelRepository, ArtikelRepository>();
 builder.Services.AddTransient<ILeverancierRepository, LeverancierRepository>();
 builder.Services.AddTransient<ICategorieRepository, CategorieRepository>();
+builder.Services.AddTransient<IPlaatsRepository, PlaatsRepository>();
 builder.Services.AddTransient<CategorieService>();
 builder.Services.AddTransient<ArtikelService>();
 builder.Services.AddTransient<LeverancierService>();
+builder.Services.AddTransient<PlaatsService>();
 builder.Services.AddDbContext<PrulariacomContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("PrulariaComConnection"),

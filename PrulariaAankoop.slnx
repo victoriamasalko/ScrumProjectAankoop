@@ -3,9 +3,7 @@
     <File Path="1.txt" />
   </Folder>
   <Project Path="Data/Data.csproj" />
-  <Project Path="Service/Service.csproj" Id="922ae470-ab7d-495c-be5a-5c725d0ee6be">
-    <Build Solution="Debug|*" Project="true" />
-  </Project>
+  <Project Path="Service/Service.csproj" Id="922ae470-ab7d-495c-be5a-5c725d0ee6be" />
   <Project Path="TestApp/TestApp.csproj" Id="4d3b4296-b779-47fa-b855-8d7ca2a3881e" />
   <Project Path="Web/Web.csproj" Id="396e3351-6fb3-4ad3-a278-87f20890a3ce" />
 </Solution>

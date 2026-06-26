@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Service
 {
-    public class ArtikelService
+    public class ArtikelService(IArtikelRepository artikelRepository)
     {
         private readonly IArtikelRepository artikelRepository;
 

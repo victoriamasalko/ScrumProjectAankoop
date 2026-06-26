@@ -13,13 +13,47 @@ namespace Web.Controllers
         private readonly ArtikelService artikelService;
         private readonly LeverancierService leverancierService;
         private readonly CategorieService categorieService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ArtikelController(ArtikelService artikelService, LeverancierService leverancierService, CategorieService categorieService)
+        public ArtikelController(ArtikelService artikelService, LeverancierService leverancierService, CategorieService categorieService,IWebHostEnvironment webHostEnvironment)
         {
             this.artikelService = artikelService;
             this.leverancierService = leverancierService;
             this.categorieService = categorieService;
+            this.webHostEnvironment = webHostEnvironment;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> FotoUpload(IFormFile file,int artikelId,string beschrijving)
+        {
+            try
+            {
+
+                if (file != null && Path.GetExtension(file.FileName) == ".jpg")
+                {
+                    // Stel de naam van de file in.
+                    var fileName = artikelId + "_" + beschrijving + ".jpg";
+
+                    // Stel in waar de file moet worden opgeslagen => ...wwwroot/images/artikels
+                    var uploadFolder = Path.Combine(webHostEnvironment.WebRootPath, "images", "artikels");
+                    var filePath = Path.Combine(uploadFolder, fileName);
+
+                    using var fs = new FileStream(filePath, FileMode.Create);
+
+                    await file.CopyToAsync(fs);
+
+                    return Ok(filePath);
+                }
+
+                return Problem();
+            }
+            catch (Exception ex)
+            {
+                return Problem();
+            }
+        }
+
+
 
         public async Task<IActionResult> Index()
         {
