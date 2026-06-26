@@ -73,14 +73,14 @@
 				.addEventListener('click', function () {
 
 					const formData = new FormData();
-					formData.append('Naam', document.querySelector('[name="Naam"]').value);
-					formData.append('BtwNummer', document.querySelector('[name="BtwNummer"]').value);
-					formData.append('Straat', document.querySelector('[name="Straat"]').value);
-					formData.append('HuisNummer', document.querySelector('[name="HuisNummer"]').value);
-					formData.append('Bus', document.querySelector('[name="Bus"]').value);
+					formData.append('Naam', document.querySelector('[name="naam"]').value);
+					formData.append('BtwNummer', document.querySelector('[name="btw"]').value);
+					formData.append('Straat', document.querySelector('[name="straat"]').value);
+					formData.append('HuisNummer', document.querySelector('[name="huisnummer"]').value);
+					formData.append('Bus', document.querySelector('[name="bus"]').value);
 					formData.append('PlaatsId', document.querySelector('[name="PlaatsId"]').value);
-					formData.append('FamilienaamContactperoon', document.querySelector('[name="FamilienaamContactperoon"]').value);
-					formData.append('VoornaamContactpersoon', document.querySelector('[name="VoornaamContactpersoon"]').value);
+					formData.append('FamilienaamContactperoon', document.querySelector('[name="familienaam"]').value);
+					formData.append('VoornaamContactpersoon', document.querySelector('[name="voornaam"]').value);
 
 					fetch('/Leverancier/AddLeverancierAsync', {
 						method: 'POST',
