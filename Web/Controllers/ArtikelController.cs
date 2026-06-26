@@ -99,7 +99,7 @@ namespace Web.Controllers
 
             var artikel = new Artikel
             {
-                Ean = model.Ean,
+                //Ean = model.Ean,
                 Naam = model.Naam,
                 Beschrijving = model.Beschrijving,
                 Prijs = model.Prijs,
