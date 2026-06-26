@@ -22,6 +22,11 @@ namespace Data.Repositories
             return leverancier;
         }
 
+        public async Task<Leverancier> AddLeverancier()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Leverancier?> GetLeverancierByIdAsync(int id)
         {
             return await _context.Leveranciers

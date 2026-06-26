@@ -39,7 +39,7 @@ namespace Web.Models.ViewModels
         [StringLength(45)]
         public string FamilienaamContactperoon { get; set; } = null!;
 
-       
+
 
     }
 }

@@ -9,11 +9,13 @@
             Adresboek van <em>leveranciers</em>
         </h1>
 
-        <button class="btn btn-primary overview-create-button" type="button">
-            <span aria-hidden="true">+</span>
-            Nieuwe leverancier
-        </button>
-    </header>
+
+		<button id="openAddLeverancierBtn" class="btn btn-primary overview-create-button" type="button">
+			<span aria-hidden="true">+</span>
+			Nieuwe leverancier
+		</button>
+
+	</header>
 
     <div class="overview-toolbar row gx-3 align-items-end">
         <div class="col-12 col-md-4">
@@ -188,3 +190,53 @@
 		}
 	});
 </script>
+
+
+	<script>
+
+		function wireAddLeverancierEvents() {
+
+			document.getElementById('saveLeverancierBtn')
+				.addEventListener('click', function () {
+
+					const formData = new FormData();
+					formData.append('Naam', document.querySelector('[name="naam"]').value);
+					formData.append('BtwNummer', document.querySelector('[name="btw"]').value);
+					formData.append('Straat', document.querySelector('[name="straat"]').value);
+					formData.append('HuisNummer', document.querySelector('[name="huisnummer"]').value);
+					formData.append('Bus', document.querySelector('[name="bus"]').value);
+					formData.append('PlaatsId', document.querySelector('[name="PlaatsId"]').value);
+					formData.append('FamilienaamContactperoon', document.querySelector('[name="familienaam"]').value);
+					formData.append('VoornaamContactpersoon', document.querySelector('[name="voornaam"]').value);
+
+					fetch('/Leverancier/AddLeverancierAsync', {
+						method: 'POST',
+						body: formData
+					})
+						.then(r => {
+							if (r.redirected) {
+								window.location.href = r.url;
+							}
+						});
+				});
+		}
+
+		document.getElementById('openAddLeverancierBtn').addEventListener('click', function () {
+				fetch('/Leverancier/AddLeverancier')
+					.then(r => r.text())
+					.then(html => {
+
+						document.getElementById('modalContainer').innerHTML = html;
+
+						bootstrap.Modal
+							.getOrCreateInstance(
+								document.getElementById('addLeverancierModal')
+							)
+							.show();
+
+						wireAddLeverancierEvents();
+					});
+			});
+
+	</script>
+

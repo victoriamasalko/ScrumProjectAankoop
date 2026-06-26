@@ -2,62 +2,79 @@
 @model Web.Models.ViewModels.AddLeverancierViewModel
 
 <div class="modal fade" id="addLeverancierModal" tabindex="-1">
-	<div class="model-dialog">
-		<div class="modal-header">
-			<h5 class="modal-title">
-				Leverancier aanmaken
-			</h5>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Leverancier aanmaken
+                </h5>
 
-			<button type="button"
-					class="btn-close"
-					data-bs-dismiss="modal">
-			</button>
-		</div>
-		<div class="modal-body">
-			<p>Leverancier</p>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Leverancier</p>
+                <label for="naam">Naam</label>
+                <input class="form-control"
+                       value="@Model.Naam"
+                       name="naam"/>
 
-			<input class="form-control"
-				   value="@Model.Naam" />
+                <label for="btw">BTW-Nummer</label>
+                <input class="form-control"
+                       value="@Model.BtwNummer" 
+                       name="btw"/>
 
-			<input class="form-control"
-				   value="@Model.BtwNummer" />
+                <label for="straat">Straat</label>
+                <input class="form-control"
+                       value="@Model.Straat"
+                       name="straat"/>
+                    
+                <label for="huisnummer">Huisnummer</label>
 
-			<input class="form-control"
-				   value="@Model.Straat" />
+                <input class="form-control"
+                       value="@Model.HuisNummer" name="huisnummer"/>
 
-			<input class="form-control"
-				   value="@Model.HuisNummer" />
 
-			<input class="form-control"
-				   value="@Model.Bus" />
+                <label for="bus">Bus</label>
 
-			<select class="form-control mt-2"
-					name="PlaatsId">
-				@foreach (var plaats in Model.Plaatsen)
-				{
-					<option value="@plaats.Value">@plaats.Text</option>
-				}
-			</select>
+                <input class="form-control"
+                       value="@Model.Bus" name="bus"/>
+                
+                <label for="PlaatsId">Plaats</label>
 
-			<p class="mt-3">Contactpersoon</p>
+                <select class="form-control mt-2"
+                        name="PlaatsId">
+                    @foreach (var plaats in Model.Plaatsen)
+                    {
+                        <option value="@plaats.Value">@plaats.Text</option>
+                    }
+                </select>
 
-			<input class="form-control"
-				   value="@Model.VoornaamContactpersoon" />
+                <p class="mt-3">Contactpersoon</p>
+                <label for="voornaam">Voornaam</label>
 
-			<input class="form-control"
-				   value="@Model.FamilienaamContactperoon" />
-		</div>
-		<div class="modal-footer">
-			<button type="button"
-					class="btn btn-secondary"
-					data-bs-dismiss="modal">
-				Annuleren
-			</button>
-			<button type="button"
-					class="btn btn-primary"
-					id="saveLeverancierBtn">
-				Toevoegen
-			</button>
-		</div>
-	</div>
+                <input class="form-control"
+                       value="@Model.VoornaamContactpersoon" name="voornaam"/>
+
+                <label for="familienaam">Familienaam</label>
+
+                <input class="form-control"
+                       value="@Model.FamilienaamContactperoon" name="familienaam" />
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Annuleren
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        id="saveLeverancierBtn">
+                    Toevoegen
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

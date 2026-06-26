@@ -9,8 +9,9 @@ namespace Web.Controllers
     public class LeverancierController : Controller
     {
         private readonly LeverancierService leverancierService;
+
         private readonly PlaatsService plaatsService;
-        public LeverancierController(LeverancierService leverancierService,PlaatsService plaatsService)
+        public LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService)
         {
             this.leverancierService = leverancierService;
             this.plaatsService = plaatsService;
@@ -33,7 +34,18 @@ namespace Web.Controllers
 
         }
 
-        // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
+        public async Task<IActionResult> Details(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
+
+            if (leverancier is null)
+            {
+                return NotFound();
+            }
+
+            return PartialView(leverancier);
+        }
+
         [NonAction]
         public async Task<List<SelectListItem>> GetPlaatsenAsync()
         {
@@ -48,25 +60,15 @@ namespace Web.Controllers
         }
 
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
-        public async Task<IActionResult> AddLeverancierAsync()
+        public async Task<IActionResult> AddLeverancier()
         {
-            return View("AddLeverancierModal", new AddLeverancierViewModel()
+            return PartialView("AddLeverancierModal", new AddLeverancierViewModel()
             {
                 Plaatsen = await GetPlaatsenAsync()
             });
         }
-        public async Task<IActionResult> Details(int id)
-        {
-            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
 
-            if (leverancier is null)
-            {
-                return NotFound();
-            }
-
-            return PartialView(leverancier);
-        }
-            // Deze action method voegt een nieuwe leverancier toe.
+        // Deze action method voegt een nieuwe leverancier toe.
         [HttpPost]
         public async Task<IActionResult> AddLeverancierAsync(AddLeverancierViewModel addLeverancierViewModel)
         {
@@ -94,7 +96,7 @@ namespace Web.Controllers
             else
             {
                 addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
-                return View("AddLeverancierModal",addLeverancierViewModel);
+                return PartialView("AddLeverancierModal", addLeverancierViewModel);
             }
         }
     }
