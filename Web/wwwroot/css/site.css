@@ -161,6 +161,7 @@ body {
 
 .overview-title em {
   color: var(--primary-dark);
+  font-style: italic;
   font-variation-settings: "opsz" 144, "wght" 460, "SOFT" 0, "WONK" 1;
   font-weight: 460;
 }
@@ -542,7 +543,7 @@ body {
     line-height: 1.35;
 }
 
-main > h1 {
+main > h1:not(.overview-title) {
   max-width: 11ch;
   margin: clamp(2.5rem, 6vw, 5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
   font-family: var(--font-heading), serif;
