@@ -11,6 +11,7 @@ namespace Data.Repositories
 
         Task<IEnumerable<Leverancier>> GetLeveranciersAsync();
         Task<Leverancier> AddLeverancierAsync(Leverancier leverancier);
+        Task<Leverancier> AddLeverancier();
         Task<Leverancier> UpdateLeverancierAsync(Leverancier leverancier);
     }
 }

@@ -15,8 +15,6 @@
 			Nieuwe leverancier
 		</button>
 
-		<div id="modalContainer"></div>
-
 	</header>
 
 	<div class="supplier-toolbar row gx-3 align-items-end">
@@ -63,8 +61,10 @@
 			</tbody>
 		</table>
 	</div>
+	<div id="modalContainer"></div>
 </section>
-@section Scripts {
+
+
 	<script>
 
 		function wireAddLeverancierEvents() {
@@ -94,9 +94,7 @@
 				});
 		}
 
-		document.getElementById('openAddLeverancierBtn')
-			.addEventListener('click', function () {
-
+		document.getElementById('openAddLeverancierBtn').addEventListener('click', function () {
 				fetch('/Leverancier/AddLeverancier')
 					.then(r => r.text())
 					.then(html => {
@@ -114,4 +112,4 @@
 			});
 
 	</script>
-}
+

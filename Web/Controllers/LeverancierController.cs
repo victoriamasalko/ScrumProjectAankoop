@@ -9,9 +9,12 @@ namespace Web.Controllers
     public class LeverancierController : Controller
     {
         private readonly LeverancierService leverancierService;
-        public LeverancierController(LeverancierService leverancierService)
+
+        private readonly PlaatsService plaatsService;
+        public LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService)
         {
             this.leverancierService = leverancierService;
+            this.plaatsService = plaatsService;
         }
         //Overzicht van leveranciers tonen.
         //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
@@ -58,7 +61,7 @@ namespace Web.Controllers
         }
 
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
-        public async Task<IActionResult> AddLeverancierAsync()
+        public async Task<IActionResult> AddLeverancier()
         {
             return PartialView("AddLeverancierModal", new AddLeverancierViewModel()
             {

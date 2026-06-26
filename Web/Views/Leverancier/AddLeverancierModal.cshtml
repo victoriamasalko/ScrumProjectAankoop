@@ -2,62 +2,64 @@
 @model Web.Models.ViewModels.AddLeverancierViewModel
 
 <div class="modal fade" id="addLeverancierModal" tabindex="-1">
-	<div class="model-dialog">
-		<div class="modal-header">
-			<h5 class="modal-title">
-				Leverancier aanmaken
-			</h5>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Leverancier aanmaken
+                </h5>
 
-			<button type="button"
-					class="btn-close"
-					data-bs-dismiss="modal">
-			</button>
-		</div>
-		<div class="modal-body">
-			<p>Leverancier</p>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Leverancier</p>
 
-			<input class="form-control"
-				   value="@Model.Naam" />
+                <input class="form-control"
+                       value="@Model.Naam" />
 
-			<input class="form-control"
-				   value="@Model.BtwNummer" />
+                <input class="form-control"
+                       value="@Model.BtwNummer" />
 
-			<input class="form-control"
-				   value="@Model.Straat" />
+                <input class="form-control"
+                       value="@Model.Straat" />
 
-			<input class="form-control"
-				   value="@Model.HuisNummer" />
+                <input class="form-control"
+                       value="@Model.HuisNummer" />
 
-			<input class="form-control"
-				   value="@Model.Bus" />
+                <input class="form-control"
+                       value="@Model.Bus" />
 
-			<select class="form-control mt-2"
-					name="PlaatsId">
-				@foreach (var plaats in Model.Plaatsen)
-				{
-					<option value="@plaats.Value">@plaats.Text</option>
-				}
-			</select>
+                <select class="form-control mt-2"
+                        name="PlaatsId">
+                    @foreach (var plaats in Model.Plaatsen)
+                    {
+                        <option value="@plaats.Value">@plaats.Text</option>
+                    }
+                </select>
 
-			<p class="mt-3">Contactpersoon</p>
+                <p class="mt-3">Contactpersoon</p>
 
-			<input class="form-control"
-				   value="@Model.VoornaamContactpersoon" />
+                <input class="form-control"
+                       value="@Model.VoornaamContactpersoon" />
 
-			<input class="form-control"
-				   value="@Model.FamilienaamContactperoon" />
-		</div>
-		<div class="modal-footer">
-			<button type="button"
-					class="btn btn-secondary"
-					data-bs-dismiss="modal">
-				Annuleren
-			</button>
-			<button type="button"
-					class="btn btn-primary"
-					id="saveLeverancierBtn">
-				Toevoegen
-			</button>
-		</div>
-	</div>
+                <input class="form-control"
+                       value="@Model.FamilienaamContactperoon" />
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Annuleren
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        id="saveLeverancierBtn">
+                    Toevoegen
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
