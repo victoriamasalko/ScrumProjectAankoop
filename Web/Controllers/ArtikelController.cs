@@ -73,26 +73,28 @@ namespace Web.Controllers
             return View(nameof(Index), viewModel);
         }
 
+        // Toont het formulier om een artikel toe te voegen.
         [HttpGet]
         public async Task<IActionResult> ArtikelToevoegen()
         {
             var viewModel = new ArtikelToevoegenViewModel
             {
                 Leveranciers = await GetLeveranciersSelectListAsync(),
-                Categorieen = await GetCategorieenSelectLystAsync()
+                Categorieen = await GetCategorieenSelectListAsync()
 
             };
 
             return View(nameof(ArtikelToevoegen), viewModel);
         }
 
+        // Voegt een nieuw artikel toe.
         [HttpPost]
         public async Task<IActionResult> ArtikelToevoegenUitvoeren(ArtikelToevoegenViewModel model)
         {
             if(!ModelState.IsValid)
             {
                 model.Leveranciers = await GetLeveranciersSelectListAsync();
-                model.Categorieen = await GetCategorieenSelectLystAsync();
+                model.Categorieen = await GetCategorieenSelectListAsync();
 
                 return View(nameof(ArtikelToevoegen), model);
             }
@@ -120,6 +122,75 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // Toont het formulier om een artikel te wijzigen.
+        [HttpGet]
+        public async Task<IActionResult> ArtikelWijzigen(int id)
+        {
+            var artikel = await artikelService.GetArtikelAsync(id);
+
+            if(artikel is null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ArtikelWijzigenViewModel
+            {
+                ArtikelId = artikel.ArtikelId,
+                Naam = artikel.Naam,
+                Beschrijving = artikel.Beschrijving,
+                Prijs = artikel.Prijs,
+                GewichtInGram = artikel.GewichtInGram,
+                Bestelpeil = artikel.Bestelpeil,
+                MinimumVoorraad = artikel.MinimumVoorraad,
+                MaximumVoorraad = artikel.MaximumVoorraad,
+                Levertijd = artikel.Levertijd,
+                AantalBesteldLeverancier = artikel.AantalBesteldLeverancier,
+                MaxAantalInMagazijnPlaats = artikel.MaxAantalInMagazijnPlaats,
+                LeverancierId = artikel.LeveranciersId,
+
+                Leveranciers = await GetLeveranciersSelectListAsync(),
+                Categorieen = await GetCategorieenSelectListAsync(),
+
+                SelectedCategorieIds = artikel.Categorieen.Select(c => c.CategorieId).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        // Wijzigt een bestaand artikel.
+        [HttpPost]
+        public async Task<IActionResult> ArtikelWijzigenUitvoeren(ArtikelWijzigenViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.Leveranciers = await GetLeveranciersSelectListAsync();
+                model.Categorieen = await GetCategorieenSelectListAsync();
+
+                return View(nameof(ArtikelWijzigen), model);
+            }
+
+            var artikel = new Artikel
+            {
+                ArtikelId = model.ArtikelId,
+                Naam = model.Naam,
+                Beschrijving = model.Beschrijving,
+                Prijs = model.Prijs,
+                GewichtInGram = model.GewichtInGram,
+                Bestelpeil = model.Bestelpeil,
+                MinimumVoorraad = model.MinimumVoorraad,
+                MaximumVoorraad = model.MaximumVoorraad,
+                Levertijd = model.Levertijd,
+                AantalBesteldLeverancier = model.AantalBesteldLeverancier,
+                MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
+                LeveranciersId = model.LeverancierId!.Value
+            };
+
+            await artikelService.UpdateArtikelAsync(artikel, model.SelectedCategorieIds);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // Haalt de leveranciers op voor de dropdownlijst.
         public async Task<IEnumerable<SelectListItem>> GetLeveranciersSelectListAsync()
         {
             var leveranciers = await leverancierService.GetLeveranciersAsync();
@@ -132,7 +203,8 @@ namespace Web.Controllers
 
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetCategorieenSelectLystAsync()
+        // Haalt de categorieën op voor de keuzelijst.
+        public async Task<IEnumerable<SelectListItem>> GetCategorieenSelectListAsync()
         {
             var categorieen = await categorieService.GetCategorieenAsync();
 

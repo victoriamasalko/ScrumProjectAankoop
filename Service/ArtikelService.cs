@@ -20,6 +20,6 @@ namespace Service
         public async Task<Artikel?> GetArtikelAsync(int id) => await artikelRepository.GetArtikelByIdAsync(id);
 
         public async Task<IEnumerable<Artikel>> GetArtikelsAsync() => await artikelRepository.GetArtikelsAsync();
-        public async Task UpdateArtikelAsync(Artikel artikel) => await artikelRepository.UpdateArtikelAsync(artikel);
+        public async Task UpdateArtikelAsync(Artikel artikel, List<int> selectedCategorieIds) => await artikelRepository.UpdateArtikelAsync(artikel, selectedCategorieIds);
     }
 }

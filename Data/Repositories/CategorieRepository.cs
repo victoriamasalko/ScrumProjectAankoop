@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
@@ -89,5 +90,4 @@ public class CategorieRepository : ICategorieRepository
         await context.SaveChangesAsync();
         return categorie;
     }
-
 }
