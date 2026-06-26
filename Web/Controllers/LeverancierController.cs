@@ -11,16 +11,7 @@ namespace Web.Controllers
         //Overzicht van leveranciers tonen.
         //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
         //Deze wordt in de Leveranciers property van het ViewModel gestoken.
-    public class LeverancierController : Controller
-    {
-        private readonly LeverancierService leverancierService;
 
-        private readonly PlaatsService plaatsService;
-        public LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService)
-        {
-            this.leverancierService = leverancierService;
-            this.plaatsService = plaatsService;
-        }
         
         public async Task<IActionResult> Index()
         {
@@ -37,13 +28,6 @@ namespace Web.Controllers
 
             return View(nameof(Index), viewModel);
 
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
-
-            return View(viewModel);
         }
 
         //Details van een leverancier tonen.
