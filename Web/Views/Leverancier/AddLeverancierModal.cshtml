@@ -16,21 +16,33 @@
             </div>
             <div class="modal-body">
                 <p>Leverancier</p>
+                <label for="naam">Naam</label>
+                <input class="form-control"
+                       value="@Model.Naam"
+                       name="naam"/>
+
+                <label for="btw">BTW-Nummer</label>
+                <input class="form-control"
+                       value="@Model.BtwNummer" 
+                       name="btw"/>
+
+                <label for="straat">Straat</label>
+                <input class="form-control"
+                       value="@Model.Straat"
+                       name="straat"/>
+                    
+                <label for="huisnummer">Huisnummer</label>
 
                 <input class="form-control"
-                       value="@Model.Naam" />
+                       value="@Model.HuisNummer" name="huisnummer"/>
+
+
+                <label for="bus">Bus</label>
 
                 <input class="form-control"
-                       value="@Model.BtwNummer" />
-
-                <input class="form-control"
-                       value="@Model.Straat" />
-
-                <input class="form-control"
-                       value="@Model.HuisNummer" />
-
-                <input class="form-control"
-                       value="@Model.Bus" />
+                       value="@Model.Bus" name="bus"/>
+                
+                <label for="PlaatsId">Plaats</label>
 
                 <select class="form-control mt-2"
                         name="PlaatsId">
@@ -41,12 +53,15 @@
                 </select>
 
                 <p class="mt-3">Contactpersoon</p>
+                <label for="voornaam">Voornaam</label>
 
                 <input class="form-control"
-                       value="@Model.VoornaamContactpersoon" />
+                       value="@Model.VoornaamContactpersoon" name="voornaam"/>
+
+                <label for="familienaam">Familienaam</label>
 
                 <input class="form-control"
-                       value="@Model.FamilienaamContactperoon" />
+                       value="@Model.FamilienaamContactperoon" name="familienaam" />
             </div>
             <div class="modal-footer">
                 <button type="button"
