@@ -109,6 +109,35 @@ body {
   margin-top: 9px;
 }
 
+/*Welcome*/
+
+.welcome-page {
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      min-height: 82vh;
+    
+}
+
+.welcome-title {
+    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    font-family: var(--font-heading), serif;
+    font-size: clamp(3.25rem, 7vw, 6.6667rem);
+    font-variation-settings: "opsz" 144, "wght" 620, "SOFT" 0, "WONK" 1;
+    font-weight: 620;
+    line-height: 0.94;
+    text-align: center;
+
+    
+}
+
+.welcome-title em {
+    color: var(--primary-dark);
+    font-variation-settings: "opsz" 144, "wght" 460, "SOFT" 0, "WONK" 1;
+    font-weight: 460;
+}
+
+
 /*Leverancier*/
 
 .overview-page {
