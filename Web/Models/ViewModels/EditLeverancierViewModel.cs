@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.ViewModels
 {
-    public class AddLeverancierViewModel
+    public class EditLeverancierViewModel
     {
+        public int LeverancierId { get; set; }
+
         [Required]
         public string Naam { get; set; } = null!;
 
@@ -27,7 +29,7 @@ namespace Web.Models.ViewModels
         [Required]
         public int PlaatsId { get; set; }
 
-        public List<SelectListItem> Plaatsen = new List<SelectListItem>();
+        public List<SelectListItem> Plaats = [];
         
         [Required]
         [StringLength(45)]

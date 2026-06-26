@@ -6,16 +6,12 @@ using Web.Models.ViewModels;
 
 namespace Web.Controllers
 {
-    public class LeverancierController : Controller
+    public class LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService) : Controller
     {
-        private readonly LeverancierService leverancierService;
+        //Overzicht van leveranciers tonen.
+        //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
+        //Deze wordt in de Leveranciers property van het ViewModel gestoken.
 
-        private readonly PlaatsService plaatsService;
-        public LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService)
-        {
-            this.leverancierService = leverancierService;
-            this.plaatsService = plaatsService;
-        }
         
         public async Task<IActionResult> Index()
         {
@@ -34,6 +30,11 @@ namespace Web.Controllers
 
         }
 
+        //Details van een leverancier tonen.
+        //Je neemt de leverancier uit de database via de service en sla het op in de variabele leverancier.
+        //Als de leverancier niet wordt gevonden, word je doorgestuurd naar een 'Not Found'-pagina.
+        //Als de leverancier wordt gevonden, wordt je doorgestuurd naar de bijbehorende view.
+        //[HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
@@ -43,11 +44,59 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            return PartialView(leverancier);
+            return View(leverancier);
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
+
+            if (leverancier is null)
+                return View(nameof(Details));
+            
+            var model = new EditLeverancierViewModel
+            {
+                LeverancierId = leverancier.LeveranciersId,
+                Naam = leverancier.Naam,
+                BtwNummer = leverancier.BtwNummer,
+                Straat = leverancier.Straat,
+                HuisNummer = leverancier.HuisNummer,
+                Bus = leverancier.Bus,
+                PlaatsId = leverancier.PlaatsId,
+                Plaats = await GetPlaatsenAsync(),
+                VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
+                FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
+            };
+            
+            return View(model);
+        }
+
+        public async Task<IActionResult> SaveChanges(EditLeverancierViewModel editLeverancierViewModel)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
+
+            Leverancier leverancier = new Leverancier()
+            {
+                LeveranciersId = editLeverancierViewModel.LeverancierId,
+                Naam = editLeverancierViewModel.Naam,
+                BtwNummer = editLeverancierViewModel.BtwNummer,
+                Straat = editLeverancierViewModel.Straat,
+                HuisNummer = editLeverancierViewModel.HuisNummer,
+                Bus = editLeverancierViewModel.Bus,
+                PlaatsId = editLeverancierViewModel.PlaatsId,
+                VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
+                FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
+            };
+            await leverancierService.UpdateLeverancierAsync(leverancier);
+
+            return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
+        }
+
+
+        // Deze method wordt gebruikt om de plaatsen als een select list te kunnen gebruiken.
         [NonAction]
-        public async Task<List<SelectListItem>> GetPlaatsenAsync()
+        private async Task<List<SelectListItem>> GetPlaatsenAsync()
         {
             var plaatsen = await plaatsService.GetPlaatsenAsync();
 
@@ -56,7 +105,6 @@ namespace Web.Controllers
                 Text = plaats.Naam,
                 Value = plaats.PlaatsId.ToString()
             }).ToList();
-
         }
 
         // Deze action method geeft het formulier terug waarin een nieuwe leverancier aangemaakt wordt.
