@@ -46,7 +46,7 @@ namespace Web.Controllers
             var viewModel = new ArtikelToevoegenViewModel
             {
                 Leveranciers = await GetLeveranciersSelectListAsync(),
-                Categorieen = await GetCategorieenSelectLystAsync()
+                Categorieen = await GetCategorieenSelectListAsync()
 
             };
 
@@ -60,7 +60,7 @@ namespace Web.Controllers
             if(!ModelState.IsValid)
             {
                 model.Leveranciers = await GetLeveranciersSelectListAsync();
-                model.Categorieen = await GetCategorieenSelectLystAsync();
+                model.Categorieen = await GetCategorieenSelectListAsync();
 
                 return View(nameof(ArtikelToevoegen), model);
             }
@@ -114,7 +114,7 @@ namespace Web.Controllers
                 LeverancierId = artikel.LeveranciersId,
 
                 Leveranciers = await GetLeveranciersSelectListAsync(),
-                Categorieen = await GetCategorieenSelectLystAsync(),
+                Categorieen = await GetCategorieenSelectListAsync(),
 
                 SelectedCategorieIds = artikel.Categorieen.Select(c => c.CategorieId).ToList()
             };
@@ -129,7 +129,7 @@ namespace Web.Controllers
             if (!ModelState.IsValid)
             {
                 model.Leveranciers = await GetLeveranciersSelectListAsync();
-                model.Categorieen = await GetCategorieenSelectLystAsync();
+                model.Categorieen = await GetCategorieenSelectListAsync();
 
                 return View(nameof(ArtikelWijzigen), model);
             }
@@ -169,7 +169,7 @@ namespace Web.Controllers
         }
 
         // Haalt de categorieën op voor de keuzelijst.
-        public async Task<IEnumerable<SelectListItem>> GetCategorieenSelectLystAsync()
+        public async Task<IEnumerable<SelectListItem>> GetCategorieenSelectListAsync()
         {
             var categorieen = await categorieService.GetCategorieenAsync();
 

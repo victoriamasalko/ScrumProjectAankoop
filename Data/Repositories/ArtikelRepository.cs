@@ -63,7 +63,7 @@ public class ArtikelRepository : IArtikelRepository
         existingArtikel.Naam = artikel.Naam;
         existingArtikel.Beschrijving = artikel.Beschrijving;
         existingArtikel.Prijs = artikel.Prijs;
-        existingArtikel.GewichtInGram = existingArtikel.GewichtInGram;
+        existingArtikel.GewichtInGram = artikel.GewichtInGram;
         existingArtikel.Bestelpeil = artikel.Bestelpeil;
         existingArtikel.MinimumVoorraad = artikel.MinimumVoorraad;
         existingArtikel.MaximumVoorraad = artikel.MaximumVoorraad;
