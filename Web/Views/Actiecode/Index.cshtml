@@ -1,0 +1,62 @@
+@model List<Actiecode>
+@{
+    ViewData["Title"] = "Actiecodes";
+}
+
+<header class="overview-header">
+    <h1 class="overview-title">
+        Actiecodes
+    </h1>
+
+    <button class="btn btn-primary overview-create-button" type="button">
+        <span aria-hidden="true">+</span>
+        Nieuwe actiecode
+    </button>
+
+</header>
+
+Deze filters werken nog niet (kopie van leveranciers)
+<br/>
+
+<div class="overview-toolbar row gx-3 align-items-end">
+    <div class="col-12 col-md-4">
+        <label class="visually-hidden" for="overview-category">Categorie</label>
+        <select class="form-select overview-control" id="overview-category">
+            <option selected>Alle xxx</option>
+        </select>
+    </div>
+    <div class="col-12 col-md-4">
+        <label class="visually-hidden" for="overview-status">Status</label>
+        <select class="form-select overview-control" id="overview-status">
+            <option selected>Alle xxx</option>
+        </select>
+    </div>
+    <div class="col-12 col-md-4">
+        <label class="visually-hidden" for="overview-search">Zoeken</label>
+        <input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op xxx"/>
+    </div>
+</div>
+
+<div class="table-responsive overview-table-wrapper">
+    <table class="table overview-table align-middle mb-0">
+        <thead>
+        <tr>
+            <th class="p-2">Naam</th>
+            <th class="p-2">Geldig van</th>
+            <th class="p-2">Geldig tot</th>
+            <th class="p-2">Eenmalig?</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var actiecode in Model)
+        {
+            <tr>
+                <td class="p-2" data-label="Naam">@actiecode.Naam</td>
+                <td class="p-2" data-label="GeldigVan">@actiecode.GeldigVanDatum</td>
+                <td class="p-2" data-label="GeldigTot">@actiecode.GeldigTotDatum</td>
+                <td class="p-2" data-label="Eenmalig">@actiecode.IsEenmalig</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
