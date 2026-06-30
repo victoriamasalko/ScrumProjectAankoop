@@ -1,0 +1,18 @@
+﻿@model AddCategorieViewModel
+
+<form asp-action="AddCategorie" method="post">
+
+	<label asp-for="Naam">Naam</label>
+	<input asp-for ="Naam" class="form-control" />
+	<span asp-validation-for="Naam" class="text-danger"></span>
+
+	<label asp-for="HoofdCategorieId">Hoofdcategorie</label>
+	<select asp-for="HoofdCategorieId">
+			asp-items="Model.BeschikbareCategorieen"
+			class="form-select">
+		@*option value=""*@
+	</select>
+
+</form>
+
+public List<SelectListItem> BeschikbareCategorieen { get; set; } = [];

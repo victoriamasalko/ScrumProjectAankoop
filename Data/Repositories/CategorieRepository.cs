@@ -90,4 +90,11 @@ public class CategorieRepository : ICategorieRepository
         await context.SaveChangesAsync();
         return categorie;
     }
+
+    public async Task<Categorie> AddCategorieAsync(Categorie categorie)
+    {
+        context.Categorieen.Add(categorie);
+        await context.SaveChangesAsync();
+        return categorie;
+    }
 }
