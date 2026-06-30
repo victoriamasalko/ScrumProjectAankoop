@@ -30,6 +30,7 @@ public class ActiecodeController : Controller
             ActiecodeId = actiecode.ActiecodeId,
             Naam = actiecode.Naam,
             GeldigVanDatum = actiecode.GeldigVanDatum,
+            MoetGeldigVanDatumGevalideerdWorden = actiecode.GeldigVanDatum >= DateTime.Today,
             GeldigTotDatum = actiecode.GeldigTotDatum,
             IsEenmalig = actiecode.IsEenmalig
         };
@@ -40,11 +41,14 @@ public class ActiecodeController : Controller
     [HttpPost]
     public async Task<IActionResult> ActiecodeWijzigenUitvoeren(ActiecodeViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (model.MoetGeldigVanDatumGevalideerdWorden && model.GeldigVanDatum < DateTime.Today)
         {
-            return View(nameof(ActiecodeWijzigen), model);
+            ModelState.AddModelError("GeldigVanDatum", "De startdatum mag niet in het verleden liggen.");
         }
 
+        if (!ModelState.IsValid)
+            return RedirectToAction(nameof(Index));
+        
         var actiecode = new Actiecode()
         {
             ActiecodeId = model.ActiecodeId,
@@ -55,7 +59,8 @@ public class ActiecodeController : Controller
         };
 
         await actiecodeService.UpdateActiecodeAsync(actiecode);
-
         return RedirectToAction(nameof(Index));
     }
+    
+    
 }

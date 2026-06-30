@@ -12,6 +12,8 @@ public class ActiecodeViewModel : IValidatableObject
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public DateTime GeldigVanDatum { get; set; }
+    
+    public bool MoetGeldigVanDatumGevalideerdWorden { get; set; } = true;
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public DateTime GeldigTotDatum { get; set; }

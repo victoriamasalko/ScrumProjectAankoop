@@ -7,7 +7,7 @@
 @* Formulier om een ​​artikel toe te voegen *@
 <form asp-action="ActiecodeWijzigenUitvoeren" method="post">
 
-    <input type="hidden" asp-for="ActiecodeId" />
+    <input type="hidden" asp-for="ActiecodeId"/>
 
     <div class="mb-3">
         <label asp-for="Naam" class="form-label"></label>
@@ -15,11 +15,42 @@
         <span asp-validation-for="Naam" class="text-danger"></span>
     </div>
 
+
     <div class="mb-3">
         <label asp-for="GeldigVanDatum" class="form-label"></label>
-        <input asp-for="GeldigVanDatum" class="form-control"/>
-        <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
+        <input asp-for="GeldigVanDatum" class="form-control" id="geldigVanDatumInput"/>
+        @if (Model.MoetGeldigVanDatumGevalideerdWorden)
+        {
+            <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
+        }
+        <small id="pastDateMessage" class="text-muted d-none">Deze code is actief en dus kan de startdatum niet meer worden aangepast.</small>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('geldigVanDatumInput');
+            const message = document.getElementById('pastDateMessage');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            function checkDate() {
+                const selectedDate = new Date(input.value);
+                if (selectedDate < today) {
+                    input.disabled = true;
+                    message.classList.remove('d-none');
+                } else {
+                    input.disabled = false;
+                    message.classList.add('d-none');
+                }
+            }
+
+            input.addEventListener('change', checkDate);
+
+            if (input.value) {
+                checkDate();
+            }
+        });
+    </script>
 
     <div class="mb-3">
         <label asp-for="GeldigTotDatum" class="form-label"></label>
@@ -28,11 +59,11 @@
     </div>
 
     <div class="mb-3 form-check">
-        <input asp-for="IsEenmalig" class="form-check-input" type="checkbox" />
+        <input asp-for="IsEenmalig" class="form-check-input" type="checkbox"/>
         <label asp-for="IsEenmalig" class="form-check-label">Eenmalig?</label>
         <span asp-validation-for="IsEenmalig" class="text-danger"></span>
     </div>
-    
+
 
     <button type="submit" class="btn btn-primary">Opslaan</button>
     <a asp-action="Index" class="btn btn-warning">Annuleren</a>
