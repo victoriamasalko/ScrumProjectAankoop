@@ -1,20 +1,22 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model IEnumerable<CategorieOverviewViewModel>
+@model (IEnumerable<CategorieOverviewViewModel> Subcategorieen, int Niveau)
 
-@foreach (var categorie in Model)
+@foreach (var categorie in Model.Subcategorieen)
 {
-    <div class="CategorieInsprong">
+    <div style="padding-left: @(Model.Niveau * 25)px;">
     @if (categorie.Subcategorieen.Any())
     {        
-        <p class="CategorieInsprong"> @categorie.Naam</p>
-        <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
+        <p>@categorie.Naam</p>
+        @if (categorie.Subcategorieen.Any())
+        {
+            <partial name="PartialSubcategorieen" model="(categorie.Subcategorieen, Model.Niveau + 1)" />
+        }
     }
     else
     {
         <p><span>@categorie.Naam</span></p>
     }
-    </div>
-    
+    </div>    
 }

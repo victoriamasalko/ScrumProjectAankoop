@@ -5,11 +5,11 @@
 <div>
 	@foreach (var categorie in Model)
 	{
+		<p>@categorie.Naam</p>
 		@if (categorie.Subcategorieen.Any())
 		{
-			<p>@categorie.Naam</p>
+			<partial name="PartialSubcategorieen" model="(categorie.Subcategorieen, Niveau:1)"/>
 		}
-		<partial name="PartialSubcategorieen" model="categorie.Subcategorieen" class="CategorieInsprong"/>
 	}
 </div>
 
@@ -17,4 +17,4 @@
 {
 	<div>Er zijn nog geen artikelen.</div>
 }
-Ik ben Jeroen
+
