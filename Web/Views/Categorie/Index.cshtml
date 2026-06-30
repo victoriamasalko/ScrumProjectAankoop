@@ -1,16 +1,39 @@
 ﻿@model IEnumerable<CategorieOverviewViewModel>
-<h1>De <em>categorieboom</em></h1>
-@foreach (var categorie in Model)
-{
-    @if (categorie.Subcategorieen.Any())
-    {
-        <p style="padding-left : @(categorie.Level * 20)px">@categorie.Naam</p>
-        <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
-    }
-    else
-    {
-        <p style="padding-left:@(categorie.Level * 20)px">
-            <span>@categorie.Naam</span>
-        </p>
-    }
-}
+
+<section class="overview-page">
+    
+    <header class="overview-header">
+        <h1 class="overview-title">
+            De <em>categorieboom</em>
+        </h1>
+
+
+        <button id="x" class="btn btn-secondary overview-create-button" type="button">
+            <span aria-hidden="true">+</span>
+            Hoofdcategorie
+        </button>
+        <button id="x" class="btn btn-primary overview-create-button" type="button">
+            <span aria-hidden="true">+</span>
+            Subcategorie
+        </button>
+
+
+    </header>
+    <div class="category-tree">
+        @foreach (var categorie in Model)
+        {
+            @if (categorie.Subcategorieen.Any())
+            {
+                <p class="category-tree__item cat-@(categorie.Level + 1)">@categorie.Naam</p>
+                <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
+            }
+            else
+            {
+                <p class="category-tree__item cat-@(categorie.Level + 1)">
+                    ↳ <span>@categorie.Naam</span>
+                </p>
+            }
+        }
+    </div>
+
+</section>

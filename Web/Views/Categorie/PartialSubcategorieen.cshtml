@@ -4,12 +4,12 @@
 {
     @if (categorie.Subcategorieen.Any())
     {
-        <p style="padding-left : @(categorie.Level * 20)px">@categorie.Naam</p>
+        <p class="category-tree__item cat-@(categorie.Level + 1)">@categorie.Naam</p>
         <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
     }
     else
     {
-        <p style="padding-left:@(categorie.Level * 20)px">
+        <p class="category-tree__item cat-@(categorie.Level + 1)">
             <span>@categorie.Naam</span>
         </p>
     }
