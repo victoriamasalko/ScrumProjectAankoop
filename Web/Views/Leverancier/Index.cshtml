@@ -1,4 +1,4 @@
-@model IEnumerable<LeverancierOverviewViewModel>
+@model LeverancierIndexViewModel
 @{
     ViewData["Title"] = "Leveranciers";
 }
@@ -17,9 +17,14 @@
 
     <div class="overview-toolbar row gx-3 align-items-end">
         <div class="col-12 col-md-4">
-            <label class="visually-hidden" for="overview-category">Categorie</label>
-            <select class="form-select overview-control" id="overview-category">
-                <option selected>Alle categorieën</option>
+            <label class="visually-hidden" for="overview-category">Artikel</label>
+            <select class="form-select overview-control" id="overview-article">
+                <option value="" selected>Alle artikels</option>
+                @foreach (var artikel in Model.Artikels){
+                        <option value="@artikel.ArtikelId">@artikel.Naam - @artikel.Beschrijving</option>
+
+                }
+
             </select>
         </div>
         <div class="col-12 col-md-4">
@@ -46,9 +51,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var leverancier in Model)
+                @foreach (var leverancier in Model.Leveranciers)
                 {
-                    <tr>
+                    <tr data-artikels="@string.Join("|", leverancier.Artikels.Select(a => a.ArtikelId))"> 
                         <td data-label="Leverancier" class="overview-name">@leverancier.Naam</td>
                         <td data-label="Btw-nummer">@leverancier.BtwNummer</td>
                         <td data-label="Contactpersoon">@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
@@ -56,6 +61,7 @@
                             <a class="btn btn-tertiary overview-details-button" asp-action="Details" data-id="@leverancier.LeveranciersId" asp-route-id="@leverancier.LeveranciersId">Details</a>
                         </td>
                     </tr>
+                    
                 }
             </tbody>
         </table>
@@ -187,4 +193,28 @@
 			}
 		}
 	});
+</script>
+
+<script>
+const artikelDropdown = document.getElementById("overview-article");
+
+artikelDropdown.addEventListener("change", function () {
+
+    const selectedArtikelId = artikelDropdown.value;
+
+    document.querySelectorAll(".overview-table tbody tr").forEach(row => {
+
+        if (selectedArtikelId === "") { // or whatever value "Alle artikels" has
+            row.style.display = "";
+            return;
+        }
+
+        const artikelIds = row.dataset.artikels.split("|");
+
+        row.style.display = artikelIds.includes(selectedArtikelId)
+            ? ""
+            : "none";
+    });
+});
+
 </script>
