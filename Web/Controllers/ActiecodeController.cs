@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service;
 ﻿using Data.Models;
+using Web.Models.ViewModels;
 
 namespace Web.Controllers;
 
@@ -19,9 +20,5 @@ public class ActiecodeController : Controller
 
         return View(nameof(Index), actiecodes);
     }
-
-    public async Task<IActionResult> Wijzigen(int id)
-    {
-        return View();
-    }
 }
+    
