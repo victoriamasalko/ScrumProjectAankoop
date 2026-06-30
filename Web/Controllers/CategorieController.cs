@@ -25,23 +25,25 @@ public class CategorieController : Controller
             .Select(c => new CategorieOverviewViewModel
             {
                 CategorieId = c.CategorieId,
+                Level = 0,
                 Naam = c.Naam,
                 HoofdCategorieId = null,
-                Subcategorieen = c.SubCategorieen?.Select(MapToOverviewViewModel).ToList() ?? []
+                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,1)).ToList() ?? []
             }).ToList();
 
         return View(nameof(Index), viewModel);
     }
 
     [NonAction]
-    public CategorieOverviewViewModel MapToOverviewViewModel(Categorie c)
+    public CategorieOverviewViewModel MapToOverviewViewModel(Categorie c,int level)
     {
         return new CategorieOverviewViewModel
         {
             CategorieId = c.CategorieId,
+            Level = level,
             Naam = c.Naam,
             HoofdCategorieId = c.HoofdCategorieId,
-            Subcategorieen = c.SubCategorieen?.Select(MapToOverviewViewModel).ToList() ?? []
+            Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
         };
     }
 }
