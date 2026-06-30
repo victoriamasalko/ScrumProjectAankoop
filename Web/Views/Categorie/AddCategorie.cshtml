@@ -7,12 +7,14 @@
 	<span asp-validation-for="Naam" class="text-danger"></span>
 
 	<label asp-for="HoofdCategorieId">Hoofdcategorie</label>
-	<select asp-for="HoofdCategorieId">
+	<select asp-for="HoofdCategorieId"
 			asp-items="Model.BeschikbareCategorieen"
 			class="form-select">
-		@*option value=""*@
 	</select>
+
+	<button type="submit" class="btn btn-primary">Toevoegen</button>
+	<a asp-action="Index" class="btn btn-warning">Annuleren</a>
 
 </form>
 
-public List<SelectListItem> BeschikbareCategorieen { get; set; } = [];
+
