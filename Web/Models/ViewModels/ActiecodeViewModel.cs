@@ -4,7 +4,7 @@ namespace Web.Models.ViewModels;
 
 public class ActiecodeViewModel : IValidatableObject
 {
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(45)]
@@ -18,6 +18,8 @@ public class ActiecodeViewModel : IValidatableObject
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public bool IsEenmalig { get; set; }
+
+    public bool MoetGeldigVanDatumGevalideerdWorden { get; set; } = true;
 
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -34,7 +36,7 @@ public class ActiecodeViewModel : IValidatableObject
         if (GeldigTotDatum <= GeldigVanDatum)
         {
             yield return new ValidationResult(
-                "End date must be after the start date.",
+                "Einddatum moet na startdatum liggen!",
                 [nameof(GeldigTotDatum)]);
         }
     }

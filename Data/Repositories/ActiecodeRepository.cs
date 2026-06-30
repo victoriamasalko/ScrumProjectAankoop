@@ -23,9 +23,12 @@ public class ActiecodeRepository : IActiecodeRepository
         return actiecode;
     }
 
-    public Task<Actiecode?> GetActiecodeByIdAsync(int id)
+    public async Task<Actiecode?> GetActiecodeByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        if (context?.Actiecodes == null)
+            return null;
+        
+        return await context.Actiecodes.FirstOrDefaultAsync(x => x.ActiecodeId == id);
     }
 
     public async Task<IEnumerable<Actiecode>> GetActiecodesAsync()
@@ -33,8 +36,21 @@ public class ActiecodeRepository : IActiecodeRepository
         return await context.Actiecodes.ToListAsync();
     }
 
-    public Task<Actiecode> UpdateActiecodeAsync(Actiecode actiecode)
+    public async Task<Actiecode> UpdateActiecodeAsync(Actiecode actiecode)
     {
-        throw new NotImplementedException();
+        var existingActiecode = await context.Actiecodes
+            .FirstOrDefaultAsync(a => a.ActiecodeId == actiecode.ActiecodeId);
+        
+        if (existingActiecode == null)
+            return null;
+
+        existingActiecode.Naam = actiecode.Naam;
+        existingActiecode.GeldigVanDatum = actiecode.GeldigVanDatum;
+        existingActiecode.GeldigTotDatum = actiecode.GeldigTotDatum;
+        existingActiecode.IsEenmalig = actiecode.IsEenmalig;
+
+        await context.SaveChangesAsync();
+        
+        return existingActiecode;
     }
 }
