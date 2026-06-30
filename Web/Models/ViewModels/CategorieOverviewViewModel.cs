@@ -6,6 +6,7 @@ namespace Web.Models.ViewModels;
 public class CategorieOverviewViewModel
 {
     public int CategorieId { get; set; }
+    public int Level { get; set; }
 
     public string Naam { get; set; } = null!;
 
