@@ -9,9 +9,9 @@ public interface IActiecodeRepository
 {
     Task<IEnumerable<Actiecode>> GetActiecodesAsync();
 
-    Task<Actiecode?> GetActiecodeById(int id);
+    Task<Actiecode?> GetActiecodeByIdAsync(int id);
 
-    Task<Actiecode> AddActiecode(Actiecode actiecode);
+    Task<Actiecode> AddActiecodeAsync(Actiecode actiecode);
 
-    Task<Actiecode> UpdateActiecode(Actiecode actiecode);
+    Task<Actiecode> UpdateActiecodeAsync(Actiecode actiecode);
 }

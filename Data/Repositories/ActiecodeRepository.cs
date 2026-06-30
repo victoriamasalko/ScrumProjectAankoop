@@ -1,4 +1,5 @@
 ﻿using Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,22 +8,29 @@ namespace Data.Repositories;
 
 public class ActiecodeRepository : IActiecodeRepository
 {
-    public Task<Actiecode> AddActiecode(Actiecode actiecode)
+    private readonly PrulariacomContext context;
+
+    public ActiecodeRepository(PrulariacomContext context)
+    {
+        this.context = context;
+    }
+
+    public Task<Actiecode> AddActiecodeAsync(Actiecode actiecode)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Actiecode?> GetActiecodeById(int id)
+    public Task<Actiecode?> GetActiecodeByIdAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Actiecode>> GetActiecodesAsync()
+    public async Task<IEnumerable<Actiecode>> GetActiecodesAsync()
     {
-        throw new NotImplementedException();
+        return await context.Actiecodes.ToListAsync();
     }
 
-    public Task<Actiecode> UpdateActiecode(Actiecode actiecode)
+    public Task<Actiecode> UpdateActiecodeAsync(Actiecode actiecode)
     {
         throw new NotImplementedException();
     }

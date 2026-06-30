@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+public class ActiecodeController : Controller
 {
-    public class ActiecodeController : Controller
+    private readonly ActiecodeService actiecodeService;
+
+    public ActiecodeController(ActiecodeService actiecodeService)
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        this.actiecodeService = actiecodeService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var actiecodes = await actiecodeService.GetActiecodesAsync();
+
+        return View(nameof(Index), actiecodes);
     }
 }
