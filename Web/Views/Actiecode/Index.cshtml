@@ -59,7 +59,7 @@ Deze filters werken nog niet (kopie van leveranciers)
                 <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td>
                 <td class="p-2">@((DateTime.Today < actiecode.GeldigVanDatum) ? "Actief" : "Niet actief")</td>
                 <td class="p-2">
-                    <a class="btn btn-tertiary overview-details-button" asp-action="Wijzigen" data-id="@actiecode.ActiecodeId" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
+                    <a class="btn btn-tertiary overview-details-button" asp-action="ActiecodeWijzigen" data-id="@actiecode.ActiecodeId" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
                 </td>
             </tr>
         }

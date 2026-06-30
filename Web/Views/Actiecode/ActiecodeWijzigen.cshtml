@@ -1,0 +1,39 @@
+@model ActiecodeViewModel
+
+@{
+    ViewData["Title"] = "Actiecode Wijzigen";
+}
+
+@* Formulier om een ​​artikel toe te voegen *@
+<form asp-action="ActiecodeWijzigenUitvoeren" method="post">
+
+    <input type="hidden" asp-for="ActiecodeId" />
+
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control"/>
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GeldigVanDatum" class="form-label"></label>
+        <input asp-for="GeldigVanDatum" class="form-control"/>
+        <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GeldigTotDatum" class="form-label"></label>
+        <input asp-for="GeldigTotDatum" class="form-control"/>
+        <span asp-validation-for="GeldigTotDatum" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="IsEenmalig" class="form-check-input" type="checkbox" />
+        <label asp-for="IsEenmalig" class="form-check-label">Eenmalig?</label>
+        <span asp-validation-for="IsEenmalig" class="text-danger"></span>
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
+</form>
