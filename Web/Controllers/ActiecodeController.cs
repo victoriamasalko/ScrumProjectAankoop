@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Service;
+﻿using Data.Models;
 
 namespace Web.Controllers;
 
@@ -17,5 +18,10 @@ public class ActiecodeController : Controller
         var actiecodes = await actiecodeService.GetActiecodesAsync();
 
         return View(nameof(Index), actiecodes);
+    }
+
+    public async Task<IActionResult> Wijzigen(int id)
+    {
+        return View();
     }
 }
