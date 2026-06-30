@@ -649,3 +649,7 @@ input, textarea, select {
     white-space: nowrap;
   }
 }
+
+.CategorieInsprong {
+    padding-left:25px
+}

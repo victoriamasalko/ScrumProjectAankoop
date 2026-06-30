@@ -12,4 +12,6 @@ public class CategorieOverviewViewModel
     public int? HoofdCategorieId { get; set; }
 
     public string? HoofdCategorieNaam { get; set; }
+
+    public IEnumerable<CategorieOverviewViewModel> Subcategorieen { get; set; }
 }

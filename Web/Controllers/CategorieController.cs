@@ -16,16 +16,32 @@ public class CategorieController : Controller
 
     public async Task<IActionResult> Index()
     {
+        // alle categorieën ophalen
         var categorieen = await _categorieService.GetCategorieenAsync();
 
-        var viewModel = categorieen.Select(c => new CategorieOverviewViewModel
+        // Enkel de "hoofdcategorieën" ophalen (de rest wordt opgehaald in functie "MapToOverviewModel"
+        var viewModel = categorieen
+            .Where(c => c.HoofdCategorieId == null)
+            .Select(c => new CategorieOverviewViewModel
+            {
+                CategorieId = c.CategorieId,
+                Naam = c.Naam,
+                HoofdCategorieId = null,
+                Subcategorieen = c.SubCategorieen?.Select(MapToOverviewViewModel).ToList() ?? []
+            }).ToList();
+
+        return View(nameof(Index), viewModel);
+    }
+
+    [NonAction]
+    public CategorieOverviewViewModel MapToOverviewViewModel(Categorie c)
+    {
+        return new CategorieOverviewViewModel
         {
             CategorieId = c.CategorieId,
             Naam = c.Naam,
             HoofdCategorieId = c.HoofdCategorieId,
-            HoofdCategorieNaam = categorieen.FirstOrDefault(hc => hc.CategorieId == c.HoofdCategorieId)?.Naam
-        }).ToList();   
-
-        return View(nameof(Index), viewModel);
+            Subcategorieen = c.SubCategorieen?.Select(MapToOverviewViewModel).ToList() ?? []
+        };
     }
 }

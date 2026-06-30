@@ -3,26 +3,18 @@
 <h1>De <em>categorieboom</em></h1>
 
 <div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th class="p-2">Categorie</th>
-				<th class="p-2">Hoofdcategorie</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var categorie in Model)
-			{
-				<tr>
-					<td class="p-2" data-label="Categorie">@categorie.Naam</td>
-					<td class="p-2" data-label="Hoofdcategorie">@categorie.HoofdCategorieNaam</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+	@foreach (var categorie in Model)
+	{
+		@if (categorie.Subcategorieen.Any())
+		{
+			<p>@categorie.Naam</p>
+		}
+		<partial name="PartialSubcategorieen" model="categorie.Subcategorieen" class="CategorieInsprong"/>
+	}
 </div>
 
 @if (Model.Count() == 0)
 {
 	<div>Er zijn nog geen artikelen.</div>
 }
+Ik ben Jeroen
