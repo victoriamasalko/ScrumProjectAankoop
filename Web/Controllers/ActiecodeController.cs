@@ -20,5 +20,34 @@ public class ActiecodeController : Controller
 
         return View(nameof(Index), actiecodes);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Toevoegen()
+    {
+        var viewModel = new ActiecodeViewModel { };
+
+        return View(nameof(Toevoegen), viewModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ToevoegenUitvoeren(ActiecodeViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(nameof(Toevoegen), model);
+        }
+
+        var actiecode = new Actiecode
+        {
+            Naam = model.Naam,
+            GeldigVanDatum = model.GeldigVanDatum,
+            GeldigTotDatum = model.GeldigTotDatum,
+            IsEenmalig = model.IsEenmalig
+        };
+
+        await actiecodeService.AddActiecodeAsync(actiecode);
+
+        return RedirectToAction(nameof(Index));
+    }
 }
     

@@ -15,9 +15,12 @@ public class ActiecodeRepository : IActiecodeRepository
         this.context = context;
     }
 
-    public Task<Actiecode> AddActiecodeAsync(Actiecode actiecode)
+    public async Task<Actiecode> AddActiecodeAsync(Actiecode actiecode)
     {
-        throw new NotImplementedException();
+        context.Actiecodes.Add(actiecode);
+        await context.SaveChangesAsync();
+
+        return actiecode;
     }
 
     public Task<Actiecode?> GetActiecodeByIdAsync(int id)

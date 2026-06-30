@@ -9,8 +9,10 @@
     </h1>
 
     <button class="btn btn-primary overview-create-button" type="button">
-        <span aria-hidden="true">+</span>
-        Nieuwe actiecode
+        <a asp-action="Toevoegen" asp-controller="Actiecode">
+            <span aria-hidden="true">+</span>
+            Nieuwe actiecode
+        </a>
     </button>
 
 </header>
@@ -57,7 +59,7 @@ Deze filters werken nog niet (kopie van leveranciers)
                 <td class="p-2" data-label="GeldigVan">@actiecode.GeldigVanDatum</td>
                 <td class="p-2" data-label="GeldigTot">@actiecode.GeldigTotDatum</td>
                 <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td>
-                <td class="p-2">@((DateTime.Today > actiecode.GeldigVanDatum) ? "Actief" : "Niet actief")</td>
+                    <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td>
                 <td class="p-2">
                     <a class="btn btn-tertiary overview-details-button" asp-action="Wijzigen" data-id="@actiecode.ActiecodeId" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
                 </td>

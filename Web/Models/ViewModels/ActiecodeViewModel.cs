@@ -4,6 +4,8 @@ namespace Web.Models.ViewModels;
 
 public class ActiecodeViewModel : IValidatableObject
 {
+    public int? Id { get; set; }
+
     [Required]
     [StringLength(45)]
     public string Naam { get; set; } = string.Empty;
