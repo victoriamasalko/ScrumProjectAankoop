@@ -1,20 +1,16 @@
 ﻿@model IEnumerable<CategorieOverviewViewModel>
 
-<h1>De <em>categorieboom</em></h1>
-
-<div>
-	@foreach (var categorie in Model)
-	{
-		@if (categorie.Subcategorieen.Any())
-		{
-			<p>@categorie.Naam</p>
-		}
-		<partial name="PartialSubcategorieen" model="categorie.Subcategorieen" class="CategorieInsprong"/>
-	}
-</div>
-
-@if (Model.Count() == 0)
+@foreach (var categorie in Model)
 {
-	<div>Er zijn nog geen artikelen.</div>
+    @if (categorie.Subcategorieen.Any())
+    {
+        <p style="padding-left : @(categorie.Level * 20)px">@categorie.Naam</p>
+        <partial name="Index" model="categorie.Subcategorieen" />
+    }
+    else
+    {
+        <p style="padding-left:@(categorie.Level * 20)px">
+            <span>@categorie.Naam</span>
+        </p>
+    }
 }
-Ik ben Jeroen
