@@ -28,7 +28,7 @@ public class ActiecodeRepository : IActiecodeRepository
         if (context?.Actiecodes == null)
             return null;
         
-        return await context.Actiecodes.FirstOrDefaultAsync(x => x.ActiecodeId == id);
+        return await context.Actiecodes.Where(x => x.ActiecodeId == id).FirstOrDefaultAsync();
     }
 
     public async Task<IEnumerable<Actiecode>> GetActiecodesAsync()

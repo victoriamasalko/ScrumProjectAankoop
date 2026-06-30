@@ -18,39 +18,16 @@
 
     <div class="mb-3">
         <label asp-for="GeldigVanDatum" class="form-label"></label>
-        <input asp-for="GeldigVanDatum" class="form-control" id="geldigVanDatumInput"/>
-        @if (Model.MoetGeldigVanDatumGevalideerdWorden)
+        @if (Model.GeldigVanDatum <= DateTime.Today)
         {
-            <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
+            <input asp-for="GeldigVanDatum" class="form-control" style="cursor: not-allowed; background-color: #e9ecef; opacity: 1;" readonly />
         }
-        <small id="pastDateMessage" class="text-muted d-none">Deze code is actief en dus kan de startdatum niet meer worden aangepast.</small>
+        else
+        {
+        <input asp-for="GeldigVanDatum" class="form-control" />
+        }
+        <span asp-validation-for="GeldigTotDatum" class="text-danger"></span>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const input = document.getElementById('geldigVanDatumInput');
-            const message = document.getElementById('pastDateMessage');
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            function checkDate() {
-                const selectedDate = new Date(input.value);
-                if (selectedDate < today) {
-                    input.disabled = true;
-                    message.classList.remove('d-none');
-                } else {
-                    input.disabled = false;
-                    message.classList.add('d-none');
-                }
-            }
-
-            input.addEventListener('change', checkDate);
-
-            if (input.value) {
-                checkDate();
-            }
-        });
-    </script>
 
     <div class="mb-3">
         <label asp-for="GeldigTotDatum" class="form-label"></label>

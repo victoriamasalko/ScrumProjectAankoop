@@ -19,8 +19,6 @@ public class ActiecodeViewModel : IValidatableObject
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public bool IsEenmalig { get; set; }
 
-    public bool MoetGeldigVanDatumGevalideerdWorden { get; set; } = true;
-
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
