@@ -2,16 +2,12 @@
 
 @foreach (var categorie in Model)
 {
+    <option value="@categorie.CategorieId">
+        @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
+    </option>
+
     @if (categorie.Subcategorieen.Any())
     {
-        <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
-
-        
-
         <partial name="PartialAdd" model="categorie.Subcategorieen" />
-    }
-    else
-    {
-        <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
     }
 }

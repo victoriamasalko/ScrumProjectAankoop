@@ -24,7 +24,6 @@
         {
             @if (categorie.Subcategorieen.Any())
             {
-                <p class="category-tree__item cat-@(categorie.Level + 1)">@categorie.Naam</p>
                 <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
             }
             else

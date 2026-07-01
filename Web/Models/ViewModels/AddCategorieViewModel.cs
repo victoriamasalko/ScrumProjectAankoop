@@ -7,6 +7,7 @@ namespace Web.Models.ViewModels
     {
         [Required]
         public string NieuweNaam { get; set; } = null!;
+        [Display(Name = "Hoofdcategorie")]
         public int? SelectedHoofdCategorieId { get; set; }
     }
 }

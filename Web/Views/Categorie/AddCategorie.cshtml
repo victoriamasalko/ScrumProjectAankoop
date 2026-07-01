@@ -6,13 +6,15 @@
 	<input asp-for ="NieuweNaam" class="form-control" />
 	<span asp-validation-for="NieuweNaam" class="text-danger"></span>
 
-    <label asp-for="SelectedHoofdCategorieId" class="form-label"></label>
+    <label asp-for="SelectedHoofdCategorieId" class="form-label">Hoofdcategorie</label>
     <select asp-for="SelectedHoofdCategorieId" class="form-control">
         @foreach (var categorie in Model.Subcategorieen)
         {
             @if (categorie.Subcategorieen.Any())
             {
-                <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
+                <option value="@categorie.CategorieId">
+                    @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
+                </option>
 
         
 
@@ -20,7 +22,9 @@
             }
             else
             {
-                <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
+                <option value="@categorie.CategorieId">
+                    @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
+                </option>
             }
         }
     </select>
