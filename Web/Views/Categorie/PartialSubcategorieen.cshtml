@@ -1,0 +1,24 @@
+@model IEnumerable<CategorieOverviewViewModel>
+
+<ul class="category-tree__list">
+    @foreach (var categorie in Model)
+    {
+        <li class="category-tree__node">
+            @if (categorie.Subcategorieen.Any())
+            {
+                <details class="category-tree__dropdown">
+                    <summary class="category-tree__item category-tree__summary cat-@(categorie.Level + 1)">
+                        @categorie.Naam
+                    </summary>
+                    <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
+                </details>
+            }
+            else
+            {
+                <div class="category-tree__item cat-@(categorie.Level + 1)">
+                    <span>@categorie.Naam</span>
+                </div>
+            }
+        </li>
+    }
+</ul>
