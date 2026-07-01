@@ -9,26 +9,26 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th class="p-2">Naam</th>
-            <th class="p-2">Categorieën</th>
-            <th class="p-2">EAN</th>
-            <th class ="p-2">Prijs</th>
-            <th class="p-2">Voorraad</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th class="p-2">Naam</th>
+        <th class="p-2">Categorieën</th>
+        <th class="p-2">EAN</th>
+        <th class="p-2">Prijs</th>
+        <th class="p-2">Voorraad</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var artikel in Model)
-        {
-            <tr>
-                <td class="p-2">@artikel.Naam</td>
-                <td class="p-2">@string.Join(" - ",  artikel.Categorieen)</td>
-                <td class="p-2">@artikel.Ean</td>
-                <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
-                <td class="p-2">@artikel.Voorraad</td>
-            </tr>
-        }
+    @foreach (var artikel in Model)
+    {
+        <tr>
+            <td class="p-2">@artikel.Naam</td>
+            <td class="p-2">@string.Join(" - ", artikel.Categorieen)</td>
+            <td class="p-2">@artikel.Ean</td>
+            <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
+            <td class="p-2">@artikel.Voorraad</td>
+        </tr>
+    }
     </tbody>
 </table>
 

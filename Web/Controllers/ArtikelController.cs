@@ -15,7 +15,8 @@ namespace Web.Controllers
         private readonly CategorieService categorieService;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ArtikelController(ArtikelService artikelService, LeverancierService leverancierService, CategorieService categorieService,IWebHostEnvironment webHostEnvironment)
+        public ArtikelController(ArtikelService artikelService, LeverancierService leverancierService, CategorieService categorieService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.artikelService = artikelService;
             this.leverancierService = leverancierService;
@@ -24,11 +25,10 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FotoUpload(IFormFile file,int artikelId,string beschrijving)
+        public async Task<IActionResult> FotoUpload(IFormFile file, int artikelId, string beschrijving)
         {
             try
             {
-
                 if (file != null && Path.GetExtension(file.FileName) == ".jpg")
                 {
                     // Stel de naam van de file in.
@@ -52,7 +52,6 @@ namespace Web.Controllers
                 return Problem();
             }
         }
-
 
 
         public async Task<IActionResult> Index()
@@ -81,7 +80,6 @@ namespace Web.Controllers
             {
                 Leveranciers = await GetLeveranciersSelectListAsync(),
                 Categorieen = await GetCategorieenSelectListAsync()
-
             };
 
             return View(nameof(ArtikelToevoegen), viewModel);
@@ -91,7 +89,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ArtikelToevoegenUitvoeren(ArtikelToevoegenViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 model.Leveranciers = await GetLeveranciersSelectListAsync();
                 model.Categorieen = await GetCategorieenSelectListAsync();
@@ -128,7 +126,7 @@ namespace Web.Controllers
         {
             var artikel = await artikelService.GetArtikelAsync(id);
 
-            if(artikel is null)
+            if (artikel is null)
             {
                 return NotFound();
             }
@@ -200,7 +198,6 @@ namespace Web.Controllers
                 Value = l.LeveranciersId.ToString(),
                 Text = l.Naam
             });
-
         }
 
         // Haalt de categorieën op voor de keuzelijst.
