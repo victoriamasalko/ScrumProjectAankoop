@@ -12,28 +12,15 @@
             <span aria-hidden="true">+</span>
             Hoofdcategorie
         </button>
-        <button id="x" class="btn btn-primary overview-create-button" type="button">
-            <span aria-hidden="true">+</span>
-            Subcategorie
-        </button>
 
 
     </header>
+    <main>
+
     <div class="category-tree">
-        @foreach (var categorie in Model)
-        {
-            @if (categorie.Subcategorieen.Any())
-            {
-                <p class="category-tree__item cat-@(categorie.Level + 1)">@categorie.Naam</p>
-                <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
-            }
-            else
-            {
-                <p class="category-tree__item cat-@(categorie.Level + 1)">
-                    ↳ <span>@categorie.Naam</span>
-                </p>
-            }
-        }
+        <partial name="PartialSubcategorieen" model="Model" />
     </div>
+    
+    </main>
 
 </section>
