@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Data.Models;
+﻿using Data.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Service;
 using Web.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Controllers;
 
