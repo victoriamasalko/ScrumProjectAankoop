@@ -103,7 +103,8 @@ public class CategorieController : Controller
             await _categorieService.AddCategorieAsync(categorie);
             return RedirectToAction(nameof(Index));
         }
-                
+
+        var subcategorieen = await PrepareCategorieen();
         return View(model);
         
     }
