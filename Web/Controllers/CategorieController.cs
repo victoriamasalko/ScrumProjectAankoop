@@ -91,7 +91,7 @@ public class CategorieController : Controller
             var categorie = new Categorie
             {
                 Naam = model.NieuweNaam,
-                HoofdCategorieId = model.SelectedHoofdCategorieId
+                HoofdCategorieId = model.SelectedCategorieId
             };
         
             await _categorieService.AddCategorieAsync(categorie);
