@@ -101,6 +101,7 @@ public class CategorieRepository : ICategorieRepository
 
     public async Task<Categorie> GetCategorieByNaamAsync(string naam)
     {
+        naam = naam ?? "";
         return await context.Categorieen
             .Include(c => c.HoofdCategorie)
             .Include(c => c.SubCategorieen)
