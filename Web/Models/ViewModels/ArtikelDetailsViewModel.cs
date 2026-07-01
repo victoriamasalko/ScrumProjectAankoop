@@ -24,6 +24,6 @@ public class ArtikelDetailsViewModel
     public int AantalBesteldLeverancier { get; set; }
     public int MaxAantalInMagazijnPlaats { get; set; }
     public int LeveranciersId { get; set; }
-    public Leverancier Leveranciers { get; set; } = null!;
+    public Leverancier Leverancier { get; set; } = null!;
     public List<HoofdCategorieMetSubCategorie> CategorieStructuren { get; set; } = [];
 }

@@ -94,10 +94,10 @@ namespace Web.Controllers
                 AantalBesteldLeverancier = artikel.AantalBesteldLeverancier,
                 MaxAantalInMagazijnPlaats = artikel.MaxAantalInMagazijnPlaats,
                 LeveranciersId = artikel.LeveranciersId,
-                Leveranciers = artikel.Leveranciers
+                Leverancier = artikel.Leverancier
             };
 
-            foreach (var categorie in artikel.Categories)
+            foreach (var categorie in artikel.Categorieen)
             {
                 var hoofdCategorieMetSubCategorie = new HoofdCategorieMetSubCategorie
                 {
