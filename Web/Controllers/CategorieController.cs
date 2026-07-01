@@ -105,6 +105,7 @@ public class CategorieController : Controller
         }
 
         var subcategorieen = await PrepareCategorieen();
+        model.Subcategorieen = subcategorieen;
         return View(model);
         
     }
