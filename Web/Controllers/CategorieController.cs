@@ -14,7 +14,7 @@ public class CategorieController : Controller
         _categorieService = categorieService;
     }
 
-    public async Task<IEnumerable<CategorieOverviewViewModel>> PrepareCategorieen()
+    public async Task<IActionResult> Index()
     {
         // alle categorieën ophalen
         var categorieen = await _categorieService.GetCategorieenAsync();
@@ -28,16 +28,10 @@ public class CategorieController : Controller
                 Level = 0,
                 Naam = c.Naam,
                 HoofdCategorieId = null,
-                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, 1)).ToList() ?? []
+                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,1)).ToList() ?? []
             }).ToList();
 
-        return viewModel;
-
-    }
-
-    public async Task<IActionResult> Index()
-    {
-        return View(nameof(Index), await PrepareCategorieen());
+        return View(nameof(Index), viewModel);
     }
 
     [NonAction]
@@ -51,13 +45,5 @@ public class CategorieController : Controller
             HoofdCategorieId = c.HoofdCategorieId,
             Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
         };
-    }
-
-    public async Task<IActionResult> Add()
-    {
-        return View(new AddCategorieViewModel()
-        {
-            Subcategorieen = await PrepareCategorieen()
-        });
     }
 }
