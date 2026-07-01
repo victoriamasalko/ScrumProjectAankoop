@@ -2,11 +2,11 @@
 
 <form asp-action="AddCategorie" method="post">
 
-	<label asp-for="NieuweNaam" class="form-label"></label>
+	<label asp-for="NieuweNaam" class="form-label">Naam</label>
 	<input asp-for ="NieuweNaam" class="form-control" />
 	<span asp-validation-for="NieuweNaam" class="text-danger"></span>
 
-    <label asp-for="SelectedCategorieId" class="form-label">Hoofdcategorie</label>
+    <label asp-for="SelectedCategorieId" class="form-label">Categorie</label>
     <select asp-for="SelectedCategorieId" class="form-control">
         @foreach (var categorie in Model.Subcategorieen)
         {
