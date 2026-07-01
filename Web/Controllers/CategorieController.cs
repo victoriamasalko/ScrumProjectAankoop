@@ -76,27 +76,26 @@ public class CategorieController : Controller
     [HttpPost]
     public async Task<ActionResult> AddCategorie(AddCategorieViewModel model)
     {
+        var bestaandeCategorie = await _categorieService.GetCategorieByNaamAsync(model.NieuweNaam);
+
+        if (bestaandeCategorie != null)
+        {
+            ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam {model.NieuweNaam}");
+        }
         if (ModelState.IsValid)
         {
-            /* model.BeschikbareCategorieen = (await _categorieService.GetCategorieenAsync())
-                 .Select(c => new SelectListItem
-                 {
-                     Value = c.CategorieId.ToString(),
-                     Text = c.Naam
-                 })
-                 .ToList();
-             return View(model);*/
-        
-
             var categorie = new Categorie
             {
                 Naam = model.NieuweNaam,
-                HoofdCategorieId = model.SelectedCategorieId
+                HoofdCategorieId = model.SelectedCategorieId == 0 ? null : model.SelectedCategorieId
             };
         
             await _categorieService.AddCategorieAsync(categorie);
+            return RedirectToAction(nameof(Index));
         }
-        return RedirectToAction(nameof(Index));
+                
+        return View(model);
+        
     }
 
 

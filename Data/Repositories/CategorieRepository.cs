@@ -25,6 +25,7 @@ public class CategorieRepository : ICategorieRepository
             .FirstOrDefaultAsync(c => c.CategorieId == id);
     }
 
+
     public async Task<IEnumerable<Categorie>> GetCategorieenAsync()
     {
         return await context.Categorieen
@@ -96,5 +97,14 @@ public class CategorieRepository : ICategorieRepository
         context.Categorieen.Add(categorie);
         await context.SaveChangesAsync();
         return categorie;
+    }
+
+    public async Task<Categorie> GetCategorieByNaamAsync(string naam)
+    {
+        return await context.Categorieen
+            .Include(c => c.HoofdCategorie)
+            .Include(c => c.SubCategorieen)
+            .Include(c => c.Artikels)
+            .FirstOrDefaultAsync(c => c.Naam.ToUpper() == naam.ToUpper());
     }
 }

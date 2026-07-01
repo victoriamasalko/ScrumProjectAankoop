@@ -19,4 +19,6 @@ public interface ICategorieRepository
 
     Task<Categorie> UpdateCategorieAsync(Categorie categorie);
     Task<Categorie> AddCategorieAsync(Categorie categorie);
+
+    Task<Categorie> GetCategorieByNaamAsync(string naam);
 }
