@@ -6,8 +6,8 @@
 	<input asp-for ="NieuweNaam" class="form-control" />
 	<span asp-validation-for="NieuweNaam" class="text-danger"></span>
 
-    <label asp-for="SelectedHoofdCategorieId" class="form-label">Hoofdcategorie</label>
-    <select asp-for="SelectedHoofdCategorieId" class="form-control">
+    <label asp-for="SelectedCategorieId" class="form-label">Hoofdcategorie</label>
+    <select asp-for="SelectedCategorieId" class="form-control">
         @foreach (var categorie in Model.Subcategorieen)
         {
             @if (categorie.Subcategorieen.Any())
