@@ -8,6 +8,9 @@
 
     <label asp-for="SelectedCategorieId" class="form-label">Categorie</label>
     <select asp-for="SelectedCategorieId" class="form-control">
+        @*Dropdown; voor elke categorie check je of er een subcategorie is. 
+          Dan spring je in gelijk aan het level van de categorie.
+          Vervolgens roep je een PartialView op die hetzelfde zal doen.*@
         @foreach (var categorie in Model.Subcategorieen)
         {
             @if (categorie.Subcategorieen.Any())
