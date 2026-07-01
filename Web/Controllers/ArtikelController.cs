@@ -72,6 +72,44 @@ namespace Web.Controllers
 
             return View(nameof(Index), viewModel);
         }
+        
+        public async Task<IActionResult> Details(int id)
+        {
+            var artikel = await artikelService.GetArtikelAsync(id);
+            if (artikel is null) return View();
+            
+            var viewmodel = new ArtikelDetailsViewModel
+            {
+                ArtikelId = artikel.ArtikelId,
+                Ean = artikel.Ean,
+                Naam = artikel.Naam,
+                Beschrijving = artikel.Beschrijving,
+                Prijs = artikel.Prijs,
+                GewichtInGram = artikel.GewichtInGram,
+                Bestelpeil = artikel.Bestelpeil,
+                Voorraad = artikel.Voorraad,
+                MaximumVoorraad = artikel.MaximumVoorraad,
+                MinimumVoorraad = artikel.MinimumVoorraad,
+                Levertijd = artikel.Levertijd,
+                AantalBesteldLeverancier = artikel.AantalBesteldLeverancier,
+                MaxAantalInMagazijnPlaats = artikel.MaxAantalInMagazijnPlaats,
+                LeveranciersId = artikel.LeveranciersId,
+                Leveranciers = artikel.Leveranciers
+            };
+
+            foreach (var categorie in artikel.Categories)
+            {
+                var hoofdCategorieMetSubCategorie = new HoofdCategorieMetSubCategorie
+                {
+                    Hoofdcategorie = await categorieService.GetHoofdcategorieByCategorieIdAsync(categorie.CategorieId),
+                    Subcategorie = categorie.Naam
+                };
+                viewmodel.CategorieStructuren.Add(hoofdCategorieMetSubCategorie);
+            }
+
+
+            return View(viewmodel);
+        }
 
         // Toont het formulier om een artikel toe te voegen.
         [HttpGet]
