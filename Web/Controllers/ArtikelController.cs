@@ -106,9 +106,7 @@ namespace Web.Controllers
                 };
                 viewmodel.CategorieStructuren.Add(hoofdCategorieMetSubCategorie);
             }
-
-
-            return View(viewmodel);
+            return PartialView(viewmodel);
         }
 
         // Toont het formulier om een artikel toe te voegen.

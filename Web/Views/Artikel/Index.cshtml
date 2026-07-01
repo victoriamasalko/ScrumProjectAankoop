@@ -9,34 +9,58 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th class="p-2">Naam</th>
-            <th class="p-2">Categorieën</th>
-            <th class="p-2">EAN</th>
-            <th class ="p-2">Prijs</th>
-            <th class="p-2">Voorraad</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th class="p-2">Naam</th>
+        <th class="p-2">Categorieën</th>
+        <th class="p-2">EAN</th>
+        <th class="p-2">Prijs</th>
+        <th class="p-2">Voorraad</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var artikel in Model)
-        {
-            <tr>
-                <td class="p-2">@artikel.Naam</td>
-                <td class="p-2">@string.Join(" - ",  artikel.Categorieen)</td>
-                <td class="p-2">@artikel.Ean</td>
-                <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
-                <td class="p-2">@artikel.Voorraad</td>
-                <td class="p-2">
-                    <a asp-action="ArtikelDetails" asp-route-id="@artikel.ArtikelId" class="btn btn-tertiary overview-details-button">Details</a>
-                </td>
-            </tr>
-        }
+    @foreach (var artikel in Model)
+    {
+        <tr>
+            <td class="p-2">@artikel.Naam</td>
+            <td class="p-2">@string.Join(" - ", artikel.Categorieen)</td>
+            <td class="p-2">@artikel.Ean</td>
+            <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
+            <td class="p-2">@artikel.Voorraad</td>
+            <td class="p-2">
+                <a asp-action="ArtikelDetails" asp-route-id="@artikel.ArtikelId" data-id="@artikel.ArtikelId" class="btn btn-tertiary overview-details-button">Details</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+
+<div id="modalContainer"></div>
 
 @* Toon een melding of zoiets wanneer er nog geen artikelen zijn. *@
 @if (Model.Count() == 0)
 {
     <div>Er zijn nog geen artikelen.</div>
 }
+
+<script>
+    document.querySelectorAll('.overview-details-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                fetch(`/Artikel/ArtikelDetails?id=${id}`)
+                    .then(r => r.text())
+                    .then(html => {
+
+                        document.getElementById('modalContainer').innerHTML = html;
+
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('detailsModal')
+                            )
+                            .show();
+                    });
+            });
+        });
+</script>

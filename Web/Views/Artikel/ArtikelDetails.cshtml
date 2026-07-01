@@ -2,29 +2,90 @@
 
 @if (Model is not null)
 {
-    <h2>Artikeldetails</h2>
-    <p>EAN: @Model.Ean</p>
-    <p>Naam: @Model.Naam</p>
-    <p>Beschrijving: @Model.Beschrijving</p>
-    <p>Prijs: @Model.Prijs</p>
-    <p>Gewicht in gram: @Model.GewichtInGram</p>
-    <p>Bestelpeil: @Model.Bestelpeil</p>
-    <p>Voorraad: @Model.Voorraad</p>
-    <p>Minimumvoorraad: @Model.MinimumVoorraad</p>
-    <p>Maximumvoorraad: @Model.MaximumVoorraad</p>
-    <p>Levertijd: @Model.Levertijd</p>
-    <p>Aantal besteld leverancier: @Model.AantalBesteldLeverancier</p>
-    <p>Maximum aantel in magazijnplaats: @Model.MaxAantalInMagazijnPlaats</p>
-    <p>Leverancier: @Model.Leverancier.Naam</p>
+    <div class="modal fade" id="detailsModal"
+         tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        @Model.Naam
+                    </h5>
 
-    <h4>Categorieën</h4>
-    @foreach (var c in Model.CategorieStructuren)
-    {
-        <p><strong>@c.Hoofdcategorie?.Naam</strong> &rarr; @c.Subcategorie</p>
-    }
-    
-    <a asp-action="ArtikelWijzigen" asp-route-id="@Model.ArtikelId" class="btn btn-tertiary overview-details-button">Wijzigen</a>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
 
+                <div class="modal-body">
+                    <h6 class="detail-subtitle">Artikeldetails</h6>
+
+                    <p>
+                        <strong>EAN:</strong>
+                        <span>@Model.Ean</span>
+                    </p>
+                    <p>
+                        <strong>Naam:</strong>
+                        <span>@Model.Naam</span>
+                    </p>
+                    <p>
+                        <strong>Beschrijving:</strong>
+                        <span>@Model.Beschrijving</span>
+                    </p>
+                    <p>
+                        <strong>Prijs:</strong>
+                        <span>@Model.Prijs</span>
+                    </p>
+                    <p>
+                        <strong>Gewicht in gram:</strong>
+                        <span>@Model.GewichtInGram</span>
+                    </p>
+                    <p>
+                        <strong>Bestelpeil:</strong>
+                        <span>@Model.Bestelpeil</span>
+                    </p>
+                    <p>
+                        <strong>Voorraad:</strong>
+                        <span>@Model.Voorraad</span>
+                    </p>
+                    <p>
+                        <strong>Minimumvoorraad:</strong>
+                        <span>@Model.MinimumVoorraad</span>
+                    </p>
+                    <p>
+                        <strong>Maximumvoorraad:</strong>
+                        <span>@Model.MaximumVoorraad</span>
+                    </p>
+                    <p>
+                        <strong>Levertijd:</strong>
+                        <span>@Model.Levertijd</span>
+                    </p>
+                    <p>
+                        <strong>Aantal besteld leverancier:</strong>
+                        <span>@Model.AantalBesteldLeverancier</span>
+                    </p>
+                    <p>
+                        <strong>Maximum aantal in magazijnplaats:</strong>
+                        <span>@Model.MaxAantalInMagazijnPlaats</span>
+                    </p>
+                    <p>
+                        <strong>Leverancier:</strong>
+                        <span>@Model.Leverancier.Naam</span>
+                    </p>
+
+                    <h6 class="detail-subtitle">Categorieën</h6>
+
+                    @foreach (var c in Model.CategorieStructuren)
+                    {
+                        <p><strong>@c.Hoofdcategorie?.Naam</strong> &rarr; @c.Subcategorie</p>
+                    }
+
+                    <a asp-action="ArtikelWijzigen" asp-route-id="@Model.ArtikelId" class="btn btn-tertiary overview-details-button">Wijzigen</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
 }
 else
 {
