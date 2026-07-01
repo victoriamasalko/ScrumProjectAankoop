@@ -15,13 +15,16 @@
     <p>Levertijd: @Model.Levertijd</p>
     <p>Aantal besteld leverancier: @Model.AantalBesteldLeverancier</p>
     <p>Maximum aantel in magazijnplaats: @Model.MaxAantalInMagazijnPlaats</p>
-    <p>Leveranciers: @Model.Leveranciers.Naam</p>
+    <p>Leverancier: @Model.Leverancier.Naam</p>
 
     <h4>Categorieën</h4>
     @foreach (var c in Model.CategorieStructuren)
     {
         <p><strong>@c.Hoofdcategorie?.Naam</strong> &rarr; @c.Subcategorie</p>
     }
+    
+    <a asp-action="ArtikelWijzigen" asp-route-id="@Model.ArtikelId" class="btn btn-tertiary overview-details-button">Wijzigen</a>
+
 }
 else
 {

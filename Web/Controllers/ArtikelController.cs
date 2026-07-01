@@ -73,7 +73,7 @@ namespace Web.Controllers
             return View(nameof(Index), viewModel);
         }
         
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> ArtikelDetails(int id)
         {
             var artikel = await artikelService.GetArtikelAsync(id);
             if (artikel is null) return View();

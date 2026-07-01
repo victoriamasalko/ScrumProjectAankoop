@@ -27,6 +27,9 @@
                 <td class="p-2">@artikel.Ean</td>
                 <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
                 <td class="p-2">@artikel.Voorraad</td>
+                <td class="p-2">
+                    <a asp-action="ArtikelDetails" asp-route-id="@artikel.ArtikelId" class="btn btn-tertiary overview-details-button">Details</a>
+                </td>
             </tr>
         }
     </tbody>
