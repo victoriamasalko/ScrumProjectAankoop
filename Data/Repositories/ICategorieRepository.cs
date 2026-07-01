@@ -18,4 +18,7 @@ public interface ICategorieRepository
     Task<Categorie> RemoveArtikelFromCategorieAsync(Categorie categorie, int artikelId);
 
     Task<Categorie> UpdateCategorieAsync(Categorie categorie);
+
+    Task<Categorie?> GetHoofdcategorieByCategorieIdAsync(int id);
+
 }
