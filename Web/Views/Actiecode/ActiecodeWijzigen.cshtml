@@ -1,4 +1,4 @@
-@model ActiecodeViewModel
+@model ActiecodeWijzigenViewModel
 
 @{
     ViewData["Title"] = "Actiecode Wijzigen";
@@ -18,7 +18,7 @@
     @* Formulier voor de startdatum, met readonly weergave als de datum al in het verleden ligt *@
     <div class="mb-3">
         <label asp-for="GeldigVanDatum" class="form-label"></label>
-        @if (Model.GeldigVanDatum <= DateTime.Today)
+        @if (Model.IsActief)
         {
             <input asp-for="GeldigVanDatum" class="form-control" style="cursor: not-allowed; background-color: #e9ecef; opacity: 1;" readonly />
         }
@@ -26,7 +26,7 @@
         {
         <input asp-for="GeldigVanDatum" class="form-control" />
         }
-        <span asp-validation-for="GeldigTotDatum" class="text-danger"></span>
+        <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
     </div>
 
     <div class="mb-3">

@@ -17,7 +17,7 @@ public class ActiecodeRepository : IActiecodeRepository
 
     public async Task<Actiecode> AddActiecodeAsync(Actiecode actiecode)
     {
-        context.Actiecodes.Add(actiecode);
+        await context.Actiecodes.AddAsync(actiecode);
         await context.SaveChangesAsync();
 
         return actiecode;

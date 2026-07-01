@@ -26,14 +26,14 @@ public class ActiecodeController : Controller
     [HttpGet]
     public async Task<IActionResult> Toevoegen()
     {
-        var viewModel = new ActiecodeViewModel { };
+        var viewModel = new ActiecodeToevoegenViewModel { };
 
         return View(nameof(Toevoegen), viewModel);
     }
 
     // Verwerkt het formulier voor het toevoegen van een actiecode
     [HttpPost]
-    public async Task<IActionResult> ToevoegenUitvoeren(ActiecodeViewModel model)
+    public async Task<IActionResult> ToevoegenUitvoeren(ActiecodeToevoegenViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -43,8 +43,8 @@ public class ActiecodeController : Controller
         var actiecode = new Actiecode
         {
             Naam = model.Naam,
-            GeldigVanDatum = model.GeldigVanDatum,
-            GeldigTotDatum = model.GeldigTotDatum,
+            GeldigVanDatum = model.GeldigVanDatum!.Value,
+            GeldigTotDatum = model.GeldigTotDatum!.Value,
             IsEenmalig = model.IsEenmalig
         };
 
@@ -58,12 +58,13 @@ public class ActiecodeController : Controller
     {
         var actiecode = await actiecodeService.GetActiecodeByIdAsync(id);
         
-        var model = new ActiecodeViewModel
+        var model = new ActiecodeWijzigenViewModel
         {
             Id = actiecode.ActiecodeId,
             Naam = actiecode.Naam,
             GeldigVanDatum = actiecode.GeldigVanDatum,
             GeldigTotDatum = actiecode.GeldigTotDatum,
+            IsActief = actiecode.GeldigVanDatum <= DateTime.Today,
             IsEenmalig = actiecode.IsEenmalig
         };
         
@@ -72,17 +73,19 @@ public class ActiecodeController : Controller
 
     // Verwerkt het formulier voor het wijzigen van een actiecode
     [HttpPost]
-    public async Task<IActionResult> ActiecodeWijzigenUitvoeren(ActiecodeViewModel model)
+    public async Task<IActionResult> ActiecodeWijzigenUitvoeren(ActiecodeWijzigenViewModel model)
     {
         if (!ModelState.IsValid)
-            return View(nameof(ActiecodeWijzigen));
+        {
+            return View(nameof(ActiecodeWijzigen), model);
+        }
 
         var actiecode = new Actiecode()
         {
             ActiecodeId = model.Id,
             Naam = model.Naam,
-            GeldigVanDatum = model.GeldigVanDatum,
-            GeldigTotDatum = model.GeldigTotDatum,
+            GeldigVanDatum = model.GeldigVanDatum!.Value,
+            GeldigTotDatum = model.GeldigTotDatum!.Value,
             IsEenmalig = model.IsEenmalig
         };
 

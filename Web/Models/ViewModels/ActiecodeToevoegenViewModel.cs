@@ -2,19 +2,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.ViewModels;
 
-public class ActiecodeViewModel : IValidatableObject
+public class ActiecodeToevoegenViewModel : IValidatableObject
 {
-    public int Id { get; set; }
-
     [Required]
     [StringLength(45)]
     public string Naam { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
-    public DateTime GeldigVanDatum { get; set; }
+    public DateTime? GeldigVanDatum { get; set; }
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
-    public DateTime GeldigTotDatum { get; set; }
+    public DateTime? GeldigTotDatum { get; set; }
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public bool IsEenmalig { get; set; }
@@ -24,7 +22,7 @@ public class ActiecodeViewModel : IValidatableObject
     {
         var today = DateTime.Today;
 
-        // Controleert of de startdatum niet in het verleden ligt
+        //Controleert of de startdatum niet in het verleden ligt
         if (GeldigVanDatum < today)
         {
             yield return new ValidationResult(
@@ -32,11 +30,11 @@ public class ActiecodeViewModel : IValidatableObject
                 [nameof(GeldigVanDatum)]);
         }
 
-        // Controleert of de einddatum na de startdatum ligt
-        if (GeldigTotDatum <= GeldigVanDatum)
+        //Controleert of de einddatum na de startdatum ligt
+        if (GeldigTotDatum < GeldigVanDatum)
         {
             yield return new ValidationResult(
-                "Einddatum moet na startdatum liggen!",
+                "Einddatum mag niet voor startdatum liggen!",
                 [nameof(GeldigTotDatum)]);
         }
     }

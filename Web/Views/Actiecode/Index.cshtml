@@ -17,7 +17,7 @@
 
 </header>
 
-Deze filters werken nog niet (kopie van leveranciers)
+@* Deze filters werken nog niet (kopie van leveranciers)
 <br/>
 
 <div class="overview-toolbar row gx-3 align-items-end">
@@ -37,7 +37,7 @@ Deze filters werken nog niet (kopie van leveranciers)
         <label class="visually-hidden" for="overview-search">Zoeken</label>
         <input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op xxx"/>
     </div>
-</div>
+</div> *@
 
 <div class="table-responsive overview-table-wrapper">
     <table class="table overview-table align-middle mb-0">
@@ -61,8 +61,15 @@ Deze filters werken nog niet (kopie van leveranciers)
                     <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td> @* Toont of de actiecode eenmalig gebruikt kan worden *@
                     <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td> @* Toont of de actiecode momenteel actief is *@
                 <td class="p-2">
-                        <a class="btn btn-tertiary overview-details-button" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a> 
-                </td>
+                        @if(actiecode.GeldigVanDatum < DateTime.Today && actiecode.GeldigTotDatum < DateTime.Today)
+                        {
+                            <a class="btn btn-tertiary overview-details-button disabled" aria-disabled="true" tabindex="1" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-tertiary overview-details-button" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
+                        }
+                    </td>
             </tr>
         }
         </tbody>
