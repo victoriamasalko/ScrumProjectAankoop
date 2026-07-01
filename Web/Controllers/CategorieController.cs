@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Data.Models;
+﻿using Data.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Service;
 using Web.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Controllers;
 
@@ -57,7 +58,16 @@ public class CategorieController : Controller
     //GET-method met dropdown van alle beschikbare categorieën en een geen hoofdcategorieoptie. 
     public async Task<IActionResult> AddCategorie()
     {
-        var subcategorieen = await PrepareCategorieen();
+        // Alle categorieën ophalen...
+        var subcategorieen = (await PrepareCategorieen()).ToList();
+
+        // Een hoofdcategorie optie toevoegen aan de lijst
+        subcategorieen.Add(new CategorieOverviewViewModel()
+        {
+            Subcategorieen = [],
+            Level = 0,
+            Naam = "Geen"
+        });
 
         var model = new AddCategorieViewModel
         {
