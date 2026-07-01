@@ -17,7 +17,7 @@ public class ActiecodeWijzigenViewModel : IValidatableObject
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public DateTime? GeldigVanDatum { get; set; }
 
-    [Required(ErrorMessage = "Dit veld is verplicht")]
+    [Required]
     public DateTime? GeldigTotDatum { get; set; }
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
@@ -41,10 +41,10 @@ public class ActiecodeWijzigenViewModel : IValidatableObject
         }
 
         //Controleert of de einddatum na de startdatum ligt
-        if (GeldigTotDatum < GeldigVanDatum)
+        if (GeldigTotDatum.HasValue && GeldigTotDatum < today)
         {
             yield return new ValidationResult(
-                "Einddatum mag niet voor startdatum liggen!",
+                "Einddatum mag niet in het verleden liggen!",
                 [nameof(GeldigTotDatum)]);
         }
     }

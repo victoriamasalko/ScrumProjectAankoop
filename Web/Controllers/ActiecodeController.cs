@@ -64,7 +64,7 @@ public class ActiecodeController : Controller
             Naam = actiecode.Naam,
             GeldigVanDatum = actiecode.GeldigVanDatum,
             GeldigTotDatum = actiecode.GeldigTotDatum,
-            IsActief = actiecode.GeldigVanDatum <= DateTime.Today,
+            IsActief = (actiecode.GeldigVanDatum <= DateTime.Today),
             IsEenmalig = actiecode.IsEenmalig
         };
         
