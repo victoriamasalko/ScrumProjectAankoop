@@ -15,40 +15,60 @@ public class CategorieController : Controller
         _categorieService = categorieService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IEnumerable<CategorieOverviewViewModel>> PrepareCategorieen()
     {
+        // alle categorieën ophalen
         var categorieen = await _categorieService.GetCategorieenAsync();
 
-        var viewModel = categorieen.Select(c => new CategorieOverviewViewModel
+        // Enkel de "hoofdcategorieën" ophalen (de rest wordt opgehaald in functie "MapToOverviewModel"
+        var viewModel = categorieen
+            .Where(c => c.HoofdCategorieId == null)
+            .Select(c => new CategorieOverviewViewModel
+            {
+                CategorieId = c.CategorieId,
+                Level = 0,
+                Naam = c.Naam,
+                HoofdCategorieId = null,
+                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, 1)).ToList() ?? []
+            }).ToList();
+
+        return viewModel;
+
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        return View(nameof(Index), await PrepareCategorieen());
+    }
+
+    [NonAction]
+    public CategorieOverviewViewModel MapToOverviewViewModel(Categorie c,int level)
+    {
+        return new CategorieOverviewViewModel
         {
             CategorieId = c.CategorieId,
+            Level = level,
             Naam = c.Naam,
             HoofdCategorieId = c.HoofdCategorieId,
-            HoofdCategorieNaam = categorieen.FirstOrDefault(hc => hc.CategorieId == c.HoofdCategorieId)?.Naam
-        }).ToList();   
-
-        return View(nameof(Index), viewModel);
+            Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
+        };
     }
 
     //GET-method met dropdown van alle beschikbare categorieën en een geen hoofdcategorieoptie. 
     public async Task<IActionResult> AddCategorie()
     {
-        var categorieen = await _categorieService.GetCategorieenAsync();
+        var subcategorieen = await PrepareCategorieen();
+
         var model = new AddCategorieViewModel
         {
-            BeschikbareCategorieen = categorieen
-            .Select(c => new SelectListItem
-            {
-                Value = c.CategorieId.ToString(),
-                Text = c.Naam
-            })
-            .ToList()
+            Subcategorieen = subcategorieen
         };
-        model.BeschikbareCategorieen.Insert(0, new SelectListItem
-        {
-            Value = "",
-            Text = "Geen"
-        });
+
+        //model.BeschikbareCategorieen.Insert(0, new SelectListItem
+        //{
+        //    Value = "",
+        //    Text = "Geen"
+        //});
 
         return View(model);
     }
@@ -70,8 +90,8 @@ public class CategorieController : Controller
 
             var categorie = new Categorie
             {
-                Naam = model.Naam,
-                HoofdCategorieId = model.HoofdCategorieId
+                Naam = model.NieuweNaam,
+                HoofdCategorieId = model.SelectedHoofdCategorieId
             };
         
             await _categorieService.AddCategorieAsync(categorie);

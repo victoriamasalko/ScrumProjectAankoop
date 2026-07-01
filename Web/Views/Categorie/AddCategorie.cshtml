@@ -2,19 +2,33 @@
 
 <form asp-action="AddCategorie" method="post">
 
-	<label asp-for="Naam">Naam</label>
-	<input asp-for ="Naam" class="form-control" />
-	<span asp-validation-for="Naam" class="text-danger"></span>
+	<label asp-for="NieuweNaam" class="form-label">Naam</label>
+	<input asp-for ="NieuweNaam" class="form-control" />
+	<span asp-validation-for="NieuweNaam" class="text-danger"></span>
 
-	<label asp-for="HoofdCategorieId">Hoofdcategorie</label>
-	<select asp-for="HoofdCategorieId"
-			asp-items="Model.BeschikbareCategorieen"
-			class="form-select">
-	</select>
+    <label asp-for="SelectedHoofdCategorieId" class="form-label"></label>
+    <select asp-for="SelectedHoofdCategorieId" class="form-control">
+        @foreach (var categorie in Model.Subcategorieen)
+        {
+            @if (categorie.Subcategorieen.Any())
+            {
+                <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
+
+        
+
+                <partial name="PartialAdd" model="categorie.Subcategorieen" />
+            }
+            else
+            {
+                <option value="@categorie.CategorieId">@(String.Concat(Enumerable.Repeat("*", categorie.Level), categorie.Naam))</option>
+            }
+        }
+    </select>
 
 	<button type="submit" class="btn btn-primary">Toevoegen</button>
 	<a asp-action="Index" class="btn btn-warning">Annuleren</a>
-
+    
 </form>
+
 
 

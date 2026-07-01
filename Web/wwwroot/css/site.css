@@ -649,3 +649,66 @@ input, textarea, select {
     white-space: nowrap;
   }
 }
+
+.CategorieInsprong {
+    padding-left:25px
+}
+
+.category-tree {
+  width: 100%;
+  max-width: 700px;
+  height: 700px;
+  overflow-y: auto;
+  margin-top: 1.5rem;
+  border: 1px solid var(--sand-color);
+  background-color: color-mix(in srgb, var(--sand-color) 8%, var(--backgroundcolor));
+}
+
+.category-tree__item {
+  --category-indent: 0;
+  margin: 0 0 0 var(--category-indent);
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--sand-color) 65%, var(--backgroundcolor));
+  color: var(--textcolor) !important;
+  font-family: var(--font-body), serif;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.category-tree__item:last-child {
+  border-bottom: 0;
+}
+
+.cat-1 {
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 100%, var(--primary-light));
+  font-weight: 600;
+}
+
+.cat-2 {
+  --category-indent: 1rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 50%, var(--primary-light));
+}
+
+.cat-3 {
+  --category-indent: 2rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 20%, var(--primary-light));
+  color: var(--textcolor);
+}
+
+.cat-4 {
+  --category-indent: 3rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 10%, var(--primary-light));
+  color: var(--textcolor);
+}
+
+.cat-5 {
+  --category-indent: 4rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 5%, var(--primary-light));
+  color: var(--textcolor);
+}
+
+.cat-6 {
+  --category-indent: 5rem;
+  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 1%, var(--primary-light));
+  color: var(--textcolor);
+}

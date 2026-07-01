@@ -3,11 +3,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Models.ViewModels
 {
-    public class AddCategorieViewModel
+    public class AddCategorieViewModel: CategorieOverviewViewModel
     {
         [Required]
-        public string Naam { get; set; } = null!;
-        public int? HoofdCategorieId { get; set; }
-        public List<SelectListItem> BeschikbareCategorieen { get; set; } = [];
+        public string NieuweNaam { get; set; } = null!;
+        public int? SelectedHoofdCategorieId { get; set; }
     }
 }
