@@ -19,11 +19,12 @@ public class ActiecodeViewModel : IValidatableObject
     [Required(ErrorMessage = "Dit veld is verplicht")]
     public bool IsEenmalig { get; set; }
 
-
+    // Extra validatie voor de datums
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         var today = DateTime.Today;
 
+        // Controleert of de startdatum niet in het verleden ligt
         if (GeldigVanDatum < today)
         {
             yield return new ValidationResult(
@@ -31,6 +32,7 @@ public class ActiecodeViewModel : IValidatableObject
                 [nameof(GeldigVanDatum)]);
         }
 
+        // Controleert of de einddatum na de startdatum ligt
         if (GeldigTotDatum <= GeldigVanDatum)
         {
             yield return new ValidationResult(

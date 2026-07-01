@@ -4,7 +4,7 @@
     ViewData["Title"] = "Actiecode Wijzigen";
 }
 
-@* Formulier om een ​​artikel toe te voegen *@
+@* Formulier om een ​​actiecode toe te voegen *@
 <form asp-action="ActiecodeWijzigenUitvoeren" method="post">
 
     <input type="hidden" asp-for="Id"/>
@@ -15,7 +15,7 @@
         <span asp-validation-for="Naam" class="text-danger"></span>
     </div>
 
-
+    @* Formulier voor de startdatum, met readonly weergave als de datum al in het verleden ligt *@
     <div class="mb-3">
         <label asp-for="GeldigVanDatum" class="form-label"></label>
         @if (Model.GeldigVanDatum <= DateTime.Today)

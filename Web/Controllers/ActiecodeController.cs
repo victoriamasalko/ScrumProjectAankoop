@@ -14,6 +14,7 @@ public class ActiecodeController : Controller
         this.actiecodeService = actiecodeService;
     }
 
+    // Toont een lijst van alle actiecodes
     public async Task<IActionResult> Index()
     {
         var actiecodes = await actiecodeService.GetActiecodesAsync();
@@ -21,6 +22,7 @@ public class ActiecodeController : Controller
         return View(nameof(Index), actiecodes);
     }
 
+    // Toont het formulier om een nieuwe actiecode toe te voegen
     [HttpGet]
     public async Task<IActionResult> Toevoegen()
     {
@@ -29,6 +31,7 @@ public class ActiecodeController : Controller
         return View(nameof(Toevoegen), viewModel);
     }
 
+    // Verwerkt het formulier voor het toevoegen van een actiecode
     [HttpPost]
     public async Task<IActionResult> ToevoegenUitvoeren(ActiecodeViewModel model)
     {
@@ -50,6 +53,7 @@ public class ActiecodeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // Toont het formulier om een bestaande actiecode te wijzigen
     public async Task<IActionResult> ActiecodeWijzigen(int id)
     {
         var actiecode = await actiecodeService.GetActiecodeByIdAsync(id);
@@ -66,6 +70,7 @@ public class ActiecodeController : Controller
         return View(model);
     }
 
+    // Verwerkt het formulier voor het wijzigen van een actiecode
     [HttpPost]
     public async Task<IActionResult> ActiecodeWijzigenUitvoeren(ActiecodeViewModel model)
     {

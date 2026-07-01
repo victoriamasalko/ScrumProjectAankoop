@@ -58,8 +58,8 @@ Deze filters werken nog niet (kopie van leveranciers)
                 <td class="p-2" data-label="Naam">@actiecode.Naam</td>
                 <td class="p-2" data-label="GeldigVan">@actiecode.GeldigVanDatum</td>
                 <td class="p-2" data-label="GeldigTot">@actiecode.GeldigTotDatum</td>
-                <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td>
-                    <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td>
+                    <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td> @* Toont of de actiecode eenmalig gebruikt kan worden *@
+                    <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td> @* Toont of de actiecode momenteel actief is *@
                 <td class="p-2">
                         <a class="btn btn-tertiary overview-details-button" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a> 
                 </td>
