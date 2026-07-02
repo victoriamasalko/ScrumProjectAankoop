@@ -7,37 +7,13 @@
     <h1 class="overview-title">
         Actiecodes
     </h1>
-
+    
     <button class="btn btn-primary add-button" type="button">
-        <a asp-action="Toevoegen" asp-controller="Actiecode">
-            <span aria-hidden="true">+</span>
-            Nieuwe actiecode
-        </a>
+        <span aria-hidden="true">+</span>
+        Nieuwe actiecode
     </button>
 
 </header>
-
-@* Deze filters werken nog niet (kopie van leveranciers)
-<br/>
-
-<div class="overview-toolbar row gx-3 align-items-end">
-    <div class="col-12 col-md-4">
-        <label class="visually-hidden" for="overview-category">Categorie</label>
-        <select class="form-select overview-control" id="overview-category">
-            <option selected>Alle xxx</option>
-        </select>
-    </div>
-    <div class="col-12 col-md-4">
-        <label class="visually-hidden" for="overview-status">Status</label>
-        <select class="form-select overview-control" id="overview-status">
-            <option selected>Alle xxx</option>
-        </select>
-    </div>
-    <div class="col-12 col-md-4">
-        <label class="visually-hidden" for="overview-search">Zoeken</label>
-        <input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op xxx"/>
-    </div>
-</div> *@
 
 <div class="table-responsive overview-table-wrapper">
     <table class="table overview-table align-middle mb-0">
@@ -128,11 +104,8 @@
         });
 
     function wireAddActiecodeEvents() {
-
         const form = document.getElementById("addActiecodeForm");
-
         form.addEventListener("submit", async function (e) {
-
             e.preventDefault();
 
             const response = await fetch(form.action, {
@@ -144,9 +117,7 @@
                 window.location.href = response.url;
                 return;
             }
-
             const html = await response.text();
-
             document.getElementById("addActiecodeForm").outerHTML = html;
 
             // The form has been replaced, so wire it up again
@@ -155,13 +126,10 @@
     }
 
     function wireEditActiecodeEvents() {
-
         const form = document.getElementById("editActiecodeForm");
 
         form.addEventListener("submit", async function (e) {
-
             e.preventDefault();
-
             const response = await fetch(form.action, {
                 method: form.method,
                 body: new FormData(form)
@@ -171,9 +139,7 @@
                 window.location.href = response.url;
                 return;
             }
-
             const html = await response.text();
-
             document.getElementById("editActiecodeForm").outerHTML = html;
 
             // The form has been replaced, so wire it up again
