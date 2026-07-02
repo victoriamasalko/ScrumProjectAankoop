@@ -73,7 +73,7 @@ public class CategorieController : Controller
     public async Task<IActionResult>EditCategorie(EditCategorieViewModel model)
     {
         var bestaandeCategorie = await _categorieService.GetCategorieByNaamAsync(model.NieuweNaam);
-        if(bestaandeCategorie != null && bestaandeCategorie.CategorieId != model.CategorieId)
+        if (bestaandeCategorie != null && bestaandeCategorie.CategorieId != model.CategorieId)
         {
             ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam \"{model.NieuweNaam}\"");
         }
