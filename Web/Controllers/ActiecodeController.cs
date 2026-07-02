@@ -28,7 +28,7 @@ public class ActiecodeController : Controller
     {
         var viewModel = new ActiecodeToevoegenViewModel { };
 
-        return View(nameof(Toevoegen), viewModel);
+        return PartialView(nameof(Toevoegen), viewModel);
     }
 
     // Verwerkt het formulier voor het toevoegen van een actiecode
