@@ -90,4 +90,14 @@ public class CategorieRepository : ICategorieRepository
         await context.SaveChangesAsync();
         return categorie;
     }
+    public async Task<Categorie> GetCategorieByNaamAsync(string naam)
+    {
+        naam = naam ?? "";
+        return await context.Categorieen
+            .Include(c => c.HoofdCategorie)
+            .Include(c => c.SubCategorieen)
+            .Include(c => c.Artikels)
+            .FirstOrDefaultAsync(c => c.Naam.ToUpper() == naam.ToUpper());
+    }
+
 }
