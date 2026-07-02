@@ -5,35 +5,89 @@
 
 <h1 class="overview-title">Artikelen op de <em>plank</em></h1>
 
-<a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary">+ NIEUW ARTIKEL</a>
+<a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary" id="overview-create-button">+ NIEUW ARTIKEL</a>
+
 
 <table class="table">
     <thead>
-        <tr>
-            <th class="p-2">Naam</th>
-            <th class="p-2">Categorieën</th>
-            <th class="p-2">EAN</th>
-            <th class ="p-2">Prijs</th>
-            <th class="p-2">Voorraad</th>
-            <th></th>
-        </tr>
+    <tr>
+        <th class="p-2">Naam</th>
+        <th class="p-2">Categorieën</th>
+        <th class="p-2">EAN</th>
+        <th class="p-2">Prijs</th>
+        <th class="p-2">Voorraad</th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var artikel in Model)
-        {
-            <tr>
-                <td class="p-2">@artikel.Naam</td>
-                <td class="p-2">@string.Join(" - ",  artikel.Categorieen)</td>
-                <td class="p-2">@artikel.Ean</td>
-                <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
-                <td class="p-2">@artikel.Voorraad</td>
-            </tr>
-        }
+    @foreach (var artikel in Model)
+    {
+        <tr>
+            <td class="p-2">@artikel.Naam</td>
+            <td class="p-2">@string.Join(" - ", artikel.Categorieen)</td>
+            <td class="p-2">@artikel.Ean</td>
+            <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
+            <td class="p-2">@artikel.Voorraad</td>
+        </tr>
+    }
     </tbody>
 </table>
+
+<div id="modalContainer"></div>
+
 
 @* Toon een melding of zoiets wanneer er nog geen artikelen zijn. *@
 @if (Model.Count() == 0)
 {
     <div>Er zijn nog geen artikelen.</div>
 }
+
+
+
+<script>
+    function wireAddArtikelEvents() {
+
+        const form = document.getElementById("addArtikelForm");
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            document.getElementById("addArtikelForm").outerHTML = html;
+
+            // The form has been replaced, so wire it up again
+            wireAddArtikelEvents();
+        });
+    }
+
+    const artikelToevoegKnop = document.getElementById('overview-create-button');
+    artikelToevoegKnop.addEventListener('click', function (e) {
+        e.preventDefault();
+        const id = this.dataset.id;
+        fetch(`/Artikel/ArtikelToevoegen?id=${id}`)
+            .then(r => r.text())
+            .then(html => {
+
+                document.getElementById('modalContainer').innerHTML = html;
+
+                bootstrap.Modal
+                    .getOrCreateInstance(
+                        document.getElementById('addArtikelModal')
+                    )
+                    .show();
+                wireAddArtikelEvents();
+            });
+    })
+</script>
