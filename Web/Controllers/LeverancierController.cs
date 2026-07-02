@@ -16,15 +16,22 @@ namespace Web.Controllers
         public async Task<IActionResult> Index()
         {
             var leveranciers = await leverancierService.GetLeveranciersAsync();
+            var artikels = await artikelService.GetArtikelsAsync();
 
-            var viewModel = leveranciers.Select(l => new LeverancierOverviewViewModel
+            LeverancierIndexViewModel viewModel = new LeverancierIndexViewModel()
             {
-                LeveranciersId = l.LeveranciersId,
-                Naam = l.Naam,
-                BtwNummer = l.BtwNummer,
-                VoornaamContactpersoon = l.VoornaamContactpersoon,
-                FamilienaamContactpersoon = l.FamilienaamContactpersoon
-            }).ToList();
+                Leveranciers = leveranciers.Select(l => new LeverancierOverviewViewModel()
+                {
+                    LeveranciersId = l.LeveranciersId,
+                    Naam = l.Naam,
+                    BtwNummer = l.BtwNummer,
+                    VoornaamContactpersoon = l.VoornaamContactpersoon,
+                    FamilienaamContactpersoon = l.FamilienaamContactpersoon,
+                    Artikels = l.Artikels
+
+                }).ToList(),
+                Artikels = artikels.ToList()
+            };
 
             return View(nameof(Index), viewModel);
 
