@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<CategorieOverviewViewModel>
 
 <section class="overview-page">
-    
+
     <header class="overview-header">
         <h1 class="overview-title">
             De <em>categorieboom</em>
         </h1>
 
 
-        <button type="button"
-                id="overview-add-button"
-                class="btn btn-primary overview-create-button">
+        <button type="button" class="btn btn-primary overview-create-button">
             <span aria-hidden="true">+</span>
             Nieuwe Categorie
         </button>
@@ -19,36 +17,56 @@
     </header>
     <main>
         <div class="category-tree">
-            <partial name="PartialSubcategorieen" model="Model" />
+            <partial name="PartialSubcategorieen" model="Model"/>
         </div>
-    
-    </main>
 
-    <div id="modalContainer">
-        
-    </div>
+    </main>
+    
+    <div id="modalContainer"></div>
 </section>
 
+
 <script>
-    
-    
-    const addButton = document.getElementById('overview-add-button')
 
-            addButton.addEventListener('click', function (e) {
+    document.querySelectorAll('.overview-create-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
                 e.preventDefault();
-
+                const id = this.dataset.id;
                 fetch(`/Categorie/AddCategorie`)
                     .then(r => r.text())
                     .then(html => {
-
                         document.getElementById('modalContainer').innerHTML = html;
-
                         bootstrap.Modal
                             .getOrCreateInstance(
                                 document.getElementById('addCategorieModal')
                             )
                             .show();
-
+                        wireAddCategorieEvents();
                     });
             });
+        });
+
+    function wireAddCategorieEvents() {
+        const form = document.getElementById("addCategorieForm");
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+            const html = await response.text();
+            document.getElementById("addCategorieForm").outerHTML = html;
+
+            // The form has been replaced, so wire it up again
+            wireAddCategorieEvents();
+        });
+    }
+
 </script>

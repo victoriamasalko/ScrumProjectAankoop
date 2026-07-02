@@ -118,7 +118,7 @@ public class CategorieController : Controller
             Subcategorieen = subcategorieen
         };
 
-        return PartialView(model);
+        return PartialView(nameof(AddCategorie), model);
     }
 
     [HttpPost]
@@ -144,7 +144,7 @@ public class CategorieController : Controller
 
         var subcategorieen = await PrepareCategorieen();
         model.Subcategorieen = subcategorieen;
-        return View(model);
+        return PartialView("_AddCategorieForm", model);
         
     }
     
