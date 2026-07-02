@@ -91,6 +91,15 @@ public class CategorieRepository : ICategorieRepository
         await context.SaveChangesAsync();
         return categorie;
     }
+    
+    public async Task<Categorie?> GetHoofdcategorieByCategorieIdAsync(int id)
+    {
+        return await context.Categorieen
+            .Where(x => x.CategorieId == id)
+            .Select(x => x.HoofdCategorie)
+            .FirstOrDefaultAsync();
+    }
+}
 
     public async Task<Categorie> AddCategorieAsync(Categorie categorie)
     {

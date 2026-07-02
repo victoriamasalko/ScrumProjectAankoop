@@ -661,6 +661,9 @@ input, textarea, select {
   }
 }
 
+.block {
+  display: block;
+}
 .CategorieInsprong {
     padding-left:25px
 }

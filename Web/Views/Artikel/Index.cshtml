@@ -28,6 +28,9 @@
             <td class="p-2">@artikel.Ean</td>
             <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
             <td class="p-2">@artikel.Voorraad</td>
+            <td class="p-2">
+                <a asp-action="ArtikelDetails" asp-route-id="@artikel.ArtikelId" data-id="@artikel.ArtikelId" class="btn btn-tertiary overview-details-button">Details</a>
+            </td>
         </tr>
     }
     </tbody>
@@ -42,9 +45,27 @@
     <div>Er zijn nog geen artikelen.</div>
 }
 
-
-
 <script>
+    document.querySelectorAll('.overview-details-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                fetch(`/Artikel/ArtikelDetails?id=${id}`)
+                    .then(r => r.text())
+                    .then(html => {
+
+                        document.getElementById('modalContainer').innerHTML = html;
+
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('detailsModal')
+                            )
+                            .show();
+                    });
+            });
+        });
+
     function wireAddArtikelEvents() {
 
         const form = document.getElementById("addArtikelForm");

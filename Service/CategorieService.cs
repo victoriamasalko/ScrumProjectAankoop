@@ -19,6 +19,8 @@ public class CategorieService(ICategorieRepository categorieRepository)
     public async Task<Categorie> RemoveArtikelFromCategorieAsync(Categorie categorie, int artikelId) => await categorieRepository.RemoveArtikelFromCategorieAsync(categorie, artikelId);
 
     public async Task<Categorie> UpdateCategorieAsync(Categorie categorie) => await categorieRepository.UpdateCategorieAsync(categorie);
+    
+    public async Task<Categorie?> GetHoofdcategorieByCategorieIdAsync(int id) => await categorieRepository.GetHoofdcategorieByCategorieIdAsync(id);
     public async Task<Categorie> AddCategorieAsync(Categorie categorie) => await categorieRepository.AddCategorieAsync(categorie);
 
     public async Task<Categorie?> GetCategorieByNaamAsync(string naam) => await categorieRepository.GetCategorieByNaamAsync(naam);
