@@ -1,4 +1,4 @@
-﻿using Data.Models;
+using Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,4 +21,7 @@ public interface ICategorieRepository
 
     Task<Categorie?> GetHoofdcategorieByCategorieIdAsync(int id);
 
+    Task<Categorie> AddCategorieAsync(Categorie categorie);
+
+    Task<Categorie> GetCategorieByNaamAsync(string naam);
 }
