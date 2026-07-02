@@ -1,0 +1,13 @@
+﻿@model IEnumerable<CategorieOverviewViewModel>
+
+@foreach (var categorie in Model)
+{
+    <option value="@categorie.CategorieId">
+        @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
+    </option>
+
+    @if (categorie.Subcategorieen.Any())
+    {
+        <partial name="PartialAdd" model="categorie.Subcategorieen" />
+    }
+}

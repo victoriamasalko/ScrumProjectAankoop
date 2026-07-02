@@ -118,11 +118,10 @@ namespace Web.Controllers
 
         // Deze action method voegt een nieuwe leverancier toe.
         [HttpPost]
-        public async Task<IActionResult> AddLeverancierAsync(AddLeverancierViewModel addLeverancierViewModel)
+        public async Task<IActionResult> AddLeverancier(AddLeverancierViewModel addLeverancierViewModel)
         {
             if (ModelState.IsValid)
             {
-                // Maak een Leverancier object op basis van de form.
                 Leverancier leverancier = new Leverancier()
                 {
                     Naam = addLeverancierViewModel.Naam,
@@ -135,17 +134,14 @@ namespace Web.Controllers
                     PlaatsId = addLeverancierViewModel.PlaatsId
                 };
 
-                // Roep de service op.
                 await leverancierService.AddLeverancierAsync(leverancier);
 
-                // Redirect naar de overzichtpagina voor de leveranciers.
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
-                return PartialView("AddLeverancierModal", addLeverancierViewModel);
-            }
+
+            addLeverancierViewModel.Plaatsen = await GetPlaatsenAsync();
+
+            return PartialView("_AddLeverancierForm", addLeverancierViewModel);
         }
     }
 }

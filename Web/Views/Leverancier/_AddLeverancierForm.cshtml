@@ -1,0 +1,83 @@
+﻿@model Web.Models.ViewModels.AddLeverancierViewModel
+
+<form asp-action="AddLeverancier"
+      method="post"
+      id="addLeverancierForm">
+
+
+        <h6>Leverancier</h6>
+
+        <div class="mb-3">
+            <label asp-for="Naam" class="form-label"></label>
+            <span asp-validation-for="Naam" class="text-danger"></span>
+            <input asp-for="Naam" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="BtwNummer" class="form-label"></label>
+            <span asp-validation-for="BtwNummer" class="text-danger"></span>
+            <input asp-for="BtwNummer" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Straat" class="form-label"></label>
+            <span asp-validation-for="Straat" class="text-danger"></span>
+            <input asp-for="Straat" class="form-control" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="HuisNummer" class="form-label"></label>
+                <span asp-validation-for="HuisNummer" class="text-danger"></span>
+                <input asp-for="HuisNummer" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label asp-for="Bus" class="form-label"></label>
+                <span asp-validation-for="Bus" class="text-danger"></span>
+                <input asp-for="Bus" class="form-control" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PlaatsId" class="form-label"></label>
+            <select asp-for="PlaatsId"
+                    asp-items="Model.Plaatsen"
+                    class="form-select">
+            </select>
+            <span asp-validation-for="PlaatsId" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <h6>Contactpersoon</h6>
+
+        <div class="mb-3">
+            <label asp-for="VoornaamContactpersoon" class="form-label"></label>
+            <span asp-validation-for="VoornaamContactpersoon" class="text-danger"></span>
+            <input asp-for="VoornaamContactpersoon" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FamilienaamContactperoon" class="form-label"></label>
+            <span asp-validation-for="FamilienaamContactperoon" class="text-danger"></span>
+            <input asp-for="FamilienaamContactperoon" class="form-control" />
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+
+    <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+            Annuleren
+        </button>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Toevoegen
+        </button>
+    </div>
+
+</form>
