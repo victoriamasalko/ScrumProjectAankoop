@@ -46,4 +46,48 @@ public class CategorieController : Controller
             Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
         };
     }
+    public async Task<IActionResult>EditCategorie(int id)
+    {
+        var categorie = await _categorieService.GetCategorieByIdAsync(id);
+        if (categorie == null)
+        {
+            return NotFound();
+        }
+        var subcategorieen = (await PrepareCategorieen()).ToList();
+        var model = new EditCategorieViewModel
+        {
+            CategorieId = categorie.CategorieId,
+            NieuweNaam = categorie.Naam,
+            SelectedCategorieId = categorie.HoofdCategorieId,
+            Subcategorieen = subcategorieen
+        };
+        return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult>EditCategorie(EditCategorieViewModel model)
+    {
+        var bestaandeCategorie = await _categorieService.GetCategorieByNaamAsync(model.NieuweNaam);
+        if(bestaandeCategorie != null && bestaandeCategorie.CategorieId != model.CategorieId)
+        {
+            ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam \"{model.NieuweNaam}\"");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.Subcategorieen = await PrepareCategorieen();
+            return View(model);
+        }
+
+        var categorie = await _categorieService.GetCategorieByIdAsync(model.CategorieId);
+        if (categorie == null)
+        {
+            return NotFound();
+        }
+
+        categorie.Naam = model.NieuweNaam;
+        categorie.HoofdCategorieId = model.SelectedCategorieId == 0
+            ? null : model.SelectedCategorieId;
+        await _categorieService.UpdateCategorieAsync(categorie);
+        return RedirectToAction(nameof(Index));
+    }
 }
