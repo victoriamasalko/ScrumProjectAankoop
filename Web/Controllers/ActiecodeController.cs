@@ -35,29 +35,29 @@ public class ActiecodeController : Controller
     [HttpPost]
     public async Task<IActionResult> ToevoegenUitvoeren(ActiecodeToevoegenViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(nameof(Toevoegen), model);
+            var actiecode = new Actiecode
+            {
+                Naam = model.Naam,
+                GeldigVanDatum = model.GeldigVanDatum!.Value,
+                GeldigTotDatum = model.GeldigTotDatum!.Value,
+                IsEenmalig = model.IsEenmalig
+            };
+
+            await actiecodeService.AddActiecodeAsync(actiecode);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        var actiecode = new Actiecode
-        {
-            Naam = model.Naam,
-            GeldigVanDatum = model.GeldigVanDatum!.Value,
-            GeldigTotDatum = model.GeldigTotDatum!.Value,
-            IsEenmalig = model.IsEenmalig
-        };
-
-        await actiecodeService.AddActiecodeAsync(actiecode);
-
-        return RedirectToAction(nameof(Index));
+        return PartialView("_AddActiecodeForm", model);
     }
 
     // Toont het formulier om een bestaande actiecode te wijzigen
     public async Task<IActionResult> ActiecodeWijzigen(int id)
     {
         var actiecode = await actiecodeService.GetActiecodeByIdAsync(id);
-        
+
         var model = new ActiecodeWijzigenViewModel
         {
             Id = actiecode.ActiecodeId,
@@ -67,8 +67,8 @@ public class ActiecodeController : Controller
             IsActief = (actiecode.GeldigVanDatum <= DateTime.Today),
             IsEenmalig = actiecode.IsEenmalig
         };
-        
-        return View(model);
+
+        return PartialView(model);
     }
 
     // Verwerkt het formulier voor het wijzigen van een actiecode
@@ -99,23 +99,22 @@ public class ActiecodeController : Controller
             }
         }
 
-        if (!ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            return View(nameof(ActiecodeWijzigen), model);
+            var actiecode = new Actiecode()
+            {
+                ActiecodeId = model.Id,
+                Naam = model.Naam,
+                GeldigVanDatum = model.GeldigVanDatum!.Value,
+                GeldigTotDatum = model.GeldigTotDatum!.Value,
+                IsEenmalig = model.IsEenmalig
+            };
+            
+            await actiecodeService.UpdateActiecodeAsync(actiecode);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        var actiecode = new Actiecode()
-        {
-            ActiecodeId = model.Id,
-            Naam = model.Naam,
-            GeldigVanDatum = model.GeldigVanDatum!.Value,
-            GeldigTotDatum = model.GeldigTotDatum!.Value,
-            IsEenmalig = model.IsEenmalig
-        };
-
-
-        await actiecodeService.UpdateActiecodeAsync(actiecode);
-
-        return RedirectToAction(nameof(Index));
+        return PartialView("_EditActiecodeForm", model);
     }
 }

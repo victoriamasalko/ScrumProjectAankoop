@@ -4,31 +4,27 @@
     ViewData["Title"] = "Actiecode Toevoegen";
 }
 
-<form asp-action="ToevoegenUitvoeren" method="post">
-    <div class="mb-3">
-        <label asp-for="Naam" class="form-label"></label>
-        <input asp-for="Naam" class="form-control" />
-        <span asp-validation-for="Naam" class="text-danger"></span>
-    </div>
+<div class="modal fade" id="actieCodeAdd"
+     tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-    <div class="mb-3">
-        <label asp-for="GeldigVanDatum" class="form-label"></label>
-        <input asp-for="GeldigVanDatum" type="date" class="form-control" />
-        <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
-    </div>
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Actiecode <em>toevoegen</em>
+                </h5>
 
-    <div class="mb-3">
-        <label asp-for="GeldigTotDatum" class="form-label"></label>
-        <input asp-for="GeldigTotDatum" type="date" class="form-control" />
-        <span asp-validation-for="GeldigTotDatum" class="text-danger"></span>
-    </div>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
 
-    <div class="mb-3">
-        <input asp-for="IsEenmalig" class="form-check-input" />
-        <label asp-for="IsEenmalig" class="form-check-label">Eenmalig</label>
-        <span asp-validation-for="IsEenmalig" class="text-danger"></span>
+            <div class="modal-body">
+                
+                @await Html.PartialAsync("_AddActiecodeForm", Model)
+                
+            </div>
+        </div>
     </div>
-
-    <button class="btn btn-primary" type="submit">Opslaan</button>
-    <a asp-action="Index" asp-controller="Actiecode" class="btn btn-warning">Annuleren</a>
-</form>
+</div>

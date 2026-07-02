@@ -8,7 +8,7 @@
         Actiecodes
     </h1>
 
-    <button class="btn btn-primary overview-create-button" type="button">
+    <button class="btn btn-primary add-button" type="button">
         <a asp-action="Toevoegen" asp-controller="Actiecode">
             <span aria-hidden="true">+</span>
             Nieuwe actiecode
@@ -58,20 +58,126 @@
                 <td class="p-2" data-label="Naam">@actiecode.Naam</td>
                 <td class="p-2" data-label="GeldigVan">@actiecode.GeldigVanDatum</td>
                 <td class="p-2" data-label="GeldigTot">@actiecode.GeldigTotDatum</td>
-                    <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td> @* Toont of de actiecode eenmalig gebruikt kan worden *@
-                    <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td> @* Toont of de actiecode momenteel actief is *@
+                <td class="p-2" data-label="Eenmalig">@((actiecode.IsEenmalig) ? "✓" : "X")</td> @* Toont of de actiecode eenmalig gebruikt kan worden *@
+                <td class="p-2">@((actiecode.GeldigVanDatum <= DateTime.Today && DateTime.Today <= actiecode.GeldigTotDatum) ? "Actief" : "Niet actief")</td> @* Toont of de actiecode momenteel actief is *@
                 <td class="p-2">
-                        @if(actiecode.GeldigVanDatum < DateTime.Today && actiecode.GeldigTotDatum < DateTime.Today)
-                        {
-                            <a class="btn btn-tertiary overview-details-button disabled" aria-disabled="true" tabindex="1" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-tertiary overview-details-button" asp-action="ActiecodeWijzigen" asp-route-id="@actiecode.ActiecodeId">Wijzigen</a>
-                        }
-                    </td>
+                    @if (actiecode.GeldigVanDatum < DateTime.Today && actiecode.GeldigTotDatum < DateTime.Today)
+                    {
+                        <a class="btn btn-tertiary edit-button disabled"
+                           aria-disabled="true"
+                           tabindex="1"
+                           asp-action="ActiecodeWijzigen"
+                           asp-route-id="@actiecode.ActiecodeId"
+                           data-id="@actiecode.ActiecodeId">Wijzigen</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-tertiary edit-button"
+                           asp-action="ActiecodeWijzigen"
+                           asp-route-id="@actiecode.ActiecodeId"
+                           data-id="@actiecode.ActiecodeId">Wijzigen</a>
+                    }
+                </td>
             </tr>
         }
         </tbody>
     </table>
 </div>
+
+<div id="modalContainer"></div>
+
+
+<script>
+
+    document.querySelectorAll('.edit-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                fetch(`/Actiecode/ActiecodeWijzigen?id=${id}`)
+                    .then(r => r.text())
+                    .then(html => {
+                        document.getElementById('modalContainer').innerHTML = html;
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('actieCodeEdit')
+                            )
+                            .show();
+                        wireEditActiecodeEvents();
+                    });
+            });
+        });
+
+    document.querySelectorAll('.add-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                fetch(`/Actiecode/Toevoegen`)
+                    .then(r => r.text())
+                    .then(html => {
+                        document.getElementById('modalContainer').innerHTML = html;
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('actieCodeAdd')
+                            )
+                            .show();
+                        wireAddActiecodeEvents();
+                    });
+            });
+        });
+
+    function wireAddActiecodeEvents() {
+
+        const form = document.getElementById("addActiecodeForm");
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            document.getElementById("addActiecodeForm").outerHTML = html;
+
+            // The form has been replaced, so wire it up again
+            wireAddActiecodeEvents();
+        });
+    }
+
+    function wireEditActiecodeEvents() {
+
+        const form = document.getElementById("editActiecodeForm");
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            document.getElementById("editActiecodeForm").outerHTML = html;
+
+            // The form has been replaced, so wire it up again
+            wireEditActiecodeEvents();
+        });
+    }
+</script>
