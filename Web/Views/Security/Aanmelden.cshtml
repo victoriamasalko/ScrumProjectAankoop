@@ -1,0 +1,22 @@
+﻿@model PersoneelslidaccountDetailsViewModel
+
+<h1>Aanmelden</h1>
+
+<form asp-action="Aanmelden" method="post">
+    <div>
+        <label asp-for="@Model.Emailadres">Emailadres</label>
+        <input asp-for="@Model.Emailadres" />
+    </div>
+    <div>
+        <label asp-for="@Model.Paswoord">Wachtwoord</label>
+        <input asp-for="@Model.Paswoord" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">
+            Aanmelden
+        </button>
+    </div>
+
+
+
+</form>

@@ -226,8 +226,8 @@ public partial class PrulariacomContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("voornaam");
 
-            entity.HasOne(d => d.PersoneelslidAccount).WithMany(p => p.Personeelsledens)
-                .HasForeignKey(d => d.PersoneelslidAccountId)
+            entity.HasOne(d => d.PersoneelslidAccount).WithOne(p => p.Personeelslid)
+                .HasForeignKey<PersoneelsLid>(d => d.PersoneelslidAccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Personeelsleden_PersoneelslidAccounts1");
 

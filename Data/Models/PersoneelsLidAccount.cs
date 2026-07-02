@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models;
 
@@ -13,5 +14,5 @@ public partial class Personeelslidaccount
 
     public bool Disabled { get; set; }
 
-    public virtual ICollection<PersoneelsLid> Personeelsledens { get; set; } = new List<PersoneelsLid>();
+    public virtual PersoneelsLid Personeelslid { get; set; }
 }

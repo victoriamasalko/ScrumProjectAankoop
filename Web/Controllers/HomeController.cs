@@ -8,6 +8,13 @@ namespace Web.Controllers
     {
         public IActionResult Index()
         {
+            string? ingelogdeGebruiker = HttpContext.Request.Cookies["AangemeldPersoneel"];
+
+            if (string.IsNullOrEmpty(ingelogdeGebruiker))
+            {
+                return RedirectToAction("Aanmelden", "Security");
+            }
+
             return View();
         }
 
