@@ -22,6 +22,9 @@
 }
 <tr data-categorieen="@string.Join("|", Model.Categorieen.Select(c => c.CategorieId))"
     data-actief="@Model.IsActief.ToString().ToLower()"
+    data-bestelpeil="@Model.Bestelpeil"
+    data-voorraad="@Model.Voorraad"
+    data-besteld="@Model.AantalBesteldLeverancier"
     class="@(Model.IsActief ? "artikel-actief" : "artikel-inactief")">
 
     <td class="p-2 overview-name">@Model.Naam</td>

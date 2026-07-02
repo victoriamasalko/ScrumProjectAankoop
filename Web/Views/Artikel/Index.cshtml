@@ -43,7 +43,11 @@
         <div class="col-8 col-md-3">
             <label class="visually-hidden" for="overview-status">Status</label>
             <select class="form-select overview-control" id="overview-stock-status">
-                <option selected>Alle Voorraad Statussen</option>
+                <option value="" selected>Alle Voorraad Statussen</option>
+                <option value="goed" >Voorraad aantal goed</option>
+                <option value="laag" >Voorraad aantal laag</option>
+                <option value="kritiek" >Voorraad aantal kritiek</option>
+
             </select>
         </div>
         <div class="col-12 col-md-4">
@@ -91,6 +95,7 @@
     const searchbar = document.getElementById("overview-search");
     const categorieDropdown = document.getElementById("overview-category");
     const artikelStatusDropdown = document.getElementById("overview-article-status");
+    const stockStatusDropdown = document.getElementById("overview-stock-status");
 
     function filterRows() {
 
@@ -130,13 +135,47 @@
             const matchesStatus =
                 selectedArtikelStatus === "" ||
                 isActief === selectedArtikelStatus;
+            
+            const voorraad = parseInt(row.dataset.voorraad);
+            const bestelpeil = parseInt(row.dataset.bestelpeil);
+            const besteld = parseInt(row.dataset.besteld);
 
-            row.style.display =
-                matchesSearch &&
-                matchesCategorie &&
-                matchesStatus
-                    ? ""
-                    : "none";
+            let matchesVoorraad = true;
+
+            if (stockStatusDropdown.value !== "") {
+
+                const percentage = bestelpeil > 0
+                    ? voorraad / bestelpeil
+                    : Infinity;
+
+                switch (stockStatusDropdown.value) {
+
+                    case "goed":
+                        matchesVoorraad =
+                            besteld > 0 || percentage > 1.30;
+                        break;
+
+                    case "laag":
+                        matchesVoorraad =
+                            besteld === 0 &&
+                            percentage > 1.10 &&
+                            percentage <= 1.30;
+                        break;
+
+                    case "kritiek":
+                        matchesVoorraad =
+                            besteld === 0 &&
+                            percentage <= 1.10;
+                        break;
+                }
+            }
+row.style.display =
+    matchesSearch &&
+    matchesCategorie &&
+    matchesStatus &&
+    matchesVoorraad
+        ? ""
+        : "none";
         });
     }
 
@@ -151,6 +190,10 @@
         searchbar.value = "";
         filterRows();
     });
+    stockStatusDropdown.addEventListener("change", function () {
+    searchbar.value = "";
+    filterRows();
+});
 </script>
 
 <script>
