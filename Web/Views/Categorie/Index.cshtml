@@ -8,9 +8,11 @@
         </h1>
 
 
-        <button id="x" class="btn btn-secondary overview-create-button" type="button">
+        <button type="button"
+                class="btn btn-secondary overview-create-button"
+                onclick="location.href='@Url.Action("AddCategorie", "Categorie")'">
             <span aria-hidden="true">+</span>
-            Hoofdcategorie
+            Nieuwe Categorie
         </button>
 
 
@@ -18,7 +20,20 @@
     <main>
 
     <div class="category-tree">
-        <partial name="PartialSubcategorieen" model="Model" />
+        @foreach (var categorie in Model)
+        {
+            @if (categorie.Subcategorieen.Any())
+            {
+                <p class="category-tree__item cat-@(categorie.Level + 1)">@categorie.Naam</p>
+                <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
+            }
+            else
+            {
+                <p class="category-tree__item cat-@(categorie.Level + 1)">
+                    <span>@categorie.Naam</span>
+                </p>
+            }
+        }
     </div>
     
     </main>

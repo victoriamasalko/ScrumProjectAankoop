@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Data.Models;
+﻿using Data.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Service;
 using Web.Models.ViewModels;
 
@@ -14,7 +16,7 @@ public class CategorieController : Controller
         _categorieService = categorieService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IEnumerable<CategorieOverviewViewModel>> PrepareCategorieen()
     {
         // alle categorieën ophalen
         var categorieen = await _categorieService.GetCategorieenAsync();
@@ -28,10 +30,16 @@ public class CategorieController : Controller
                 Level = 0,
                 Naam = c.Naam,
                 HoofdCategorieId = null,
-                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,1)).ToList() ?? []
+                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, 1)).ToList() ?? []
             }).ToList();
 
-        return View(nameof(Index), viewModel);
+        return viewModel;
+
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        return View(nameof(Index), await PrepareCategorieen());
     }
 
     [NonAction]
@@ -46,4 +54,47 @@ public class CategorieController : Controller
             Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
         };
     }
+
+    //GET-method met dropdown van alle beschikbare categorieën en een geen hoofdcategorieoptie. 
+    public async Task<IActionResult> AddCategorie()
+    {
+        // Alle categorieën ophalen...
+        var subcategorieen = (await PrepareCategorieen()).ToList();
+
+
+        var model = new AddCategorieViewModel
+        {
+            Subcategorieen = subcategorieen
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> AddCategorie(AddCategorieViewModel model)
+    {
+        var bestaandeCategorie = await _categorieService.GetCategorieByNaamAsync(model.NieuweNaam);
+
+        if (bestaandeCategorie != null)
+        {
+            ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam \"{model.NieuweNaam}\"");
+        }
+        if (ModelState.IsValid)
+        {
+            var categorie = new Categorie
+            {
+                Naam = model.NieuweNaam,
+                HoofdCategorieId = model.SelectedCategorieId == 0 ? null : model.SelectedCategorieId
+            };
+        
+            await _categorieService.AddCategorieAsync(categorie);
+            return RedirectToAction(nameof(Index));
+        }
+
+        var subcategorieen = await PrepareCategorieen();
+        model.Subcategorieen = subcategorieen;
+        return View(model);
+        
+    }
+
+
 }
