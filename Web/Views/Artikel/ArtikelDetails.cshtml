@@ -17,6 +17,11 @@
                     </button>
                 </div>
 
+                @*Dit is een nice to have
+                @*<img class="artikeldetail-image"
+                     src="images/artikels/image@(Model.ArtikelId).jpg"
+                     alt=""/>*@
+
                 <div class="modal-body">
                     <h6 class="detail-subtitle">Artikeldetails</h6>
 
@@ -34,11 +39,11 @@
                     </p>
                     <p>
                         <strong>Prijs:</strong>
-                        <span>@Model.Prijs</span>
+                        <span>@Html.DisplayFor(model => model.Prijs)</span>
                     </p>
                     <p>
                         <strong>Gewicht in gram:</strong>
-                        <span>@Model.GewichtInGram</span>
+                        <span>@Html.DisplayFor(model => model.GewichtInGram)</span>
                     </p>
                     <p>
                         <strong>Bestelpeil:</strong>
@@ -80,8 +85,9 @@
                         <p><strong>@c.Hoofdcategorie?.Naam</strong> &rarr; @c.Subcategorie</p>
                     }
 
+                </div>
+                <div class="block">
                     <a asp-action="ArtikelWijzigen" asp-route-id="@Model.ArtikelId" class="btn btn-tertiary overview-details-button">Wijzigen</a>
-
                 </div>
             </div>
         </div>

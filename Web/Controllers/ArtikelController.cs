@@ -76,7 +76,7 @@ namespace Web.Controllers
         public async Task<IActionResult> ArtikelDetails(int id)
         {
             var artikel = await artikelService.GetArtikelAsync(id);
-            if (artikel is null) return View();
+            //if (artikel is null) return View(); // deze code lijkt overbodig
             
             var viewmodel = new ArtikelDetailsViewModel
             {
