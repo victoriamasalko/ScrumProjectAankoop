@@ -675,6 +675,17 @@ input, textarea, select {
   background-color: color-mix(in srgb, var(--sand-color) 8%, var(--backgroundcolor));
 }
 
+.category-tree__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.category-tree__node,
+.category-tree__dropdown {
+  margin: 0;
+}
+
 .category-tree__item {
   --category-indent: 0;
   margin: 0 0 0 var(--category-indent);
@@ -686,40 +697,57 @@ input, textarea, select {
   line-height: 1.25;
 }
 
-.category-tree__item:last-child {
-  border-bottom: 0;
+.category-tree__summary {
+  cursor: pointer;
+}
+
+.category-tree__summary::marker,
+.category-tree__summary::-webkit-details-marker {
+  color: var(--category-marker-color, var(--primary-light));
+}
+
+.category-tree__summary:hover,
+.category-tree__summary:focus {
+  background-color: color-mix(in srgb, var(--primary-light) 22%, var(--backgroundcolor));
+  outline: 0;
 }
 
 .cat-1 {
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 100%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 100%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
   font-weight: 600;
 }
 
 .cat-2 {
   --category-indent: 1rem;
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 50%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 50%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
 }
 
 .cat-3 {
   --category-indent: 2rem;
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 20%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 20%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
   color: var(--textcolor);
 }
 
 .cat-4 {
   --category-indent: 3rem;
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 10%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 10%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
   color: var(--textcolor);
 }
 
 .cat-5 {
   --category-indent: 4rem;
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 5%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 5%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
   color: var(--textcolor);
 }
 
 .cat-6 {
   --category-indent: 5rem;
-  border-left: 4px solid color-mix(in srgb, var(--primary-dark) 1%, var(--primary-light));
+  --category-marker-color: color-mix(in srgb, var(--primary-dark) 1%, var(--primary-light));
+  border-left: 4px solid var(--category-marker-color);
   color: var(--textcolor);
 }
