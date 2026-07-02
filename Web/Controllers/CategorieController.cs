@@ -46,4 +46,19 @@ public class CategorieController : Controller
             Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
         };
     }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        // Vraag de categorie die je wilt verwijderen op.
+        Categorie? categorie = await _categorieService.GetCategorieByIdAsync(id);
+
+        // Return NotFound als de categorie niet bestaat.
+        if (categorie == null)
+            return NotFound();
+
+        // Roep de delete method op.
+        var deletedCategorie = await _categorieService.RemoveCategorieAsync(categorie);
+
+        return RedirectToAction(nameof(Index));
+    }
 }
