@@ -1,4 +1,4 @@
-﻿using Data.Models;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ public class CategorieRepository : ICategorieRepository
             .Include(c => c.Artikels)
             .FirstOrDefaultAsync(c => c.CategorieId == id);
     }
+
 
     public async Task<IEnumerable<Categorie>> GetCategorieenAsync()
     {
@@ -90,6 +91,14 @@ public class CategorieRepository : ICategorieRepository
         await context.SaveChangesAsync();
         return categorie;
     }
+
+    public async Task<Categorie> AddCategorieAsync(Categorie categorie)
+    {
+        context.Categorieen.Add(categorie);
+        await context.SaveChangesAsync();
+        return categorie;
+    }
+
     public async Task<Categorie> GetCategorieByNaamAsync(string naam)
     {
         naam = naam ?? "";
@@ -99,5 +108,4 @@ public class CategorieRepository : ICategorieRepository
             .Include(c => c.Artikels)
             .FirstOrDefaultAsync(c => c.Naam.ToUpper() == naam.ToUpper());
     }
-
 }

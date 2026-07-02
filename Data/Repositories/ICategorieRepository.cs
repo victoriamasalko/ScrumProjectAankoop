@@ -1,4 +1,4 @@
-﻿using Data.Models;
+using Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +18,7 @@ public interface ICategorieRepository
     Task<Categorie> RemoveArtikelFromCategorieAsync(Categorie categorie, int artikelId);
 
     Task<Categorie> UpdateCategorieAsync(Categorie categorie);
+    Task<Categorie> AddCategorieAsync(Categorie categorie);
+
     Task<Categorie> GetCategorieByNaamAsync(string naam);
 }
