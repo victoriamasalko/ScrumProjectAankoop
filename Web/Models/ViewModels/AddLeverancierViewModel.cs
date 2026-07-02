@@ -6,34 +6,34 @@ namespace Web.Models.ViewModels
 {
     public class AddLeverancierViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         public string Naam { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         [StringLength(45)]
         public string BtwNummer { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         [StringLength(45)]
         public string Straat { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         [StringLength(5)]
         public string HuisNummer { get; set; } = null!;
 
         [StringLength(5)]
         public string? Bus { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         public int PlaatsId { get; set; }
 
         public List<SelectListItem> Plaatsen = new List<SelectListItem>();
         
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         [StringLength(45)]
         public string VoornaamContactpersoon { get; set; } = null!;
         
-        [Required]
+        [Required(ErrorMessage = "Dit veld is verplicht.")]
         [StringLength(45)]
         public string FamilienaamContactperoon { get; set; } = null!;
     }
