@@ -20,76 +20,8 @@
 
             <div class="modal-body">
 
-                <form asp-action="ArtikelToevoegenUitvoeren" method="post" id="addArtikelForm" enctype="multipart/form-data">
-
-                    @*<div class="mb-3">
-                        <label
-                            style="height:200px;width:200px;background-color:lightgray;border:1px dashed black;font-size:60px;color:lightslategrey;cursor:pointer;"
-                            class="d-flex justify-content-center align-items-center" for="foto">+</label>
-                        <input hidden type="file" class="form-control" id="foto" name="foto"/>
-                    </div>*@
-
-                    <div class="mb-3">
-                        <label asp-for="Naam" class="form-label"></label>
-                        <input asp-for="Naam" class="form-control"/>
-                        <span asp-validation-for="Naam" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Beschrijving" class="form-label"></label>
-                        <input asp-for="Beschrijving" class="form-control"/>
-                        <span asp-validation-for="Beschrijving" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Prijs" class="form-label"></label>
-                        <input asp-for="Prijs" class="form-control"/>
-                        <span asp-validation-for="Prijs" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="GewichtInGram" class="form-label"></label>
-                        <input asp-for="GewichtInGram" class="form-control"/>
-                        <span asp-validation-for="GewichtInGram" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Levertijd" class="form-label"></label>
-                        <input asp-for="Levertijd" class="form-control"/>
-                        <span asp-validation-for="Levertijd" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="MaxAantalInMagazijnPlaats" class="form-label"></label>
-                        <input asp-for="MaxAantalInMagazijnPlaats" class="form-control"/>
-                        <span asp-validation-for="MaxAantalInMagazijnPlaats" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="LeverancierId" class="form-label"></label>
-                        <select asp-for="LeverancierId" asp-items="Model.Leveranciers" class="form-select">
-                            <option value="">-- Kies een leverancier --</option>
-                        </select>
-                        <span asp-validation-for="LeverancierId" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Categorieën</label>
-
-                        @foreach (var categorie in Model.Categorieen)
-                        {
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="SelectedCategorieIds" value="@categorie.Value" id="@categorie.Value"
-                                       @(Model.SelectedCategorieIds.Contains(int.Parse(categorie.Value)) ? "checked" : null)/>
-                                <label for="@categorie.Value" class="form-check-label">@categorie.Text</label>
-                            </div>
-                        }
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Toevoegen</button>
-                    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
-                </form>
-
+                @await Html.PartialAsync("_AddArtikelForm", Model)
+                
             </div>
 
         </div>

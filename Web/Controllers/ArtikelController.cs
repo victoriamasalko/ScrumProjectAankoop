@@ -89,36 +89,37 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ArtikelToevoegenUitvoeren(ArtikelToevoegenViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model.Leveranciers = await GetLeveranciersSelectListAsync();
-                model.Categorieen = await GetCategorieenSelectListAsync();
+                var artikel = new Artikel
+                {
+                    //Ean = model.Ean,
+                    Naam = model.Naam,
+                    Beschrijving = model.Beschrijving,
+                    Prijs = model.Prijs,
+                    GewichtInGram = model.GewichtInGram,
+                    Levertijd = model.Levertijd,
+                    MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
+                    LeveranciersId = model.LeverancierId.Value,
 
-                return PartialView(nameof(ArtikelToevoegen), model);
+                    Bestelpeil = 0,
+                    Voorraad = 0,
+                    MinimumVoorraad = 0,
+                    MaximumVoorraad = 0,
+                    AantalBesteldLeverancier = 0
+                };
+
+                await artikelService.AddArtikelAsync(artikel, model.SelectedCategorieIds);
+
+                return RedirectToAction(nameof(Index));
             }
 
-            var artikel = new Artikel
-            {
-                //Ean = model.Ean,
-                Naam = model.Naam,
-                Beschrijving = model.Beschrijving,
-                Prijs = model.Prijs,
-                GewichtInGram = model.GewichtInGram,
-                Levertijd = model.Levertijd,
-                MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
-                LeveranciersId = model.LeverancierId.Value,
+            model.Leveranciers = await GetLeveranciersSelectListAsync();
+            model.Categorieen = await GetCategorieenSelectListAsync();
 
-                Bestelpeil = 0,
-                Voorraad = 0,
-                MinimumVoorraad = 0,
-                MaximumVoorraad = 0,
-                AantalBesteldLeverancier = 0
-            };
-
-            await artikelService.AddArtikelAsync(artikel, model.SelectedCategorieIds);
-
-            return RedirectToAction(nameof(Index));
+            return PartialView("_AddArtikelForm", model);
         }
+
 
         // Toont het formulier om een artikel te wijzigen.
         [HttpGet]
@@ -159,33 +160,33 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ArtikelWijzigenUitvoeren(ArtikelWijzigenViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                model.Leveranciers = await GetLeveranciersSelectListAsync();
-                model.Categorieen = await GetCategorieenSelectListAsync();
+                var artikel = new Artikel
+                {
+                    ArtikelId = model.ArtikelId,
+                    Naam = model.Naam,
+                    Beschrijving = model.Beschrijving,
+                    Prijs = model.Prijs,
+                    GewichtInGram = model.GewichtInGram,
+                    Bestelpeil = model.Bestelpeil,
+                    MinimumVoorraad = model.MinimumVoorraad,
+                    MaximumVoorraad = model.MaximumVoorraad,
+                    Levertijd = model.Levertijd,
+                    AantalBesteldLeverancier = model.AantalBesteldLeverancier,
+                    MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
+                    LeveranciersId = model.LeverancierId!.Value
+                };
 
-                return View(nameof(ArtikelWijzigen), model);
+                await artikelService.UpdateArtikelAsync(artikel, model.SelectedCategorieIds);
+
+                return RedirectToAction(nameof(Index));
             }
 
-            var artikel = new Artikel
-            {
-                ArtikelId = model.ArtikelId,
-                Naam = model.Naam,
-                Beschrijving = model.Beschrijving,
-                Prijs = model.Prijs,
-                GewichtInGram = model.GewichtInGram,
-                Bestelpeil = model.Bestelpeil,
-                MinimumVoorraad = model.MinimumVoorraad,
-                MaximumVoorraad = model.MaximumVoorraad,
-                Levertijd = model.Levertijd,
-                AantalBesteldLeverancier = model.AantalBesteldLeverancier,
-                MaxAantalInMagazijnPlaats = model.MaxAantalInMagazijnPlaats,
-                LeveranciersId = model.LeverancierId!.Value
-            };
+            model.Leveranciers = await GetLeveranciersSelectListAsync();
+            model.Categorieen = await GetCategorieenSelectListAsync();
 
-            await artikelService.UpdateArtikelAsync(artikel, model.SelectedCategorieIds);
-
-            return RedirectToAction(nameof(Index));
+            return PartialView(nameof(ArtikelWijzigen), model);
         }
 
         // Haalt de leveranciers op voor de dropdownlijst.

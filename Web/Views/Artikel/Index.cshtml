@@ -65,13 +65,7 @@
 
             const html = await response.text();
 
-            document.getElementById("modalContainer").innerHTML = html;
-
-            const modal = document.getElementById("addArtikelModal");
-
-            bootstrap.Modal
-                .getOrCreateInstance(modal)
-                .show();
+            document.getElementById("addArtikelForm").outerHTML = html;
 
             // The form has been replaced, so wire it up again
             wireAddArtikelEvents();
