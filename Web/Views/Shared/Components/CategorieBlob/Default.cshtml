@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Categorie>
+
+@{
+    var hoofdCategorieen = Model
+        .Where(c => c.HoofdCategorieId == null)
+        .ToList();
+
+    var subCategorieen = Model
+        .Where(c => c.HoofdCategorieId != null)
+        .ToList();
+
+    var eersteCategorie = subCategorieen.FirstOrDefault();
+
+    var overigeCategorieen = subCategorieen.Skip(1).ToList();
+
+    var tooltip = string.Join(Environment.NewLine,
+        overigeCategorieen.Select(c => c.Naam));
+}
+
+<div class="categorie-container"
+     title="@(overigeCategorieen.Any() ? tooltip : string.Empty)">
+
+    @if (eersteCategorie != null)
+    {
+        <span class="categorie-pill">
+            @eersteCategorie.Naam
+        </span>
+    }
+
+    @if (overigeCategorieen.Any())
+    {
+        <span class="categorie-extra">
+            +@overigeCategorieen.Count
+        </span>
+    }
+
+</div>

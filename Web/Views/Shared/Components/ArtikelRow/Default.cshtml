@@ -1,0 +1,62 @@
+﻿@model ArtikelOverviewViewModel
+@{
+    string voorraadClass = "";
+
+    if (Model.Bestelpeil > 0)
+    {
+        var percentage = (double)Model.Voorraad / Model.Bestelpeil;
+        Console.WriteLine(percentage);
+        if (Model.AantalBesteldLeverancier > 0)
+        {
+            voorraadClass = "text-success";
+        }
+        else if (percentage <= 1.10)
+        {
+            voorraadClass = "text-danger";
+        }
+        else if (percentage <= 1.30 && percentage > 1.10)
+        {
+            voorraadClass = "text-warning";
+        }
+    }
+}
+<tr data-categorieen="@string.Join("|", Model.Categorieen.Select(c => c.CategorieId))"
+    data-actief="@Model.IsActief.ToString().ToLower()"
+    class="@(Model.IsActief ? "artikel-actief" : "artikel-inactief")">
+
+    <td class="p-2 overview-name">@Model.Naam</td>
+
+    <td class="p-2">
+        @Model.Beschrijving
+    </td>
+
+    <td class="p-2">
+        @await Component.InvokeAsync("CategorieBlob", Model.Categorieen)
+    </td>
+
+    <td class="p-2">@Model.Ean</td>
+
+    <td class="p-2">
+        @Html.DisplayFor(m => m.Prijs)
+    </td>
+
+    <td class="p-2  @voorraadClass">
+        @Model.Voorraad
+    </td>
+    <td class="p-2">
+        <button class="btn btn-primary status-btn"
+                data-id="@Model.ArtikelId"
+                data-actief="@Model.IsActief.ToString().ToLower()">
+
+            @(Model.IsActief ? "Actief" : "Inactief")
+        </button>
+    </td>
+    <td class="overview-actions">
+        <a class="btn btn-tertiary overview-details-button"
+           asp-action="Details"
+           asp-route-id="@Model.ArtikelId"
+           data-id="@Model.ArtikelId">
+            Details
+        </a>
+    </td>
+</tr>

@@ -82,4 +82,25 @@ public class ArtikelRepository : IArtikelRepository
 
         return existingArtikel;
     }
+
+    public async Task<Artikel> DeactivateArtikelAsync(int artikelId)
+    {
+        var artikel = await _context.Artikels
+            .FirstOrDefaultAsync(a => a.ArtikelId == artikelId);
+
+        if (artikel == null)
+        {
+            throw new InvalidOperationException("Artikel niet gevonden");
+        }
+
+        artikel.Bestelpeil = 0;
+        artikel.MinimumVoorraad = 0;
+        artikel.MaximumVoorraad = 0;
+        artikel.AantalBesteldLeverancier = 0;
+        artikel.Voorraad = 0;
+
+        await _context.SaveChangesAsync();
+
+        return artikel;
+    }
 }

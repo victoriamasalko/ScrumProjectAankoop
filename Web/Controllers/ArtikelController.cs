@@ -58,17 +58,24 @@ namespace Web.Controllers
         public async Task<IActionResult> Index()
         {
             var artikels = await artikelService.GetArtikelsAsync();
+            var categorieen = await categorieService.GetCategorieenAsync();
 
-            var viewModel = artikels.Select(a => new ArtikelOverviewViewModel
+            var viewModel = new ArtikelIndexOverviewViewModel()
             {
-                ArtikelId = a.ArtikelId,
-                Naam = a.Naam,
-                Beschrijving = a.Beschrijving,
-                Ean = a.Ean,
-                Categorieen = a.Categorieen.Select(c => c.Naam).ToList(),
-                Prijs = a.Prijs,
-                Voorraad = a.Voorraad
-            }).ToList();
+                Artikels = artikels.Select(a => new ArtikelOverviewViewModel
+                {
+                    ArtikelId = a.ArtikelId,
+                    Naam = a.Naam,
+                    Beschrijving = a.Beschrijving,
+                    Ean = a.Ean,
+                    Categorieen = a.Categorieen.ToList(),
+                    Prijs = a.Prijs,
+                    Voorraad = a.Voorraad,
+                    Bestelpeil = a.Bestelpeil,
+                    IsActief = a.IsActief(),
+                }).ToList(),
+                Categorieën = categorieen.ToList()
+            };  
 
             return View(nameof(Index), viewModel);
         }
@@ -213,6 +220,14 @@ namespace Web.Controllers
                 Value = c.CategorieId.ToString(),
                 Text = c.Naam
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            await artikelService.DeactivateArtikelAsync(id);
+
+            return Ok();
         }
     }
 }
