@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.ViewModels
 {
-
     public class ArtikelToevoegenViewModel
     {
         public IFormFile? Foto { get; set; }
@@ -49,7 +48,7 @@ namespace Web.Models.ViewModels
 
         [Required(ErrorMessage = "Selecteer ten minste één categorie.")]
         [Display(Name = "Categorieën")]
-        public List<int> SelectedCategorieIds { get; set; } = new();
+        public List<int> SelectedCategorieIds { get; set; } = [];
 
         public IEnumerable<SelectListItem> Leveranciers { get; set; } = new List<SelectListItem>();
 

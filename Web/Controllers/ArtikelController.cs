@@ -94,7 +94,7 @@ namespace Web.Controllers
                 model.Leveranciers = await GetLeveranciersSelectListAsync();
                 model.Categorieen = await GetCategorieenSelectListAsync();
 
-                return View(nameof(ArtikelToevoegen), model);
+                return PartialView(nameof(ArtikelToevoegen), model);
             }
 
             var artikel = new Artikel
