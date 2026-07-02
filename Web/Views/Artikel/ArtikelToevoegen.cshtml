@@ -8,9 +8,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                @*<h5 class="modal-title">
-                        @Model.Naam
-                    </h5>*@
+                <h5 class="modal-title">
+                    Artikel toevoegen
+                </h5>
 
                 <button type="button"
                         class="btn-close"
@@ -22,12 +22,12 @@
 
                 <form asp-action="ArtikelToevoegenUitvoeren" method="post" enctype="multipart/form-data">
 
-                    <div class="mb-3">
+                    @*<div class="mb-3">
                         <label
                             style="height:200px;width:200px;background-color:lightgray;border:1px dashed black;font-size:60px;color:lightslategrey;cursor:pointer;"
                             class="d-flex justify-content-center align-items-center" for="foto">+</label>
                         <input hidden type="file" class="form-control" id="foto" name="foto"/>
-                    </div>
+                    </div>*@
 
                     <div class="mb-3">
                         <label asp-for="Naam" class="form-label"></label>
@@ -91,7 +91,7 @@
                 </form>
 
             </div>
-        
+
         </div>
     </div>
 </div>

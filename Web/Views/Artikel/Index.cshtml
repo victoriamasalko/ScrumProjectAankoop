@@ -5,7 +5,8 @@
 
 <h1 class="overview-title">Artikelen op de <em>plank</em></h1>
 
-<a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary">+ NIEUW ARTIKEL</a>
+<a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary overview-create-button">+ NIEUW ARTIKEL</a>
+
 
 <table class="table">
     <thead>
@@ -44,7 +45,7 @@
 
 
 <script>
-    document.querySelectorAll('.overview-details-button')
+    document.querySelectorAll('.overview-create-button')
         .forEach(button => {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
