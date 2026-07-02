@@ -10,7 +10,7 @@
         </h1>
 
 
-		<button id="openAddLeverancierBtn" class="btn btn-primary overview-create-button" type="button">
+		<button id="openAddLeverancierBtn" class="btn btn-primary" type="button">
 			<span aria-hidden="true">+</span>
 			Nieuwe leverancier
 		</button>
@@ -193,33 +193,33 @@
 
 
 	<script>
+    function wireAddLeverancierEvents() {
 
-		function wireAddLeverancierEvents() {
+        const form = document.getElementById("addLeverancierForm");
 
-			document.getElementById('saveLeverancierBtn')
-				.addEventListener('click', function () {
+        form.addEventListener("submit", async function (e) {
 
-					const formData = new FormData();
-					formData.append('Naam', document.querySelector('[name="naam"]').value);
-					formData.append('BtwNummer', document.querySelector('[name="btw"]').value);
-					formData.append('Straat', document.querySelector('[name="straat"]').value);
-					formData.append('HuisNummer', document.querySelector('[name="huisnummer"]').value);
-					formData.append('Bus', document.querySelector('[name="bus"]').value);
-					formData.append('PlaatsId', document.querySelector('[name="PlaatsId"]').value);
-					formData.append('FamilienaamContactperoon', document.querySelector('[name="familienaam"]').value);
-					formData.append('VoornaamContactpersoon', document.querySelector('[name="voornaam"]').value);
+            e.preventDefault();
 
-					fetch('/Leverancier/AddLeverancierAsync', {
-						method: 'POST',
-						body: formData
-					})
-						.then(r => {
-							if (r.redirected) {
-								window.location.href = r.url;
-							}
-						});
-				});
-		}
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            // Replace ONLY the form
+            document.getElementById("addLeverancierForm").outerHTML = html;
+
+            // Wire up the new form
+            wireAddLeverancierEvents();
+        });
+    }
 
 		document.getElementById('openAddLeverancierBtn').addEventListener('click', function () {
 				fetch('/Leverancier/AddLeverancier')
