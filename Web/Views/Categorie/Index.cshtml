@@ -9,8 +9,8 @@
 
 
         <button type="button"
-                class="btn btn-secondary overview-create-button"
-                onclick="location.href='@Url.Action("AddCategorie", "Categorie")'">
+                id="overview-add-button"
+                class="btn btn-primary overview-create-button">
             <span aria-hidden="true">+</span>
             Nieuwe Categorie
         </button>
@@ -38,4 +38,31 @@
     
     </main>
 
+    <div id="modalContainer">
+        
+    </div>
 </section>
+
+<script>
+    
+    
+    const addButton = document.getElementById('overview-add-button')
+
+            addButton.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                fetch(`/Categorie/AddCategorie`)
+                    .then(r => r.text())
+                    .then(html => {
+
+                        document.getElementById('modalContainer').innerHTML = html;
+
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('addCategorieModal')
+                            )
+                            .show();
+
+                    });
+            });
+</script>

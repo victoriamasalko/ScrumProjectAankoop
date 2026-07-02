@@ -61,12 +61,26 @@ public class CategorieController : Controller
         // Alle categorieën ophalen...
         var subcategorieen = (await PrepareCategorieen()).ToList();
 
+        // Een hoofdcategorie optie toevoegen aan de lijst
+        subcategorieen.Add(new CategorieOverviewViewModel()
+        {
+            Subcategorieen = [],
+            Level = 0,
+            Naam = "Geen"
+        });
 
         var model = new AddCategorieViewModel
         {
             Subcategorieen = subcategorieen
         };
-        return View(model);
+
+        //model.BeschikbareCategorieen.Insert(0, new SelectListItem
+        //{
+        //    Value = "",
+        //    Text = "Geen"
+        //});
+
+        return PartialView(model);
     }
 
     [HttpPost]
@@ -95,6 +109,5 @@ public class CategorieController : Controller
         return View(model);
         
     }
-
-
+    
 }
