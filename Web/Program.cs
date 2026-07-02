@@ -9,6 +9,8 @@ builder.Services.AddTransient<IArtikelRepository, ArtikelRepository>();
 builder.Services.AddTransient<ILeverancierRepository, LeverancierRepository>();
 builder.Services.AddTransient<ICategorieRepository, CategorieRepository>();
 builder.Services.AddTransient<IPlaatsRepository, PlaatsRepository>();
+builder.Services.AddTransient<IActiecodeRepository, ActiecodeRepository>();
+builder.Services.AddTransient<ActiecodeService>();
 builder.Services.AddTransient<CategorieService>();
 builder.Services.AddTransient<ArtikelService>();
 builder.Services.AddTransient<LeverancierService>();
