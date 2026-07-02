@@ -9,11 +9,11 @@
                 <details class="category-tree__dropdown">
                     <summary class="category-tree__item category-tree__summary cat-@(categorie.Level + 1)">
                         @categorie.Naam
-                        <div class="d-flex justify-content-end">
+                        @if (categorie.Artikelen.Count() == 0 && categorie.Subcategorieen.Count() == 0){
                             <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
                                 <i class="bi bi-trash"></i>
                             </a>
-                        </div>
+                        }
                     </summary>
                     <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
                 </details>
@@ -22,9 +22,12 @@
             {
                 <div class="category-tree__item cat-@(categorie.Level + 1)">
                     @categorie.Naam
-                    <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
-                        <i class="bi bi-trash"></i>
-                    </a>
+                    @if (categorie.Artikelen.Count() == 0 && categorie.Subcategorieen.Count() == 0)
+                    {
+                        <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    }
                 </div>
             }
         </li>

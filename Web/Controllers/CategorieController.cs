@@ -28,7 +28,8 @@ public class CategorieController : Controller
                 Level = 0,
                 Naam = c.Naam,
                 HoofdCategorieId = null,
-                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,1)).ToList() ?? []
+                Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,1)).ToList() ?? [],
+                Artikelen = c.Artikels.ToList() ?? []
             }).ToList();
 
         return View(nameof(Index), viewModel);
@@ -43,7 +44,8 @@ public class CategorieController : Controller
             Level = level,
             Naam = c.Naam,
             HoofdCategorieId = c.HoofdCategorieId,
-            Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c,level+1)).ToList() ?? []
+            Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, level + 1)).ToList() ?? [],
+            Artikelen = c.Artikels.ToList() ?? []
         };
     }
 
@@ -56,9 +58,20 @@ public class CategorieController : Controller
         if (categorie == null)
             return NotFound();
 
-        // Roep de delete method op.
-        var deletedCategorie = await _categorieService.RemoveCategorieAsync(categorie);
+        return View(categorie);
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> DeleteDoorvoeren(int id)
+    {
+        // Vraag de categorie die je wilt verwijderen op.
+        Categorie? categorie = await _categorieService.GetCategorieByIdAsync(id);
+
+        // Return NotFound als de categorie niet bestaat.
+        if (categorie == null)
+            return NotFound();
+
+        var deletedCategorie = await _categorieService.RemoveCategorieAsync(categorie);
         return RedirectToAction(nameof(Index));
     }
 }
