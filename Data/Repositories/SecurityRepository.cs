@@ -38,6 +38,7 @@ public class SecurityRepository : ISecurityRepository
 
     public async Task<Personeelslidaccount>? GetPersoneelslidaccountByEmailAsync(string email)
     {
+        email = email ?? string.Empty;
         return await _context.Personeelslidaccounts
             .Include(p => p.Personeelslid)
             .FirstOrDefaultAsync(p => p.Emailadres == email);

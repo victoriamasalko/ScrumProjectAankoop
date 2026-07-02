@@ -40,50 +40,58 @@ public class SecurityController : Controller
 
     public async Task<IActionResult> Aanmelden()
     {
-        var viewModel = new PersoneelslidaccountDetailsViewModel();
+        var viewModel = new AanmeldenViewModel();
         return View(viewModel);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Aanmelden(PersoneelslidaccountDetailsViewModel personeelslidaccountDetailsViewModel)
+    public async Task<IActionResult> Aanmelden(AanmeldenViewModel aanmeldenViewModel)
     {
-        var account = await _securityService.GetPersoneelslidaccountByEmailAsync(personeelslidaccountDetailsViewModel.Emailadres);
-        if (account == null)
+        if (ModelState.IsValid)
         {
-            return NotFound();
-        }
-
-
-        var wachtwoord = personeelslidaccountDetailsViewModel.Paswoord;
-        bool isWachtwoordCorrect = BCrypt.Net.BCrypt.Verify(wachtwoord, account.Paswoord);
-
-
-        if (isWachtwoordCorrect && account != null)
-        {
-            var viewModel = new PersoneelslidaccountDetailsViewModel
+            var account = await _securityService.GetPersoneelslidaccountByEmailAsync(aanmeldenViewModel.Emailadres);
+            if (account == null)
             {
-                PersoneelslidAccountId = account.PersoneelslidAccountId,
-                PersoneelslidId = account.Personeelslid.PersoneelslidId,
-                PersoneelslidNaam = string.Join(" ", account.Personeelslid.Voornaam, account.Personeelslid.Familienaam),
-                Emailadres = account.Emailadres,
-                Paswoord = account.Paswoord
-            };
+                return NotFound();
+            }
 
-            // Maak handmatig de cookie aan
-            CookieOptions opties = new CookieOptions
+
+            var wachtwoord = aanmeldenViewModel.Paswoord;
+            bool isWachtwoordCorrect = BCrypt.Net.BCrypt.Verify(wachtwoord, account.Paswoord);
+
+
+            if (isWachtwoordCorrect && account != null)
             {
-                HttpOnly = true, // Zorgt dat JavaScript de cookie niet kan stelen
-                Secure = true,   // Alleen over HTTPS verzenden
-                Expires = DateTimeOffset.UtcNow.AddMinutes(20) // 20 minuten geldig
-            };
+                var viewModel = new PersoneelslidaccountDetailsViewModel
+                {
+                    PersoneelslidAccountId = account.PersoneelslidAccountId,
+                    PersoneelslidId = account.Personeelslid.PersoneelslidId,
+                    PersoneelslidNaam = string.Join(" ", account.Personeelslid.Voornaam, account.Personeelslid.Familienaam),
+                    Emailadres = account.Emailadres,
+                    Paswoord = account.Paswoord
+                };
 
-            HttpContext.Response.Cookies.Append("AangemeldPersoneel", account.Emailadres, opties);
+                // Maak handmatig de cookie aan
+                CookieOptions opties = new CookieOptions
+                {
+                    HttpOnly = true, // Zorgt dat JavaScript de cookie niet kan stelen
+                    Secure = true,   // Alleen over HTTPS verzenden
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(20) // 20 minuten geldig
+                };
 
-            return RedirectToAction("Index", "Home");
+                HttpContext.Response.Cookies.Append("AangemeldPersoneel", account.Emailadres, opties);
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("Paswoord", "Het e-mailadres of wachtwoord is ongeldig");
+                return View(aanmeldenViewModel);
+            }
         }
         else
         {
-            return NotFound();
+            return View(aanmeldenViewModel);
         }
     }
 

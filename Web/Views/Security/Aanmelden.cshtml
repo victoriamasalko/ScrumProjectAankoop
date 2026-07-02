@@ -1,4 +1,4 @@
-﻿@model PersoneelslidaccountDetailsViewModel
+﻿@model AanmeldenViewModel
 
 <h1>Aanmelden</h1>
 
@@ -6,17 +6,16 @@
     <div>
         <label asp-for="@Model.Emailadres">Emailadres</label>
         <input asp-for="@Model.Emailadres" />
+        <span asp-validation-for="@Model.Emailadres" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="@Model.Paswoord">Wachtwoord</label>
-        <input asp-for="@Model.Paswoord" />
+        <input asp-for="@Model.Paswoord" type="password" />
+        <span asp-validation-for="@Model.Paswoord" class="text-danger"></span>
     </div>
     <div>
         <button type="submit" class="btn btn-primary">
             Aanmelden
         </button>
     </div>
-
-
-
 </form>
