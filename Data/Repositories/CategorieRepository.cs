@@ -19,7 +19,7 @@ public class CategorieRepository : ICategorieRepository
     public async Task<Categorie?> GetCategorieByIdAsync(int id)
     {
         return await context.Categorieen
-            .Include(c => c.HoofdCategorieId)
+            .Include(c => c.HoofdCategorie)
             .Include(c => c.SubCategorieen)
             .Include(c => c.Artikels)
             .FirstOrDefaultAsync(c => c.CategorieId == id);
@@ -87,6 +87,19 @@ public class CategorieRepository : ICategorieRepository
     public async Task<Categorie> UpdateCategorie(Categorie categorie)
     {
         context.Categorieen.Update(categorie);
+        await context.SaveChangesAsync();
+        return categorie;
+    }
+
+    public async Task<Categorie?> RemoveCategorieAsync(Categorie categorie)
+    {
+        // De verwijdering mag niet plaats vinden als er nog subcategorieën aan de categorie hangen
+        // of er nog artikelen aan de categorie hangen.
+        if(categorie.SubCategorieen!.Count != 0 || categorie.Artikels.Count != 0)
+        {
+            return null; 
+        }
+        context.Categorieen.Remove(categorie);
         await context.SaveChangesAsync();
         return categorie;
     }
