@@ -3,9 +3,9 @@
 <form asp-action="AddCategorie" method="post">
 
     <div>
-	    <label asp-for="NieuweNaam" class="form-label">Naam</label>
-	    <input asp-for ="NieuweNaam" class="form-control" />
-	    <span asp-validation-for="NieuweNaam" class="text-danger"></span>
+        <label asp-for="NieuweNaam" class="form-label">Naam</label>
+        <input asp-for="NieuweNaam" class="form-control"/>
+        <span asp-validation-for="NieuweNaam" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="SelectedCategorieId" class="form-label">Categorie</label>
@@ -19,9 +19,7 @@
                         @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
                     </option>
 
-        
-
-                    <partial name="PartialAdd" model="categorie.Subcategorieen" />
+                    <partial name="PartialAdd" model="categorie.Subcategorieen"/>
                 }
                 else
                 {
@@ -32,9 +30,9 @@
             }
         </select>
     </div>
-	<button type="submit" class="btn btn-primary">Toevoegen</button>
-	<a asp-action="Index" class="btn btn-warning">Annuleren</a>
-    
+    <button type="submit" class="btn btn-primary">Toevoegen</button>
+    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
+
 </form>
 
 

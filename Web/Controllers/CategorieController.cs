@@ -90,7 +90,7 @@ public class CategorieController : Controller
 
         if (bestaandeCategorie != null)
         {
-            ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam {model.NieuweNaam}");
+            ModelState.AddModelError("NieuweNaam", $"Er bestaat al een categorie met de naam \"{model.NieuweNaam}\"");
         }
         if (ModelState.IsValid)
         {
