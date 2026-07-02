@@ -82,7 +82,7 @@ namespace Web.Controllers
                 Categorieen = await GetCategorieenSelectListAsync()
             };
 
-            return View(nameof(ArtikelToevoegen), viewModel);
+            return PartialView(nameof(ArtikelToevoegen), viewModel);
         }
 
         // Voegt een nieuw artikel toe.

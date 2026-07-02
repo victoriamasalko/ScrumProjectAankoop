@@ -38,6 +38,9 @@
     <div>Er zijn nog geen artikelen.</div>
 }
 
+<div id="modalContainer"></div>
+
+
 <script>
     document.querySelectorAll('.overview-details-button')
         .forEach(button => {
@@ -52,7 +55,7 @@
 
                         bootstrap.Modal
                             .getOrCreateInstance(
-                                document.getElementById('detailsModal')
+                                document.getElementById('toevoegenModal')
                             )
                             .show();
                     });
