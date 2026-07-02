@@ -75,6 +75,30 @@ public class ActiecodeController : Controller
     [HttpPost]
     public async Task<IActionResult> ActiecodeWijzigenUitvoeren(ActiecodeWijzigenViewModel model)
     {
+        if (model.GeldigVanDatum.HasValue && model.GeldigTotDatum.HasValue)
+        {
+            if (model.GeldigTotDatum.Value < model.GeldigVanDatum.Value)
+            {
+                ModelState.AddModelError(
+                    nameof(model.GeldigTotDatum),
+                    "Einddatum mag niet voor startdatum liggen!");
+            }
+
+            if (!model.IsActief && model.GeldigVanDatum.Value < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    nameof(model.GeldigVanDatum),
+                    "Startdatum mag niet in het verleden liggen!");
+            }
+
+            if (model.GeldigTotDatum.Value < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    nameof(model.GeldigTotDatum),
+                    "Einddatum mag niet in het verleden liggen!");
+            }
+        }
+
         if (!ModelState.IsValid)
         {
             return View(nameof(ActiecodeWijzigen), model);

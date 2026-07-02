@@ -4,17 +4,18 @@ namespace Web.Models.ViewModels;
 
 public class ActiecodeToevoegenViewModel : IValidatableObject
 {
-    [Required]
+    [Required(ErrorMessage = "Dit veld is verplicht")]
     [StringLength(45)]
     public string Naam { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
+    [Display(Name = "Geldig Van Datum")]
     public DateTime? GeldigVanDatum { get; set; }
 
     [Required(ErrorMessage = "Dit veld is verplicht")]
+    [Display(Name = "Geldig Tot Datum")]
     public DateTime? GeldigTotDatum { get; set; }
 
-    [Required(ErrorMessage = "Dit veld is verplicht")]
     public bool IsEenmalig { get; set; }
 
     // Extra validatie voor de datums
