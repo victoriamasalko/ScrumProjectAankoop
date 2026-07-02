@@ -11,7 +11,8 @@
                         @categorie.Naam
                         <a asp-action="EditCategorie"
                        asp-route-id="@categorie.CategorieId"
-                       class="ms-2 text-dark"
+                       class="ms-2"
+                       style="color: forestgreen"
                        title="Wijzigen"
                        onclick="event.stopPropagation();">
                         <i class="bi bi-pencil-square"></i>
@@ -26,7 +27,8 @@
                     <span>@categorie.Naam</span>
                     <a asp-action="EditCategorie"
                            asp-route-id="@categorie.CategorieId"
-                           class="ms-2 text-dark"
+                           class="ms-2 text-success"
+                           style="color: forestgreen"
                            title="Wijzigen"
                            onclick="event.stopPropagation();">
                             <i class="bi bi-pencil-square"></i>

@@ -99,7 +99,6 @@ public class CategorieRepository : ICategorieRepository
             .Select(x => x.HoofdCategorie)
             .FirstOrDefaultAsync();
     }
-}
 
     public async Task<Categorie> AddCategorieAsync(Categorie categorie)
     {
