@@ -37,3 +37,25 @@
 {
     <div>Er zijn nog geen artikelen.</div>
 }
+
+<script>
+    document.querySelectorAll('.overview-details-button')
+        .forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.dataset.id;
+                fetch(`/Artikel/ArtikelToevoegen?id=${id}`)
+                    .then(r => r.text())
+                    .then(html => {
+
+                        document.getElementById('modalContainer').innerHTML = html;
+
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('detailsModal')
+                            )
+                            .show();
+                    });
+            });
+        });
+</script>
