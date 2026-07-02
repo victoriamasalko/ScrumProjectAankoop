@@ -4,7 +4,7 @@
     ViewData["Title"] = "Artikel Toevoegen";
 }
 
-<div class="modal fade" id="toevoegenModal" tabindex="-1">
+<div class="modal fade" id="addArtikelModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -20,7 +20,7 @@
 
             <div class="modal-body">
 
-                <form asp-action="ArtikelToevoegenUitvoeren" method="post" enctype="multipart/form-data">
+                <form asp-action="ArtikelToevoegenUitvoeren" method="post" id="addArtikelForm" enctype="multipart/form-data">
 
                     @*<div class="mb-3">
                         <label
