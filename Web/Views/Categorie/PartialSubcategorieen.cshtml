@@ -9,6 +9,13 @@
                 <details class="category-tree__dropdown">
                     <summary class="category-tree__item category-tree__summary cat-@(categorie.Level + 1)">
                         @categorie.Naam
+                        <a asp-action="EditCategorie"
+                       asp-route-id="@categorie.CategorieId"
+                       class="btn btn-sm btn-outline-warning ms-2"
+                       title="Wijzigen"
+                       onclick="event.stopPropagation();">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
                     </summary>
                     <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
                 </details>
@@ -17,6 +24,13 @@
             {
                 <div class="category-tree__item cat-@(categorie.Level + 1)">
                     <span>@categorie.Naam</span>
+                    <a asp-action="EditCategorie"
+                           asp-route-id="@categorie.CategorieId"
+                           class="btn btn-sm btn-outline-warning ms-2"
+                           title="Wijzigen"
+                           onclick="event.stopPropagation();">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
                 </div>
             }
         </li>
