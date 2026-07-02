@@ -1,4 +1,4 @@
-﻿using Data.Models;
+using Data.Models;
 using Data.Repositories;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Data.Models;
+using Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public class CategorieRepository : ICategorieRepository
     public async Task<Categorie?> GetCategorieByIdAsync(int id)
     {
         return await context.Categorieen
-            .Include(c => c.HoofdCategorieId)
+            .Include(c => c.HoofdCategorie)
             .Include(c => c.SubCategorieen)
             .Include(c => c.Artikels)
             .FirstOrDefaultAsync(c => c.CategorieId == id);
