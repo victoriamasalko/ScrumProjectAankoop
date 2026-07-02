@@ -72,6 +72,7 @@ namespace Web.Controllers
                     Prijs = a.Prijs,
                     Voorraad = a.Voorraad,
                     Bestelpeil = a.Bestelpeil,
+                    AantalBesteldLeverancier = a.AantalBesteldLeverancier,
                     IsActief = a.IsActief(),
                 }).ToList(),
                 Categorieën = categorieen.ToList()

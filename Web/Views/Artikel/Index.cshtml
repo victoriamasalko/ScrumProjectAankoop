@@ -80,6 +80,17 @@
                 }
             </tbody>
         </table>
+        <div class="list__pagination mt-3 d-flex justify-content-center align-items-center gap-3">
+            <button type="button" id="prevPage" class="btn btn-secondary">
+                ←
+            </button>
+
+            <span id="pageIndicator">1 / 1</span>
+
+            <button type="button" id="nextPage" class="btn btn-secondary">
+                →
+            </button>
+        </div>
     </div>
 
     <div id="modalContainer"></div>
@@ -97,11 +108,15 @@
     const artikelStatusDropdown = document.getElementById("overview-article-status");
     const stockStatusDropdown = document.getElementById("overview-stock-status");
 
+    const pageSize = 8;
+    let currentPage = 0;
+
     function filterRows() {
 
         const searchValue = searchbar.value.trim().toLowerCase();
         const selectedCategorieId = categorieDropdown.value;
         const selectedArtikelStatus = artikelStatusDropdown.value;
+        const selectedStockStatus = stockStatusDropdown.value;
 
         document.querySelectorAll(".overview-table tbody tr").forEach(row => {
 
@@ -123,6 +138,10 @@
             const categorieIds = row.dataset.categorieen.split("|");
             const isActief = row.dataset.actief;
 
+            const voorraad = parseInt(row.dataset.voorraad);
+            const bestelpeil = parseInt(row.dataset.bestelpeil);
+            const besteld = parseInt(row.dataset.besteld);
+
             const matchesSearch =
                 artikelNaam.includes(searchValue) ||
                 beschrijving.includes(searchValue) ||
@@ -135,24 +154,22 @@
             const matchesStatus =
                 selectedArtikelStatus === "" ||
                 isActief === selectedArtikelStatus;
-            
-            const voorraad = parseInt(row.dataset.voorraad);
-            const bestelpeil = parseInt(row.dataset.bestelpeil);
-            const besteld = parseInt(row.dataset.besteld);
 
             let matchesVoorraad = true;
 
-            if (stockStatusDropdown.value !== "") {
+            if (selectedStockStatus !== "") {
 
-                const percentage = bestelpeil > 0
-                    ? voorraad / bestelpeil
-                    : Infinity;
+                const percentage =
+                    bestelpeil > 0
+                        ? voorraad / bestelpeil
+                        : Infinity;
 
-                switch (stockStatusDropdown.value) {
+                switch (selectedStockStatus) {
 
                     case "goed":
                         matchesVoorraad =
-                            besteld > 0 || percentage > 1.30;
+                            besteld > 0 ||
+                            percentage > 1.30;
                         break;
 
                     case "laag":
@@ -169,31 +186,85 @@
                         break;
                 }
             }
-row.style.display =
-    matchesSearch &&
-    matchesCategorie &&
-    matchesStatus &&
-    matchesVoorraad
-        ? ""
-        : "none";
+
+            row.dataset.matches =
+                matchesSearch &&
+                matchesCategorie &&
+                matchesStatus &&
+                matchesVoorraad;
         });
+
+        currentPage = 0;
+        updatePagination();
     }
+
+    function updatePagination() {
+
+        const allRows = [...document.querySelectorAll(".overview-table tbody tr")];
+
+        const filteredRows = allRows.filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+
+        if (currentPage >= pageCount)
+            currentPage = pageCount - 1;
+
+        // Hide everything
+        allRows.forEach(row => row.style.display = "none");
+
+        // Show only current page
+        filteredRows
+            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+            .forEach(row => row.style.display = "");
+
+        document.getElementById("pageIndicator").textContent =
+            `${currentPage + 1} / ${pageCount}`;
+
+        document.getElementById("prevPage").disabled =
+            currentPage === 0;
+
+        document.getElementById("nextPage").disabled =
+            currentPage >= pageCount - 1;
+    }
+
+    document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePagination();
+        }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", () => {
+        const filteredRows = [...document.querySelectorAll(".overview-table tbody tr")]
+            .filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+
+        if (currentPage < pageCount - 1) {
+            currentPage++;
+            updatePagination();
+        }
+    });
 
     searchbar.addEventListener("input", filterRows);
 
-    categorieDropdown.addEventListener("change", function () {
+    categorieDropdown.addEventListener("change", () => {
         searchbar.value = "";
         filterRows();
     });
 
-    artikelStatusDropdown.addEventListener("change", function () {
+    artikelStatusDropdown.addEventListener("change", () => {
         searchbar.value = "";
         filterRows();
     });
-    stockStatusDropdown.addEventListener("change", function () {
-    searchbar.value = "";
+
+    stockStatusDropdown.addEventListener("change", () => {
+        searchbar.value = "";
+        filterRows();
+    });
+
+    // Initial load
     filterRows();
-});
 </script>
 
 <script>
@@ -223,4 +294,8 @@ row.style.display =
         });
 
     });
+</script>
+
+<script>
+
 </script>

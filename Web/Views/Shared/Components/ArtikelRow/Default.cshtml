@@ -6,6 +6,8 @@
     {
         var percentage = (double)Model.Voorraad / Model.Bestelpeil;
         Console.WriteLine(percentage);
+        Console.WriteLine($"Besteld: {Model.AantalBesteldLeverancier}, naam: {Model.Naam}");
+
         if (Model.AantalBesteldLeverancier > 0)
         {
             voorraadClass = "text-success";

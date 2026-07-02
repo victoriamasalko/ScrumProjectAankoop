@@ -50,14 +50,8 @@
             <tbody>
                 @foreach (var leverancier in Model)
                 {
-                    <tr>
-                        <td data-label="Leverancier" class="overview-name">@leverancier.Naam</td>
-                        <td data-label="Btw-nummer">@leverancier.BtwNummer</td>
-                        <td data-label="Contactpersoon">@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
-                        <td data-label="Acties" class="overview-actions">
-                            <a class="btn btn-tertiary overview-details-button" asp-action="Details" data-id="@leverancier.LeveranciersId" asp-route-id="@leverancier.LeveranciersId">Details</a>
-                        </td>
-                    </tr>
+                   @await Component.InvokeAsync("LeverancierRow", leverancier)
+
                 }
             </tbody>
         </table>

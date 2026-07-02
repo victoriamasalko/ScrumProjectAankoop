@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.Models.ViewModels;
 
-namespace Web.Models.ViewModels
+namespace Web.ViewComponents
 {
     public class ArtikelRowViewComponent : ViewComponent
     {

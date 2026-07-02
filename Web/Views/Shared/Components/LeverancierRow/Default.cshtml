@@ -1,0 +1,9 @@
+﻿@model LeverancierOverviewViewModel
+<tr>
+    <td data-label="Leverancier" class="overview-name">@Model.Naam</td>
+    <td data-label="Btw-nummer">@Model.BtwNummer</td>
+    <td data-label="Contactpersoon">@Model.VoornaamContactpersoon @Model.FamilienaamContactpersoon</td>
+    <td data-label="Acties" class="overview-actions">
+        <a class="btn btn-tertiary overview-details-button" asp-action="Details" data-id="@Model.LeveranciersId" asp-route-id="@Model.LeveranciersId">Details</a>
+    </td>
+</tr>
