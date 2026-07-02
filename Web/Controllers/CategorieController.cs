@@ -80,7 +80,7 @@ public class CategorieController : Controller
         //    Text = "Geen"
         //});
 
-        return View(model);
+        return PartialView(model);
     }
 
     [HttpPost]
@@ -109,6 +109,5 @@ public class CategorieController : Controller
         return View(model);
         
     }
-
-
+    
 }

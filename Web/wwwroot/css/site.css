@@ -166,6 +166,28 @@ body {
   font-weight: 460;
 }
 
+.modal-title {
+  margin: 0;
+  color: var(--textcolor);
+  font-family: var(--font-heading), serif;
+  font-size: clamp(2rem, 5vw, 1.5rem);
+  font-variation-settings: "opsz" 144, "wght" 620, "SOFT" 0, "WONK" 1;
+  font-weight: 620;
+  line-height: 1;
+} 
+
+.modal-title em {
+  color: var(--primary-dark);
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "wght" 460, "SOFT" 0, "WONK" 1;
+  font-weight: 460;
+}
+
+.modal-div {
+  margin-bottom: 30px;
+}
+
+
 .overview-create-button {
   min-width: 13.75rem;
   padding: 0.65rem 1.25rem;
@@ -286,17 +308,6 @@ body {
   min-height: 3.25rem;
   padding: 1.05rem 3.1rem 0.85rem 1.5rem;
   border-bottom: 1px solid var(--detail-line);
-}
-
-#detailsModal .modal-title {
-  margin: 0;
-  color: var(--textcolor);
-  font-family: var(--font-heading), serif;
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
-  font-variation-settings: "opsz" 72, "wght" 560, "SOFT" 0, "WONK" 1;
-  font-weight: 560;
-  line-height: 1;
-  letter-spacing: -0.04em;
 }
 
 #detailsModal .btn-close {
