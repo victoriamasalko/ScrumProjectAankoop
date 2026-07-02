@@ -83,7 +83,7 @@ public class CategorieController : Controller
         if (!ModelState.IsValid)
         {
             model.Subcategorieen = await PrepareCategorieen();
-            return View(model);
+            return PartialView("_EditCategorieForm", model);
         }
 
         var categorie = await _categorieService.GetCategorieByIdAsync(model.CategorieId);

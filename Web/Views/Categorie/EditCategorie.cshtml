@@ -1,37 +1,29 @@
 ﻿@model EditCategorieViewModel
 
-<form asp-action="EditCategorie" method="post">
 
-    <input asp-for="CategorieId" type="hidden" />
+<div class="modal fade" id="editCategorieModal"
+     tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Categorie <em>aanmaken</em>
+                </h5>
 
-    <div>
-        <label asp-for="NieuweNaam" class="form-label">Naam</label>
-        <input asp-for="NieuweNaam" class="form-control" />
-        <span asp-validation-for="NieuweNaam" class="text-danger"></span>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @await Html.PartialAsync("_EditCategorieForm", Model)
+
+            </div>
+        </div>
     </div>
-    <div>
-        <label asp-for="SelectedCategorieId" class="form-label">Categorie</label>
-        <select asp-for="SelectedCategorieId" class="form-control">
-            <option value="0">--- GEEN HOOFDCATEGORIE ---</option>
-            @foreach (var categorie in Model.Subcategorieen)
-            {
-                <option value="@categorie.CategorieId">
-                    @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
-                </option>
+</div>
 
-                @if (categorie.Subcategorieen.Any())
-                {
-                    <partial name="PartialAdd" model="categorie.Subcategorieen" />
-                } 
-            }
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Wijzigen</button>
-    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
-
-   
-
-</form>
 
 
 
