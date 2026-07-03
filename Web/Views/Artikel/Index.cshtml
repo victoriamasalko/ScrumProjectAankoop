@@ -1,49 +1,307 @@
-﻿@model IEnumerable<ArtikelOverviewViewModel>
+﻿@model ArtikelIndexOverviewViewModel;
 @{
     ViewData["Title"] = "Overzicht artikelen";
 }
+<section class="overview-page">
+    <header class="overview-header">
+        <h1 class="overview-title">
+            Artikelen op de <em>plank</em>
+        </h1>
 
-<h1 class="overview-title">Artikelen op de <em>plank</em></h1>
 
-<a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary" id="overview-create-button">+ NIEUW ARTIKEL</a>
+        <button id="openAddLeverancierBtn" class="btn btn-primary overview-create-button" type="button">
+            <span aria-hidden="true">+</span>
+            NIEUW ARTIKEL
+        </button>
+        @* <a asp-controller="Artikel" asp-action="ArtikelToevoegen" class="btn btn-primary overview-create-button">+ NIEUW ARTIKEL</a> *@
+
+    </header>
+
+    <div class="overview-toolbar row gx-3 align-items-end">
+        <div class="col-8 col-md-3">
+            <label class="visually-hidden" for="overview-category">Categorie</label>
+            <select class="form-select overview-control" id="overview-category">
+
+                <option value="" selected>Alle categorieën</option>
+                @foreach (var categorie in Model.Categorieën)
+                {
+                    <option value="@categorie.CategorieId">@categorie.Naam</option>
+
+                }
+            </select>
+        </div>
+        <div class="col-6 col-md-2">
+            <label class="visually-hidden" for="overview-status">Status</label>
+            <select class="form-select overview-control" id="overview-article-status">
+                <option value="" selected>Alle artikel Statussen</option>
+                <option value="true">Actief</option>
+                <option value="false">InActief</option>
 
 
-<table class="table">
-    <thead>
-    <tr>
-        <th class="p-2">Naam</th>
-        <th class="p-2">Categorieën</th>
-        <th class="p-2">EAN</th>
-        <th class="p-2">Prijs</th>
-        <th class="p-2">Voorraad</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var artikel in Model)
-    {
-        <tr>
-            <td class="p-2">@artikel.Naam</td>
-            <td class="p-2">@string.Join(" - ", artikel.Categorieen)</td>
-            <td class="p-2">@artikel.Ean</td>
-            <td class="p-2">@Html.DisplayFor(modelItem => artikel.Prijs)</td>
-            <td class="p-2">@artikel.Voorraad</td>
-            <td class="p-2">
-                <a asp-action="ArtikelDetails" asp-route-id="@artikel.ArtikelId" data-id="@artikel.ArtikelId" class="btn btn-tertiary overview-details-button">Details</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+            </select>
+        </div>
+        <div class="col-8 col-md-3">
+            <label class="visually-hidden" for="overview-status">Status</label>
+            <select class="form-select overview-control" id="overview-stock-status">
+                <option value="" selected>Alle Voorraad Statussen</option>
+                <option value="goed" >Voorraad aantal goed</option>
+                <option value="laag" >Voorraad aantal laag</option>
+                <option value="kritiek" >Voorraad aantal kritiek</option>
+
+            </select>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="visually-hidden" for="overview-search">Zoeken</label>
+            <input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op naam, beschrijving of EAN..." />
+        </div>
+    </div>
+
+	
+    <div class="table-responsive overview-table-wrapper">
+        <table class="table overview-table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th class="p-2">Naam</th>
+                    <th class="p-2">Beschrijving</th>
+                    <th class="p-2">Categorieën</th>
+                    <th class="p-2">EAN</th>
+                    <th class="p-2">Prijs</th>
+                    <th class="p-2">Voorraad</th>
+                    <th class="p-2">Status</th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var artikel in Model.Artikels)
+                {
+                    @await Component.InvokeAsync("ArtikelRow", artikel)
+
+                }
+            </tbody>
+        </table>
+        <div class="list__pagination mt-3 d-flex justify-content-center align-items-center gap-3">
+            <button type="button" id="prevPage" class="btn btn-secondary">
+                ←
+            </button>
+
+            <span id="pageIndicator">1 / 1</span>
+
+            <button type="button" id="nextPage" class="btn btn-secondary">
+                →
+            </button>
+        </div>
+    </div>
+
+    <div id="modalContainer"></div>
+</section>
 
 <div id="modalContainer"></div>
 
 
 @* Toon een melding of zoiets wanneer er nog geen artikelen zijn. *@
-@if (Model.Count() == 0)
+@if (Model.Artikels.Count() == 0)
 {
     <div>Er zijn nog geen artikelen.</div>
 }
+
+<script>
+    const searchbar = document.getElementById("overview-search");
+    const categorieDropdown = document.getElementById("overview-category");
+    const artikelStatusDropdown = document.getElementById("overview-article-status");
+    const stockStatusDropdown = document.getElementById("overview-stock-status");
+
+    const pageSize = 8;
+    let currentPage = 0;
+
+    function filterRows() {
+
+        const searchValue = searchbar.value.trim().toLowerCase();
+        const selectedCategorieId = categorieDropdown.value;
+        const selectedArtikelStatus = artikelStatusDropdown.value;
+        const selectedStockStatus = stockStatusDropdown.value;
+
+        document.querySelectorAll(".overview-table tbody tr").forEach(row => {
+
+            const artikelNaam = row.querySelector(".overview-name")
+                .textContent
+                .trim()
+                .toLowerCase();
+
+            const beschrijving = row.children[1]
+                .textContent
+                .trim()
+                .toLowerCase();
+
+            const ean = row.children[3]
+                .textContent
+                .trim()
+                .toLowerCase();
+
+            const categorieIds = row.dataset.categorieen.split("|");
+            const isActief = row.dataset.actief;
+
+            const voorraad = parseInt(row.dataset.voorraad);
+            const bestelpeil = parseInt(row.dataset.bestelpeil);
+            const besteld = parseInt(row.dataset.besteld);
+
+            const matchesSearch =
+                artikelNaam.includes(searchValue) ||
+                beschrijving.includes(searchValue) ||
+                ean.includes(searchValue);
+
+            const matchesCategorie =
+                selectedCategorieId === "" ||
+                categorieIds.includes(selectedCategorieId);
+
+            const matchesStatus =
+                selectedArtikelStatus === "" ||
+                isActief === selectedArtikelStatus;
+
+            let matchesVoorraad = true;
+
+            if (selectedStockStatus !== "") {
+
+                const percentage =
+                    bestelpeil > 0
+                        ? voorraad / bestelpeil
+                        : Infinity;
+
+                switch (selectedStockStatus) {
+
+                    case "goed":
+                        matchesVoorraad =
+                            besteld > 0 ||
+                            percentage > 1.30;
+                        break;
+
+                    case "laag":
+                        matchesVoorraad =
+                            besteld === 0 &&
+                            percentage > 1.10 &&
+                            percentage <= 1.30;
+                        break;
+
+                    case "kritiek":
+                        matchesVoorraad =
+                            besteld === 0 &&
+                            percentage <= 1.10;
+                        break;
+                }
+            }
+
+            row.dataset.matches =
+                matchesSearch &&
+                matchesCategorie &&
+                matchesStatus &&
+                matchesVoorraad;
+        });
+
+        currentPage = 0;
+        updatePagination();
+    }
+
+    function updatePagination() {
+
+        const allRows = [...document.querySelectorAll(".overview-table tbody tr")];
+
+        const filteredRows = allRows.filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+
+        if (currentPage >= pageCount)
+            currentPage = pageCount - 1;
+
+        // Hide everything
+        allRows.forEach(row => row.style.display = "none");
+
+        // Show only current page
+        filteredRows
+            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+            .forEach(row => row.style.display = "");
+
+        document.getElementById("pageIndicator").textContent =
+            `${currentPage + 1} / ${pageCount}`;
+
+        document.getElementById("prevPage").disabled =
+            currentPage === 0;
+
+        document.getElementById("nextPage").disabled =
+            currentPage >= pageCount - 1;
+    }
+
+    document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePagination();
+        }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", () => {
+        const filteredRows = [...document.querySelectorAll(".overview-table tbody tr")]
+            .filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+
+        if (currentPage < pageCount - 1) {
+            currentPage++;
+            updatePagination();
+        }
+    });
+
+    searchbar.addEventListener("input", filterRows);
+
+    categorieDropdown.addEventListener("change", () => {
+        searchbar.value = "";
+        filterRows();
+    });
+
+    artikelStatusDropdown.addEventListener("change", () => {
+        searchbar.value = "";
+        filterRows();
+    });
+
+    stockStatusDropdown.addEventListener("change", () => {
+        searchbar.value = "";
+        filterRows();
+    });
+
+    // Initial load
+    filterRows();
+</script>
+
+<script>
+    document.querySelectorAll(".status-btn").forEach(button => {
+
+        button.addEventListener("click", async function () {
+
+            if (this.dataset.actief !== "true") {
+                return;
+            }
+
+            if (!confirm("Wil je dit artikel inactief zetten?")) {
+                return;
+            }
+
+            const id = this.dataset.id;
+
+            const response = await fetch(`/Artikel/Deactivate?id=${id}`, {
+                method: "POST"
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert("Er is iets fout gegaan.");
+            }
+        });
+
+    });
+</script>
+
+<script>
+
+</script>
 
 <script>
     document.querySelectorAll('.overview-details-button')

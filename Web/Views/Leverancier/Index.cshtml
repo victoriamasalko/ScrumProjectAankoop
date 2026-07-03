@@ -1,4 +1,4 @@
-@model IEnumerable<LeverancierOverviewViewModel>
+﻿@model LeverancierIndexViewModel
 @{
     ViewData["Title"] = "Leveranciers";
 }
@@ -19,18 +19,23 @@
 
     <div class="overview-toolbar row gx-3 align-items-end">
         <div class="col-12 col-md-4">
-            <label class="visually-hidden" for="overview-category">Categorie</label>
-            <select class="form-select overview-control" id="overview-category">
-                <option selected>Alle categorieën</option>
+            <label class="visually-hidden" for="overview-category">Artikel</label>
+            <select class="form-select overview-control" id="overview-article">
+                <option value="" selected>Alle artikels</option>
+                @foreach (var artikel in Model.Artikels){
+                        <option value="@artikel.ArtikelId">@artikel.Naam - @artikel.Beschrijving</option>
+
+                }
+
             </select>
         </div>
-        <div class="col-12 col-md-4">
+        @* <div class="col-12 col-md-4">
             <label class="visually-hidden" for="overview-status">Status</label>
             <select class="form-select overview-control" id="overview-status">
                 <option selected>Alle statussen</option>
             </select>
-        </div>
-        <div class="col-12 col-md-4">
+        </div> *@
+        <div class="col-16 col-md-6">
             <label class="visually-hidden" for="overview-search">Zoeken</label>
             <input class="form-control overview-control" id="overview-search" type="search" placeholder="Zoeken op naam of EAN..." />
         </div>
@@ -48,56 +53,126 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var leverancier in Model)
+                @foreach (var leverancier in Model.Leveranciers)
                 {
-                    <tr>
-                        <td data-label="Leverancier" class="overview-name">@leverancier.Naam</td>
-                        <td data-label="Btw-nummer">@leverancier.BtwNummer</td>
-                        <td data-label="Contactpersoon">@leverancier.VoornaamContactpersoon @leverancier.FamilienaamContactpersoon</td>
-                        <td data-label="Acties" class="overview-actions">
-                            <a class="btn btn-tertiary overview-details-button" asp-action="Details" data-id="@leverancier.LeveranciersId" asp-route-id="@leverancier.LeveranciersId">Details</a>
-                        </td>
-                    </tr>
+                   @await Component.InvokeAsync("LeverancierRow", leverancier)
+
                 }
             </tbody>
         </table>
+        <div class="list__pagination mt-3 d-flex justify-content-center align-items-center gap-3">
+            <button type="button" id="prevPage" class="btn btn-secondary">
+                ←
+            </button>
+
+            <span id="pageIndicator">1 / 1</span>
+
+            <button type="button" id="nextPage" class="btn btn-secondary">
+                →
+            </button>
+        </div>
     </div>
 
     <div id="modalContainer"></div>
 </section>
 
 
-<script>
-    // Haal de searchbar op via zijn ID
-        const searchbar = document.getElementById('overview-search');
-        //Geef de searchbar een input listener 
-        searchbar.addEventListener('input', function () {
-            const searchValue = searchbar.value.trim().toLowerCase();
-            //Selecter alle rows 
-            const rows = document.querySelectorAll('.overview-table tbody tr');
-            // de naam en btwnummer selecteren voor elke leverancier
-            rows.forEach(row => {
-                const leverancierNaam = row.querySelector('.overview-name')
-                    .textContent
-                    .trim()
-                    .toLowerCase();
 
-                const btwNummer = row.children[1]
-                    .textContent
-                    .trim()
-                    .toLowerCase();
-                    // als de searchvalue langer is dan 3 characters en leveranciernaam of btwnummer begint met deze 3 letters toon dan de list item anders zet je de display value op none
-                if (
-               
-                    leverancierNaam.startsWith(searchValue) ||
-                    btwNummer.startsWith(searchValue)
-                ) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+<script>
+    const searchbar = document.getElementById("overview-search");
+    const artikelDropdown = document.getElementById("overview-article");
+
+    const pageSize = 10;
+    let currentPage = 0;
+
+    function filterRows() {
+
+        const searchValue = searchbar.value.trim().toLowerCase();
+        const selectedArtikelId = artikelDropdown.value;
+
+        document.querySelectorAll(".overview-table tbody tr").forEach(row => {
+
+            const leverancierNaam = row.querySelector(".overview-name")
+                .textContent
+                .trim()
+                .toLowerCase();
+
+            const btwNummer = row.children[1]
+                .textContent
+                .trim()
+                .toLowerCase();
+
+            const artikelIds = row.dataset.artikels.split("|");
+
+            const matchesSearch =
+                leverancierNaam.includes(searchValue) ||
+                btwNummer.includes(searchValue);
+
+            const matchesArtikel =
+                selectedArtikelId === "" ||
+                artikelIds.includes(selectedArtikelId);
+
+            row.dataset.matches =
+                matchesSearch &&
+                matchesArtikel;
         });
+
+        currentPage = 0;
+        updatePagination();
+    }
+
+    function updatePagination() {
+
+        const allRows = [...document.querySelectorAll(".overview-table tbody tr")];
+
+        const visibleRows = allRows.filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(visibleRows.length / pageSize));
+
+        if (currentPage >= pageCount)
+            currentPage = pageCount - 1;
+
+        allRows.forEach(row => row.style.display = "none");
+
+        visibleRows
+            .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+            .forEach(row => row.style.display = "");
+
+        document.getElementById("pageIndicator").textContent =
+            `${currentPage + 1} / ${pageCount}`;
+
+        document.getElementById("prevPage").disabled = currentPage === 0;
+        document.getElementById("nextPage").disabled = currentPage >= pageCount - 1;
+    }
+
+    document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePagination();
+        }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", () => {
+
+        const visibleRows = [...document.querySelectorAll(".overview-table tbody tr")]
+            .filter(row => row.dataset.matches === "true");
+
+        const pageCount = Math.max(1, Math.ceil(visibleRows.length / pageSize));
+
+        if (currentPage < pageCount - 1) {
+            currentPage++;
+            updatePagination();
+        }
+    });
+
+    searchbar.addEventListener("input", filterRows);
+
+    artikelDropdown.addEventListener("change", () => {
+        searchbar.value = "";
+        filterRows();
+    });
+
+    filterRows();
 
 		
         
@@ -107,32 +182,32 @@
 
 <script>
 
-	document.querySelectorAll('.overview-details-button')
-		.forEach(button => {
+    document.querySelectorAll('.overview-details-button')
+        .forEach(button => {
 
-			button.addEventListener('click', function (e) {
+            button.addEventListener('click', function (e) {
 
-				e.preventDefault();
+                e.preventDefault();
 
-				const id = this.dataset.id;
+                const id = this.dataset.id;
 
-				fetch(`/Leverancier/Details?id=${id}`)
-					.then(r => r.text())
-					.then(html => {
+                fetch(`/Leverancier/Details?id=${id}`)
+                    .then(r => r.text())
+                    .then(html => {
 
-						document.getElementById('modalContainer').innerHTML = html;
+                        document.getElementById('modalContainer').innerHTML = html;
 
-						bootstrap.Modal
-							.getOrCreateInstance(
-								document.getElementById('detailsModal')
-							)
-							.show();
+                        bootstrap.Modal
+                            .getOrCreateInstance(
+                                document.getElementById('detailsModal')
+                            )
+                            .show();
 
-					});
-			});
-		});
-
-
+                        // Wire the edit button that is inside the Details modal
+                        wireEditButton();
+                    });
+            });
+        });
 
 </script>
 
@@ -191,6 +266,31 @@
 	});
 </script>
 
+<script>
+const artikelDropdown = document.getElementById("overview-article");
+
+artikelDropdown.addEventListener("change", function () {
+
+    const selectedArtikelId = artikelDropdown.value;
+
+    document.querySelectorAll(".overview-table tbody tr").forEach(row => {
+
+        if (selectedArtikelId === "") { // or whatever value "Alle artikels" has
+            row.style.display = "";
+            return;
+        }
+
+        const artikelIds = row.dataset.artikels.split("|");
+
+        row.style.display = artikelIds.includes(selectedArtikelId)
+            ? ""
+            : "none";
+    });
+});
+
+
+</script>
+
 
 	<script>
     function wireAddLeverancierEvents() {
@@ -240,3 +340,108 @@
 
 	</script>
 
+<script>
+    function wireEditButton() {
+
+        const editButton = document.getElementById("openEditBtn");
+
+        if (!editButton)
+            return;
+
+        editButton.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            const id = this.dataset.id;
+
+            fetch(`/Leverancier/Edit?id=${id}`)
+                .then(r => r.text())
+                .then(html => {
+
+                    // Close the Details modal
+                    bootstrap.Modal
+                        .getInstance(document.getElementById("detailsModal"))
+                        .hide();
+
+                    // Replace modal content
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    // Open Edit modal
+                    bootstrap.Modal
+                        .getOrCreateInstance(
+                            document.getElementById("editLeverancierModal")
+                        )
+                        .show();
+
+                    wireEditLeverancierEvents();
+                    wireCancelEditButton();
+                });
+        });
+    }
+
+    function wireEditLeverancierEvents() {
+
+        const form = document.getElementById("editLeverancierForm");
+
+        if (!form)
+            return;
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            document.getElementById("editLeverancierForm").outerHTML = html;
+
+            // Wire the newly returned form again
+            wireEditLeverancierEvents();
+        });
+    }
+
+    function wireCancelEditButton() {
+
+        const cancelButton = document.getElementById("cancelEditBtn");
+
+        if (!cancelButton)
+            return;
+
+        cancelButton.addEventListener("click", function () {
+
+            const id = this.dataset.id;
+
+            // Close edit modal
+            bootstrap.Modal
+                .getInstance(document.getElementById("editLeverancierModal"))
+                .hide();
+
+            // Reload details modal
+            fetch(`/Leverancier/Details?id=${id}`)
+                .then(r => r.text())
+                .then(html => {
+
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    bootstrap.Modal
+                        .getOrCreateInstance(
+                            document.getElementById("detailsModal")
+                        )
+                        .show();
+
+                    // Re-wire the edit button inside the details modal
+                    wireEditButton();
+                });
+        });
+    }
+
+</script>

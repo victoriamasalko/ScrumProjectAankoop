@@ -1,4 +1,6 @@
-﻿namespace Web.Models.ViewModels
+﻿using Data.Models;
+
+namespace Web.Models.ViewModels
 {
     public class LeverancierOverviewViewModel
     {
@@ -8,5 +10,6 @@
         public string FamilienaamContactpersoon { get; set; }
         public string VoornaamContactpersoon { get; set; }
         public string FilterOpArtikel { get; set; }
+        public virtual ICollection<Artikel> Artikels { get; set; } = new List<Artikel>();
     }
 }

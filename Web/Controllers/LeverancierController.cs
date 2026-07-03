@@ -6,7 +6,7 @@ using Web.Models.ViewModels;
 
 namespace Web.Controllers
 {
-    public class LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService) : Controller
+    public class LeverancierController(LeverancierService leverancierService, PlaatsService plaatsService, ArtikelService artikelService) : Controller
     {
         //Overzicht van leveranciers tonen.
         //Je neemt de leveranciers uit de database via de service en stopt deze in de variabele leveranciers.
@@ -16,15 +16,22 @@ namespace Web.Controllers
         public async Task<IActionResult> Index()
         {
             var leveranciers = await leverancierService.GetLeveranciersAsync();
+            var artikels = await artikelService.GetArtikelsAsync();
 
-            var viewModel = leveranciers.Select(l => new LeverancierOverviewViewModel
+            LeverancierIndexViewModel viewModel = new LeverancierIndexViewModel()
             {
-                LeveranciersId = l.LeveranciersId,
-                Naam = l.Naam,
-                BtwNummer = l.BtwNummer,
-                VoornaamContactpersoon = l.VoornaamContactpersoon,
-                FamilienaamContactpersoon = l.FamilienaamContactpersoon
-            }).ToList();
+                Leveranciers = leveranciers.Select(l => new LeverancierOverviewViewModel()
+                {
+                    LeveranciersId = l.LeveranciersId,
+                    Naam = l.Naam,
+                    BtwNummer = l.BtwNummer,
+                    VoornaamContactpersoon = l.VoornaamContactpersoon,
+                    FamilienaamContactpersoon = l.FamilienaamContactpersoon,
+                    Artikels = l.Artikels
+
+                }).ToList(),
+                Artikels = artikels.ToList()
+            };
 
             return View(nameof(Index), viewModel);
 
@@ -52,7 +59,7 @@ namespace Web.Controllers
             var leverancier = await leverancierService.GetLeverancierByIdAsync(id);
 
             if (leverancier is null)
-                return View(nameof(Details));
+                return PartialView(nameof(Details));
             
             var model = new EditLeverancierViewModel
             {
@@ -67,30 +74,36 @@ namespace Web.Controllers
                 VoornaamContactpersoon = leverancier.VoornaamContactpersoon,
                 FamilienaamContactperoon = leverancier.FamilienaamContactpersoon
             };
-            
-            return View(model);
+
+            return PartialView("Edit", model);
         }
 
-        public async Task<IActionResult> SaveChanges(EditLeverancierViewModel editLeverancierViewModel)
+        [HttpPost]
+        public async Task<IActionResult> SaveChanges(EditLeverancierViewModel model)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
-
-            Leverancier leverancier = new Leverancier()
             {
-                LeveranciersId = editLeverancierViewModel.LeverancierId,
-                Naam = editLeverancierViewModel.Naam,
-                BtwNummer = editLeverancierViewModel.BtwNummer,
-                Straat = editLeverancierViewModel.Straat,
-                HuisNummer = editLeverancierViewModel.HuisNummer,
-                Bus = editLeverancierViewModel.Bus,
-                PlaatsId = editLeverancierViewModel.PlaatsId,
-                VoornaamContactpersoon = editLeverancierViewModel.VoornaamContactpersoon,
-                FamilienaamContactpersoon = editLeverancierViewModel.FamilienaamContactperoon,
+                model.Plaats = await GetPlaatsenAsync();
+
+                return PartialView("_EditLeverancierForm", model);
+            }
+
+            var leverancier = new Leverancier
+            {
+                LeveranciersId = model.LeverancierId,
+                Naam = model.Naam,
+                BtwNummer = model.BtwNummer,
+                Straat = model.Straat,
+                HuisNummer = model.HuisNummer,
+                Bus = model.Bus,
+                PlaatsId = model.PlaatsId,
+                VoornaamContactpersoon = model.VoornaamContactpersoon,
+                FamilienaamContactpersoon = model.FamilienaamContactperoon
             };
+
             await leverancierService.UpdateLeverancierAsync(leverancier);
 
-            return RedirectToAction(nameof(Details), new { id = editLeverancierViewModel.LeverancierId });
+            return RedirectToAction(nameof(Index));
         }
 
 
