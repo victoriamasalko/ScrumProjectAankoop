@@ -83,7 +83,7 @@ public class CategorieController : Controller
         if (!ModelState.IsValid)
         {
             model.Subcategorieen = await PrepareCategorieen();
-            return View(model);
+            return PartialView("_EditCategorieForm", model);
         }
 
         var categorie = await _categorieService.GetCategorieByIdAsync(model.CategorieId);
@@ -118,7 +118,7 @@ public class CategorieController : Controller
             Subcategorieen = subcategorieen
         };
 
-        return PartialView(model);
+        return PartialView(nameof(AddCategorie), model);
     }
 
     [HttpPost]
@@ -144,7 +144,7 @@ public class CategorieController : Controller
 
         var subcategorieen = await PrepareCategorieen();
         model.Subcategorieen = subcategorieen;
-        return View(model);
+        return PartialView("_AddCategorieForm", model);
         
     }
     

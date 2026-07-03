@@ -1,0 +1,30 @@
+@model EditCategorieViewModel
+
+<form asp-action="EditCategorie" id="editCategorieForm" method="post">
+
+    <input asp-for="CategorieId" type="hidden"/>
+
+    <div>
+        <label asp-for="NieuweNaam" class="form-label">Naam</label>
+        <input asp-for="NieuweNaam" class="form-control"/>
+        <span asp-validation-for="NieuweNaam" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="SelectedCategorieId" class="form-label">Hoofdcategorie</label>
+        <select asp-for="SelectedCategorieId" class="form-control">
+            <option value="0">--- GEEN HOOFDCATEGORIE ---</option>
+            @foreach (var categorie in Model.Subcategorieen)
+            {
+                <option value="@categorie.CategorieId">
+                    @(string.Concat(Enumerable.Repeat("\u00A0\u00A0\u00A0\u00A0", categorie.Level)) + categorie.Naam)
+                </option>
+
+                @if (categorie.Subcategorieen.Any())
+                {
+                    <partial name="PartialAdd" model="categorie.Subcategorieen"/>
+                }
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Wijzigen</button>
+</form>

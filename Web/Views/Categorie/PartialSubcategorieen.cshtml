@@ -10,15 +10,16 @@
                     <summary class="category-tree__item category-tree__summary cat-@(categorie.Level + 1)">
                         @categorie.Naam
                         <a asp-action="EditCategorie"
-                       asp-route-id="@categorie.CategorieId"
-                       class="ms-2"
-                       style="color: forestgreen"
-                       title="Wijzigen"
-                       onclick="event.stopPropagation();">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
+                           asp-route-id="@categorie.CategorieId"
+                           data-id="@categorie.CategorieId"
+                           class="ms-2 overview-edit-button"
+                           style="color: forestgreen"
+                           title="Wijzigen"
+                           onclick="event.stopPropagation();">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
                     </summary>
-                    <partial name="PartialSubcategorieen" model="categorie.Subcategorieen" />
+                    <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
                 </details>
             }
             else
@@ -26,13 +27,14 @@
                 <div class="category-tree__item cat-@(categorie.Level + 1)">
                     <span>@categorie.Naam</span>
                     <a asp-action="EditCategorie"
-                           asp-route-id="@categorie.CategorieId"
-                           class="ms-2 text-success"
-                           style="color: forestgreen"
-                           title="Wijzigen"
-                           onclick="event.stopPropagation();">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
+                       asp-route-id="@categorie.CategorieId"
+                       data-id="@categorie.CategorieId"
+                       class="ms-2 text-success overview-edit-button"
+                       style="color: forestgreen"
+                       title="Wijzigen"
+                       onclick="event.stopPropagation();">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
                 </div>
             }
         </li>

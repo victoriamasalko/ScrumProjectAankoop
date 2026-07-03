@@ -1,0 +1,30 @@
+@model ActiecodeToevoegenViewModel
+
+<form asp-action="ToevoegenUitvoeren" id="addActiecodeForm" method="post">
+    <div class="mb-3">
+        <label asp-for="Naam" class="form-label"></label>
+        <input asp-for="Naam" class="form-control"/>
+        <span asp-validation-for="Naam" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GeldigVanDatum" class="form-label"></label>
+        <input asp-for="GeldigVanDatum" type="date" class="form-control"/>
+        <span asp-validation-for="GeldigVanDatum" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GeldigTotDatum" class="form-label"></label>
+        <input asp-for="GeldigTotDatum" type="date" class="form-control"/>
+        <span asp-validation-for="GeldigTotDatum" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="IsEenmalig" class="form-check-input"/>
+        <label asp-for="IsEenmalig" class="form-check-label">Eenmalig</label>
+        <span asp-validation-for="IsEenmalig" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Opslaan</button>
+    @* <a asp-action="Index" asp-controller="Actiecode" class="btn btn-warning">Annuleren</a> *@
+</form>
