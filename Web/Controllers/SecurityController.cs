@@ -2,6 +2,7 @@
 using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.View;
 using Service;
 using System.Security.Principal;
 using Web.Models.ViewModels;
@@ -49,7 +50,7 @@ public class SecurityController : Controller
     {
         if (ModelState.IsValid)
         {
-            var account = await _securityService.GetPersoneelslidaccountByEmailAsync(aanmeldenViewModel.Emailadres);
+            var account = await _securityService.GetPersoneelslidaccountByEmailAsync(aanmeldenViewModel.Emailadres)!;
             if (account == null)
             {
                 return NotFound();
@@ -100,5 +101,84 @@ public class SecurityController : Controller
     {
         HttpContext.Response.Cookies.Delete("AangemeldPersoneel");
         return RedirectToAction("Index", "Home");
+    }
+
+    public async Task<IActionResult> WachtwoordWijzigen()
+    {
+        var modelView = new WijzigenWachtwoordViewModel();
+        return View(modelView);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> WachtwoordWijzigen(WijzigenWachtwoordViewModel wijzigenWachtwoordViewModel)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var account = await _securityService.GetPersoneelslidaccountByEmailAsync(wijzigenWachtwoordViewModel.Emailadres)!;
+                if (account == null)
+                {
+                    ModelState.AddModelError("Emailadres", "Ongeldig e-mailadres");
+                    return View(wijzigenWachtwoordViewModel);
+                }
+
+                bool isOudWachtwoordCorrect = BCrypt.Net.BCrypt.Verify(wijzigenWachtwoordViewModel.OudPaswoord, account.Paswoord);
+                bool isNieuwWachtwoordCorrect = await this.ValidateNieuwWachtwoord(wijzigenWachtwoordViewModel.NieuwPaswoord, account);
+
+                if (isOudWachtwoordCorrect && isNieuwWachtwoordCorrect)
+                {
+                    account.Paswoord = BCrypt.Net.BCrypt.HashPassword(wijzigenWachtwoordViewModel.NieuwPaswoord);
+                    await _securityService.UpdatePersoneelslidaccountAsync(account);
+
+                    // Oud en nieuw wachtwoord geldig, update wachtwoord gelukt
+                    TempData["SuccessUpdatePasswordMessage"] = "Uw wachtwoord werd met succes gewijzigd !";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    if (!isOudWachtwoordCorrect)
+                    {
+                        ModelState.AddModelError("OudPaswoord", "Oud wachtwoord is ongeldig !");
+                    }
+                    if (!isNieuwWachtwoordCorrect)
+                    {
+                        ModelState.AddModelError("NieuwPaswoord", "Nieuw wachtwoord voldoet niet aan de voorwaarden !");
+                    }
+
+                }
+
+                // Oud of niew wachtwoord is ongeldig
+                return View(wijzigenWachtwoordViewModel);
+            }
+            else
+            {
+                return View(wijzigenWachtwoordViewModel);
+            }
+        }
+        catch(Exception)
+        {
+            ModelState.AddModelError("NiewPaswoord", "Er ging iets fout bij het updaten van het nieuwe paswoord, wijziging is NIET uitgevoerd !");
+            return View(wijzigenWachtwoordViewModel);
+        }
+    }
+
+    [NonAction]
+    public async Task<bool> ValidateNieuwWachtwoord(string wachtwoord, Personeelslidaccount account)
+    {
+        bool result = true;
+
+        if ((wachtwoord == null) || (account == null))
+        {
+            result = false;
+        }
+        else
+        {
+            result = (wachtwoord == null) ? false : result;
+            result = (account == null) ? false : result;
+
+            result = (BCrypt.Net.BCrypt.Verify(wachtwoord, account.Paswoord) == false) && result;
+        }
+        return result;
     }
 }

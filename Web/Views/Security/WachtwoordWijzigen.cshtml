@@ -1,0 +1,28 @@
+﻿@model WijzigenWachtwoordViewModel
+
+<h1>Wijzigen <em>wachtwoord</em></h1>
+<form asp-controller="Security" asp-action="WachtwoordWijzigen" method="post">
+    <div>
+        <label asp-for="@Model.Emailadres">Emailadres</label>
+        <input asp-for="@Model.Emailadres" />
+        <span asp-validation-for="@Model.Emailadres" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="@Model.OudPaswoord">Oud wachtwoord</label>
+        <input asp-for="@Model.OudPaswoord" type="password" />
+        <span asp-validation-for="@Model.OudPaswoord" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="@Model.NieuwPaswoord">Nieuw wachtwoord</label>
+        <input asp-for="@Model.NieuwPaswoord" type="password" />
+        <span asp-validation-for="@Model.NieuwPaswoord" class="text-danger"></span>
+    </div>
+    <div>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-danger">
+            Annuleren
+        </a>
+        <button type="submit" class="btn btn-primary">
+            Wachtwoord wijzigen
+        </button>
+    </div>
+</form>
