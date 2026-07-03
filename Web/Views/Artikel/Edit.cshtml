@@ -1,0 +1,28 @@
+﻿@model ArtikelWijzigenViewModel
+
+@{
+    ViewData["Title"] = "Artikel Wijzigen";
+}
+
+@* Formulier om een ​​artikel toe te voegen *@
+<div class="modal fade" id="editArtikelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Artikel aanpassen
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                @await Html.PartialAsync("_EditArtikelForm", Model)
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,11 +1,6 @@
 ﻿@model ArtikelWijzigenViewModel
 
-@{
-    ViewData["Title"] = "Artikel Wijzigen";
-}
-
-@* Formulier om een ​​artikel toe te voegen *@
-<form asp-action="ArtikelWijzigenUitvoeren" method="post">
+<form asp-action="ArtikelWijzigenUitvoeren" method="post" id="editArtikelForm">
     <input type="hidden" asp-for="ArtikelId" />
 
     <div class="mb-3">
@@ -90,5 +85,10 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Opslaan</button>
-    <a asp-action="Index" class="btn btn-warning">Annuleren</a>
+     <button type="button"
+            class="btn btn-secondary"
+            id="cancelEditBtn"
+            data-id="@Model.ArtikelId">
+        Annuleer
+    </button>
 </form>

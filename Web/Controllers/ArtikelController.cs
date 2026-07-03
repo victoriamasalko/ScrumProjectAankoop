@@ -167,7 +167,7 @@ namespace Web.Controllers
 
         // Toont het formulier om een artikel te wijzigen.
         [HttpGet]
-        public async Task<IActionResult> ArtikelWijzigen(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var artikel = await artikelService.GetArtikelAsync(id);
 
@@ -197,7 +197,7 @@ namespace Web.Controllers
                 SelectedCategorieIds = artikel.Categorieen.Select(c => c.CategorieId).ToList()
             };
 
-            return View(viewModel);
+            return PartialView(viewModel);
         }
 
         // Wijzigt een bestaand artikel.
@@ -230,7 +230,7 @@ namespace Web.Controllers
             model.Leveranciers = await GetLeveranciersSelectListAsync();
             model.Categorieen = await GetCategorieenSelectListAsync();
 
-            return PartialView(nameof(ArtikelWijzigen), model);
+            return PartialView("_EditArtikelForm", model);
         }
 
         // Haalt de leveranciers op voor de dropdownlijst.

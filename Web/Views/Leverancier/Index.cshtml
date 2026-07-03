@@ -341,43 +341,40 @@ artikelDropdown.addEventListener("change", function () {
 	</script>
 
 <script>
-    function wireEditButton() {
+function wireEditButton() {
 
-        const editButton = document.getElementById("openEditBtn");
+    const editButton = document.getElementById("EditArtikelBtn");
 
-        if (!editButton)
-            return;
+    if (!editButton)
+        return;
 
-        editButton.addEventListener("click", function (e) {
+    editButton.addEventListener("click", function (e) {
 
-            e.preventDefault();
+        e.preventDefault();
 
-            const id = this.dataset.id;
+        fetch(this.href)
+            .then(r => r.text())
+            .then(html => {
 
-            fetch(`/Leverancier/Edit?id=${id}`)
-                .then(r => r.text())
-                .then(html => {
+                // Close the Details modal
+                bootstrap.Modal
+                    .getInstance(document.getElementById("detailsModal"))
+                    ?.hide();
 
-                    // Close the Details modal
-                    bootstrap.Modal
-                        .getInstance(document.getElementById("detailsModal"))
-                        .hide();
+                // Replace modal content
+                document.getElementById("modalContainer").innerHTML = html;
 
-                    // Replace modal content
-                    document.getElementById("modalContainer").innerHTML = html;
+                const editModal = document.getElementById("editArtikelModal");
 
-                    // Open Edit modal
-                    bootstrap.Modal
-                        .getOrCreateInstance(
-                            document.getElementById("editLeverancierModal")
-                        )
-                        .show();
+                bootstrap.Modal
+                    .getOrCreateInstance(editModal)
+                    .show();
 
-                    wireEditLeverancierEvents();
-                    wireCancelEditButton();
-                });
-        });
-    }
+                wireEditArtikelEvents();
+                wireCancelEditButton();
+            });
+    });
+}
 
     function wireEditLeverancierEvents() {
 

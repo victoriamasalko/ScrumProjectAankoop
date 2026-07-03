@@ -316,6 +316,7 @@
                                 document.getElementById('detailsModal')
                             )
                             .show();
+                            wireEditButton();
                     });
             });
         });
@@ -365,4 +366,110 @@
                 wireAddArtikelEvents();
             });
     })
+</script>
+
+<script>
+    function wireEditButton() {
+
+        const editButton = document.getElementById("EditArtikelBtn");
+
+        if (!editButton)
+            return;
+
+        editButton.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            const id = this.dataset.id;
+
+            fetch(`/Artikel/Edit?id=${id}`)
+                .then(r => r.text())
+                .then(html => {
+
+                    // Close the Details modal
+                    bootstrap.Modal
+                        .getInstance(document.getElementById("detailsModal"))
+                        .hide();
+
+                    // Replace modal content
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    // Open Edit modal
+                    bootstrap.Modal
+                        .getOrCreateInstance(
+                            document.getElementById("editArtikelModal")
+                        )
+                        .show();
+
+                    wireEditArtikelEvents();
+                    wireCancelEditButton();
+                });
+        });
+    }
+
+    function wireEditArtikelEvents() {
+
+        const form = document.getElementById("editArtikelForm");
+
+        if (!form)
+            return;
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form)
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const html = await response.text();
+
+            document.getElementById("editArtikelForm").outerHTML = html;
+
+            // Wire the newly returned form again
+            wireEditArtikelEvents();
+        });
+    }
+
+    function wireCancelEditButton() {
+
+        const cancelButton = document.getElementById("cancelEditBtn");
+
+        if (!cancelButton)
+            return;
+
+        cancelButton.addEventListener("click", function () {
+
+            const id = this.dataset.id;
+
+            // Close edit modal
+            bootstrap.Modal
+                .getInstance(document.getElementById("editArtikelModal"))
+                .hide();
+
+            // Reload details modal
+            fetch(`/Artikel/ArtikelDetails?id=${id}`)
+                .then(r => r.text())
+                .then(html => {
+
+                    document.getElementById("modalContainer").innerHTML = html;
+
+                    bootstrap.Modal
+                        .getOrCreateInstance(
+                            document.getElementById("detailsModal")
+                        )
+                        .show();
+
+                    // Re-wire the edit button inside the details modal
+                    wireEditButton();
+                });
+        });
+    }
+
 </script>
