@@ -24,4 +24,6 @@ public class CategorieService(ICategorieRepository categorieRepository)
     public async Task<Categorie> AddCategorieAsync(Categorie categorie) => await categorieRepository.AddCategorieAsync(categorie);
 
     public async Task<Categorie?> GetCategorieByNaamAsync(string naam) => await categorieRepository.GetCategorieByNaamAsync(naam);
+
+    public async Task<Categorie?> RemoveCategorieAsync(Categorie categorie) => await categorieRepository.RemoveCategorieAsync(categorie);
 }

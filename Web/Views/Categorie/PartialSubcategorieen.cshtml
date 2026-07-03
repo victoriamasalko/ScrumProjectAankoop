@@ -18,6 +18,11 @@
                            onclick="event.stopPropagation();">
                             <i class="bi bi-pencil-square"></i>
                         </a>
+                        @if (categorie.Artikelen.Count() == 0 && categorie.Subcategorieen.Count() == 0){
+                            <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        }
                     </summary>
                     <partial name="PartialSubcategorieen" model="categorie.Subcategorieen"/>
                 </details>
@@ -35,6 +40,13 @@
                        onclick="event.stopPropagation();">
                         <i class="bi bi-pencil-square"></i>
                     </a>
+                    @categorie.Naam
+                    @if (categorie.Artikelen.Count() == 0 && categorie.Subcategorieen.Count() == 0)
+                    {
+                        <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    }
                 </div>
             }
         </li>

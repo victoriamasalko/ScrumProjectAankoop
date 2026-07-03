@@ -107,6 +107,19 @@ public class CategorieRepository : ICategorieRepository
         return categorie;
     }
 
+    public async Task<Categorie?> RemoveCategorieAsync(Categorie categorie)
+    {
+        // De verwijdering mag niet plaats vinden als er nog subcategorieën aan de categorie hangen
+        // of er nog artikelen aan de categorie hangen.
+        if(categorie.SubCategorieen!.Count != 0 || categorie.Artikels.Count != 0)
+        {
+            return null; 
+        }
+        context.Categorieen.Remove(categorie);
+        await context.SaveChangesAsync();
+        return categorie;
+    }
+
     public async Task<Categorie> GetCategorieByNaamAsync(string naam)
     {
         naam = naam ?? "";

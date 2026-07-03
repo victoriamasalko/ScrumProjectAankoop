@@ -24,4 +24,5 @@ public interface ICategorieRepository
     Task<Categorie> AddCategorieAsync(Categorie categorie);
 
     Task<Categorie> GetCategorieByNaamAsync(string naam);
+    Task<Categorie?> RemoveCategorieAsync(Categorie categorie);
 }

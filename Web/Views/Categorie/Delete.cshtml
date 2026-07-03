@@ -1,0 +1,18 @@
+﻿@model Categorie
+
+@{
+    ViewBag.Title = "Verwijderen";
+}
+
+@if (Model is null)
+{
+    <h2>Deze categorie bestaat niet</h2>
+    <h3>Terug naar de <a href="~/Categorie">lijst</a></h3>
+}
+else
+{
+    <h2>@Model.Naam verwijderen?</h2>
+    <form method="post" asp-action="DeleteDoorvoeren" asp-route-id="@Model.CategorieId">
+        <input type="submit" value="Delete" />
+    </form>
+}

@@ -14,5 +14,6 @@ public class CategorieOverviewViewModel
 
     public string? HoofdCategorieNaam { get; set; }
 
+    public List<Artikel> Artikelen { get; set; } = new List<Artikel>();
     public IEnumerable<CategorieOverviewViewModel> Subcategorieen { get; set; } = [];
 }
