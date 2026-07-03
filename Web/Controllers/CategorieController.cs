@@ -55,8 +55,6 @@ public class CategorieController : Controller
             Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, level + 1)).ToList() ?? [],
             Artikelen = c.Artikels.ToList() ?? []
         };
-            Subcategorieen = c.SubCategorieen?.Select(c => MapToOverviewViewModel(c, level + 1)).ToList() ?? []
-        };
     }
     public async Task<IActionResult>EditCategorie(int id)
     {

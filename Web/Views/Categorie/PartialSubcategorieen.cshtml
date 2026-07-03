@@ -40,7 +40,6 @@
                        onclick="event.stopPropagation();">
                         <i class="bi bi-pencil-square"></i>
                     </a>
-                    @categorie.Naam
                     @if (categorie.Artikelen.Count() == 0 && categorie.Subcategorieen.Count() == 0)
                     {
                         <a asp-action="Delete" asp-route-id="@categorie.CategorieId" class="btn">
