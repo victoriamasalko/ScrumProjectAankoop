@@ -65,10 +65,13 @@
                         "List",
                         Model.Artikels.OrderBy(a => a.Naam).Cast<object>()
                     )                    
-                    <a class="btn btn-primary"
-                            id="openCreateBtn"
-                            asp-action="Edit" asp-route-Id="@Model!.LeveranciersId">
-                        wijzigen
+
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.LeveranciersId"
+                       id="openEditBtn"
+                       data-id="@Model.LeveranciersId"
+                       class="btn btn-primary">
+                        Wijzigen
                     </a>
 
             

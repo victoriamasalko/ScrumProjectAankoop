@@ -1,61 +1,25 @@
 @model EditLeverancierViewModel
 @{
-    ViewData["Title"] = "Leverancier Details";
+    ViewData["Title"] = "Leverancier Editeren";
 }
+<div class="modal fade" id="editLeverancierModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Leverancier aanpassen
+                </h5>
 
-<h1>Leverancier <em>wijzigen</em></h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
 
-@if (Model is not null)
-{
-    <form asp-action="SaveChanges" method="post">
+            <div class="modal-body">
+            @await Html.PartialAsync("_EditLeverancierForm", Model)
+            </div>
 
-        <input type="hidden" asp-for="@Model.LeverancierId"/>
-        
-        <label asp-for="Naam"></label>
-        <span asp-validation-for="Naam"></span>
-        <input asp-for="Naam"/>
-        
-        <label asp-for="BtwNummer"></label>
-        <span asp-validation-for="BtwNummer"></span>
-        <input asp-for="BtwNummer"/>
-        
-        <label asp-for="Straat"></label>
-        <span asp-validation-for="Straat"></span>
-        <input asp-for="Straat"/>
-        
-        <label asp-for="HuisNummer"></label>
-        <span asp-validation-for="HuisNummer"></span>
-        <input asp-for="HuisNummer"/>
-        
-        <label asp-for="Bus"></label>
-        <span asp-validation-for="Bus"></span>
-        <input asp-for="Bus"/>
-        
-        <label asp-for="Plaats"></label>
-        <select name="PlaatsId">
-            @foreach (var plaats in Model.Plaats)
-            {
-                <option value="@plaats.Value">@plaats.Text</option>
-            }
-        </select>
-        
-        <label asp-for="FamilienaamContactperoon"></label>
-        <span asp-validation-for="FamilienaamContactperoon"></span>
-        <input asp-for="FamilienaamContactperoon"/>
-        
-        <label asp-for="VoornaamContactpersoon"></label>
-        <span asp-validation-for="VoornaamContactpersoon"></span>
-        <input asp-for="VoornaamContactpersoon"/>
-
-        <div asp-validation-summary="All"></div>
-        <input type="submit" value="Save changes" class="btn btn-primary"/>
-        <a asp-action="Details" asp-route-id="@Model.LeverancierId" class="btn btn-secondary">
-            Annuleer
-        </a>
-
-    </form>
-}
-else
-{
-<p>Leverancier niet gevonden.</p>
-}
+        </div>
+    </div>
+</div>
