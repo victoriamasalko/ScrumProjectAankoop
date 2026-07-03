@@ -300,10 +300,6 @@
 </script>
 
 <script>
-
-</script>
-
-<script>
     document.querySelectorAll('.overview-details-button')
         .forEach(button => {
             button.addEventListener('click', function (e) {
@@ -351,7 +347,7 @@
         });
     }
 
-    const artikelToevoegKnop = document.getElementById('overview-create-button');
+    const artikelToevoegKnop = document.getElementById('openAddLeverancierBtn');
     artikelToevoegKnop.addEventListener('click', function (e) {
         e.preventDefault();
         const id = this.dataset.id;
